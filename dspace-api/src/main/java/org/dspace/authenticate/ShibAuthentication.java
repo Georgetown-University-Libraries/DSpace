@@ -227,6 +227,10 @@ public class ShibAuthentication implements AuthenticationMethod
 			context.setCurrentUser(eperson);
 			request.getSession().setAttribute("shib.authenticated", true);
 			
+			if (authenticationService == null) {
+				authenticationService = AuthenticateServiceFactory.getInstance().getAuthenticationService();
+			}
+			
 			log.error("TBTB 4 "+authenticationService);
 			log.error("TBTB 5 "+eperson);
 			
