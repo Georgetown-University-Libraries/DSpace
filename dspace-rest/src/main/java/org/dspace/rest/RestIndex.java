@@ -219,6 +219,10 @@ public class RestIndex {
                 String token = Resource.getToken(headers);
                 Status status = new Status(dbEPerson.getEmail(), dbEPerson.getFullName(), token);
                 return status;
+            } else {
+                Status status = new Status("a", request.toString(), context.getSpecialGroups().toString());
+                return status;
+            	
             }
 
         } catch (ContextException e)

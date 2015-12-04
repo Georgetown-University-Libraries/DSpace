@@ -78,7 +78,9 @@ public class Resource
         {
             context.setCurrentUser(person);
         } else {
-        	AuthenticateServiceFactory.getInstance().getAuthenticationService().authenticate(context, "", "", "", request);
+        	log.error("TBTB 1");
+        	AuthenticateServiceFactory.getInstance().getAuthenticationService().authenticate(context, null, null, null, request);
+        	log.error("TBTB 2");
         }
 
         return context;
