@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -205,11 +206,11 @@ public class RestIndex {
     @GET
     @Path("/status")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Status status(@Context HttpHeaders headers) throws UnsupportedEncodingException {
+    public Status status(@Context HttpHeaders headers, @Context HttpServletRequest request) throws UnsupportedEncodingException {
         org.dspace.core.Context context = null;
 
         try {
-            context = Resource.createContext(Resource.getUser(headers));
+            context = Resource.createContext(Resource.getUser(headers), request);
             EPerson ePerson = context.getCurrentUser();
 
             if(ePerson != null) {

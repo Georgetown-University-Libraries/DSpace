@@ -17,6 +17,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.dspace.authenticate.factory.AuthenticateServiceFactory;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
@@ -68,7 +69,7 @@ public class Resource
      *             log in. Can be caused by AuthorizeException if there was a
      *             problem authorizing the found user.
      */
-    protected static org.dspace.core.Context createContext(EPerson person) throws ContextException
+    protected static org.dspace.core.Context createContext(EPerson person, HttpServletRequest request) throws ContextException
     {
         org.dspace.core.Context context = new org.dspace.core.Context();
         //context.getDBConnection().setAutoCommit(false); // Disable autocommit.
@@ -76,6 +77,8 @@ public class Resource
         if (person != null)
         {
             context.setCurrentUser(person);
+        } else {
+        	AuthenticateServiceFactory.getInstance().getAuthenticationService().authenticate(context, "", "", "", request);
         }
 
         return context;
