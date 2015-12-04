@@ -220,7 +220,7 @@ public class RestIndex {
                 Status status = new Status(dbEPerson.getEmail(), dbEPerson.getFullName(), token);
                 return status;
             } else {
-                Status status = new Status("a", request.toString(), context.getSpecialGroups().toString());
+                Status status = new Status("a", request.toString(), "TBTB 3"+context.getSpecialGroups().size());
                 return status;
             	
             }

@@ -80,7 +80,10 @@ public class Resource
         } else {
         	log.error("TBTB 1");
         	AuthenticateServiceFactory.getInstance().getAuthenticationService().authenticate(context, null, null, null, request);
-        	log.error("TBTB 2");
+        	log.error("TBTB 2 " + context.getExtraLogInfo());
+        	try {
+            	log.error("TBTB 3 " + context.getSpecialGroups().size());        		
+        	} catch(Exception e){}
         }
 
         return context;
