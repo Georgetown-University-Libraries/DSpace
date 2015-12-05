@@ -25,6 +25,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.cocoon.environment.http.HttpEnvironment;
 import org.apache.log4j.Logger;
 import org.dspace.authenticate.AuthenticationMethod;
 import org.dspace.authenticate.ShibAuthentication;
@@ -174,9 +175,8 @@ public class RestIndex {
      */
     @GET
     @Path("/login-shibboleth")
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public Response loginShibboleth(@Context HttpHeaders headers, HttpServletRequest request,
-			HttpServletResponse response)
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
+    public Response loginShibboleth(@Context HttpHeaders headers, HttpServletRequest request, HttpServletResponse response)
     {
     	String path ="...";
         org.dspace.core.Context context = null;
