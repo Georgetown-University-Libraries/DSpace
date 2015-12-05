@@ -197,6 +197,13 @@ public class RestIndex {
         return Response.ok(path, "text/plain").build();
     }
 
+    @GET
+    @Path("/login-shibboleth2")
+    public Response loginShibboleth2(@Context HttpHeaders headers, HttpServletRequest request)
+    {
+    	String path ="...";
+        return Response.ok(path, "text/plain").build();
+    }
     
     
     /**
