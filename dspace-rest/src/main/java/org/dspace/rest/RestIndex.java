@@ -9,10 +9,12 @@ package org.dspace.rest;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -24,6 +26,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.dspace.authenticate.AuthenticationMethod;
+import org.dspace.authenticate.ShibAuthentication;
+import org.dspace.authenticate.factory.AuthenticateServiceFactory;
+import org.dspace.authenticate.service.AuthenticationService;
 import org.dspace.eperson.EPerson;
 import org.dspace.eperson.Group;
 import org.dspace.eperson.factory.EPersonServiceFactory;
@@ -158,6 +164,42 @@ public class RestIndex {
         }
     }
 
+    /**
+     * Method to login a user into REST API.
+     * 
+     * @param user
+     *            User which will be logged in to REST API.
+     * @return Returns response code OK and a token. Otherwise returns response
+     *         code FORBIDDEN(403).
+     */
+    @GET
+    @Path("/login-shibboleth")
+    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Response loginShibboleth(@Context HttpHeaders headers, HttpServletRequest request,
+			HttpServletResponse response)
+    {
+    	String path ="...";
+        org.dspace.core.Context context = null;
+    	try {
+        	context = Resource.createContext(Resource.getUser(headers), request);
+        	AuthenticationService authenticationService = AuthenticateServiceFactory.getInstance().getAuthenticationService();
+        	Iterator<AuthenticationMethod> methodIt = authenticationService.authenticationMethodIterator();
+        	while(methodIt.hasNext()) {
+        		AuthenticationMethod method = methodIt.next();
+        		if (method instanceof ShibAuthentication) {
+        			path = method.loginPageURL(context, request, response);
+        		}
+        	}    		
+        } catch (ContextException e) {
+            Resource.processException("Error creating context: " + e.getMessage(), context);
+        } finally {
+            context.abort();
+        }
+        return Response.ok(path, "text/plain").build();
+    }
+
+    
+    
     /**
      * Method to logout a user from DSpace REST API. Removes the token and user from
      * TokenHolder.
