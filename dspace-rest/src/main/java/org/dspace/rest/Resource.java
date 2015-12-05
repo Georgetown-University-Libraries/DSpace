@@ -78,13 +78,7 @@ public class Resource
         {
             context.setCurrentUser(person);
         } else {
-        	log.error("TBTB 1 ");
         	AuthenticateServiceFactory.getInstance().getAuthenticationService().authenticate(context, null, null, null, request);
-        	log.error("TBTB 2 " + context.isReadOnly());
-        	try {
-            	log.error("TBTB 3 " + context.getSpecialGroups().size());        		
-            	log.error("TBTB 3a " + ((context.getCurrentUser() == null) ? "" : context.getCurrentUser().getEmail()));
-        	} catch(Exception e){}
         }
 
         return context;

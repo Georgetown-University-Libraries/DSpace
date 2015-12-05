@@ -25,6 +25,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.dspace.eperson.EPerson;
+import org.dspace.eperson.Group;
 import org.dspace.eperson.factory.EPersonServiceFactory;
 import org.dspace.eperson.service.EPersonService;
 import org.dspace.rest.common.Status;
@@ -209,6 +210,7 @@ public class RestIndex {
     public Status status(@Context HttpHeaders headers, @Context HttpServletRequest request) throws UnsupportedEncodingException {
         org.dspace.core.Context context = null;
 
+        Status status = new Status();
         try {
             context = Resource.createContext(Resource.getUser(headers), request);
             EPerson ePerson = context.getCurrentUser();
@@ -217,9 +219,18 @@ public class RestIndex {
                 //DB EPerson needed since token won't have full info, need context
                 EPerson dbEPerson = epersonService.findByEmail(context, ePerson.getEmail());
                 String token = Resource.getToken(headers);
-                Status status = new Status(dbEPerson.getEmail(), dbEPerson.getFullName(), token);
+                status = new Status(dbEPerson.getEmail(), dbEPerson.getFullName(), token);
                 return status;
-            } 
+            } else {
+            	StringBuilder groups = new StringBuilder();
+            	for(Group group: context.getSpecialGroups()) {
+            		if (groups.length() > 0) {
+            			groups.append(",");
+            		}
+            		groups.append(group.getName());
+            	}
+            	status.setSpecialGroups(groups.toString());
+            }
         } catch (ContextException e)
         {
             Resource.processException("Status context error: " + e.getMessage(), context);
@@ -230,7 +241,7 @@ public class RestIndex {
         }
 
         //fallback status, unauth
-        return new Status();
+        return status;
     }
 
 
