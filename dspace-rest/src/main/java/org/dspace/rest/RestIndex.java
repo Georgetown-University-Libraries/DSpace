@@ -175,7 +175,6 @@ public class RestIndex {
      */
     @GET
     @Path("/login-shibboleth")
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML, MediaType.TEXT_PLAIN })
     public Response loginShibboleth(@Context HttpHeaders headers, HttpServletRequest request, HttpServletResponse response)
     {
     	String path ="...";
