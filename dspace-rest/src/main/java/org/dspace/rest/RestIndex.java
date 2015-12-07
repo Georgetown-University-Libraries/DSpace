@@ -175,6 +175,7 @@ public class RestIndex {
     @GET
     @Path("/login-shibboleth")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.TEXT_PLAIN })
     public Response loginShibboleth(@Context HttpHeaders headers, HttpServletRequest request, HttpServletResponse response)
     {
     	String path ="...";
@@ -202,6 +203,7 @@ public class RestIndex {
     @GET
     @Path("/login-shibboleth2")
     @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({ MediaType.TEXT_PLAIN })
     public String loginShibboleth2(@Context HttpHeaders headers, HttpServletRequest request)
     {
     	String path ="...";
