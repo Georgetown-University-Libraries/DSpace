@@ -268,17 +268,17 @@ public class RestIndex {
                 EPerson dbEPerson = epersonService.findByEmail(context, ePerson.getEmail());
                 String token = Resource.getToken(headers);
                 status = new Status(dbEPerson.getEmail(), dbEPerson.getFullName(), token);
-                return status;
-            } else {
-            	StringBuilder groups = new StringBuilder();
-            	for(Group group: context.getSpecialGroups()) {
-            		if (groups.length() > 0) {
-            			groups.append(",");
-            		}
-            		groups.append(group.getName());
-            	}
-            	status.setSpecialGroups(groups.toString());
-            }
+            } 
+
+        	StringBuilder groups = new StringBuilder();
+        	for(Group group: context.getSpecialGroups()) {
+        		if (groups.length() > 0) {
+        			groups.append(",");
+        		}
+        		groups.append(group.getName());
+        	}
+        	status.setSpecialGroups(groups.toString());
+
         } catch (ContextException e)
         {
             Resource.processException("Status context error: " + e.getMessage(), context);
