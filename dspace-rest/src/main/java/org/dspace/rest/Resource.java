@@ -7,6 +7,7 @@
  */
 package org.dspace.rest;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +19,12 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.dspace.authenticate.factory.AuthenticateServiceFactory;
+import org.dspace.authenticate.service.AuthenticationService;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
+import org.dspace.eperson.Group;
 import org.dspace.rest.exceptions.ContextException;
 import org.dspace.usage.UsageEvent;
 import org.dspace.utils.DSpace;
@@ -68,8 +71,9 @@ public class Resource
      *             SQLException error in creating context or finding the user to
      *             log in. Can be caused by AuthorizeException if there was a
      *             problem authorizing the found user.
+     * @throws SQLException 
      */
-    protected static org.dspace.core.Context createContext(EPerson person, HttpServletRequest request) throws ContextException
+    protected static org.dspace.core.Context createContext(EPerson person, HttpServletRequest request) throws ContextException, SQLException
     {
         org.dspace.core.Context context = new org.dspace.core.Context();
         //context.getDBConnection().setAutoCommit(false); // Disable autocommit.
@@ -79,6 +83,11 @@ public class Resource
             context.setCurrentUser(person);
         } else {
         	AuthenticateServiceFactory.getInstance().getAuthenticationService().authenticate(context, null, null, null, request);
+        }
+
+        List<Group> groups = AuthenticateServiceFactory.getInstance().getAuthenticationService().getSpecialGroups(context, request);
+        for(Group group: groups) {
+        	context.setSpecialGroup(group.getID());
         }
 
         return context;

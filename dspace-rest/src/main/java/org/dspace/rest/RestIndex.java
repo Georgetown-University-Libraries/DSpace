@@ -190,6 +190,8 @@ public class RestIndex {
         	}    		
         } catch (ContextException e) {
             Resource.processException("Error creating context: " + e.getMessage(), context);
+        } catch (SQLException e) {
+            Resource.processException("Error creating context: " + e.getMessage(), context);
         } finally {
             context.abort();
         }
@@ -269,14 +271,14 @@ public class RestIndex {
                 status = new Status(dbEPerson.getEmail(), dbEPerson.getFullName(), token);
             } 
 
-        	StringBuilder groups = new StringBuilder();
+        	StringBuilder groupslist = new StringBuilder();
         	for(Group group: context.getSpecialGroups()) {
-        		if (groups.length() > 0) {
-        			groups.append(",");
+        		if (groupslist.length() > 0) {
+        			groupslist.append(",");
         		}
-        		groups.append(group.getName());
+        		groupslist.append(group.getName());
         	}
-        	status.setSpecialGroups(groups.toString());
+        	status.setSpecialGroups(groupslist.toString());
 
         } catch (ContextException e)
         {
