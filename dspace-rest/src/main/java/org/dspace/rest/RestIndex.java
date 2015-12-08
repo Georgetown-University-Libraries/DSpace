@@ -7,6 +7,7 @@
  */
 package org.dspace.rest;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -140,12 +141,6 @@ public class RestIndex {
         return "REST api is running.";
     }
 
-    @GET
-    @Path("/test2")
-    public String test2()
-    {
-        return "REST api is running.";
-    }
     /**
      * Method to login a user into REST API.
      * 
@@ -179,7 +174,7 @@ public class RestIndex {
      *         code FORBIDDEN(403).
      */
     @GET
-    @Path("/loginShibboleth")
+    @Path("/login-shibboleth")
     @Produces(MediaType.TEXT_HTML)
     public String loginShibboleth(@Context HttpHeaders headers, @Context HttpServletRequest request, @Context HttpServletResponse response)
     {
@@ -193,28 +188,23 @@ public class RestIndex {
         		AuthenticationMethod method = methodIt.next();
         		if (method instanceof ShibAuthentication) {
         			path = method.loginPageURL(context, request, response);
+        			if (path != null) {
+        				response.sendRedirect(path);
+        			}
         		}
         	}    		
         } catch (ContextException e) {
             Resource.processException("Error creating context: " + e.getMessage(), context);
         } catch (SQLException e) {
             Resource.processException("Error creating context: " + e.getMessage(), context);
-        } finally {
+        } catch (IOException e) {
+            Resource.processException("Error creating context: " + e.getMessage(), context);
+		} finally {
             context.abort();
         }
         return "<html><body>" + path + "</body></html>";
     }
 
-    @GET
-    @Path("/loginShibboleth2")
-    @Produces(MediaType.TEXT_HTML)
-    public String loginShibboleth2(@Context HttpHeaders headers, @Context HttpServletRequest request)
-    {
-    	String path ="...";
-        return "<html><body>" + path + "</body></html>";
-    }
-    
-    
     /**
      * Method to logout a user from DSpace REST API. Removes the token and user from
      * TokenHolder.
@@ -301,5 +291,10 @@ public class RestIndex {
         return status;
     }
 
-
+    @GET
+    @Path("/shibboleth-login")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Status confirmShibbolethLogin(@Context HttpHeaders headers, @Context HttpServletRequest request) throws UnsupportedEncodingException {
+        return status(headers, request);
+    }
 }
