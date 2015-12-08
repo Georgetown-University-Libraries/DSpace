@@ -140,6 +140,12 @@ public class RestIndex {
         return "REST api is running.";
     }
 
+    @GET
+    @Path("/test2")
+    public String test2()
+    {
+        return "REST api is running.";
+    }
     /**
      * Method to login a user into REST API.
      * 
@@ -173,9 +179,9 @@ public class RestIndex {
      *         code FORBIDDEN(403).
      */
     @GET
-    @Produces(MediaType.TEXT_HTML)
     @Path("/loginShibboleth")
-    public String loginShibboleth(@Context HttpHeaders headers, HttpServletRequest request, HttpServletResponse response)
+    @Produces(MediaType.TEXT_HTML)
+    public String loginShibboleth(@Context HttpHeaders headers, @Context HttpServletRequest request, @Context HttpServletResponse response)
     {
     	String path ="...";
         org.dspace.core.Context context = null;
@@ -200,9 +206,9 @@ public class RestIndex {
     }
 
     @GET
-    @Produces(MediaType.TEXT_HTML)
     @Path("/loginShibboleth2")
-    public String loginShibboleth2(@Context HttpHeaders headers, HttpServletRequest request)
+    @Produces(MediaType.TEXT_HTML)
+    public String loginShibboleth2(@Context HttpHeaders headers, @Context HttpServletRequest request)
     {
     	String path ="...";
         return "<html><body>" + path + "</body></html>";
