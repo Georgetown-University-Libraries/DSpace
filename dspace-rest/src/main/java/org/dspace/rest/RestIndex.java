@@ -175,7 +175,7 @@ public class RestIndex {
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path("/loginShibboleth")
-    public Response loginShibboleth(@Context HttpHeaders headers, HttpServletRequest request, HttpServletResponse response)
+    public String loginShibboleth(@Context HttpHeaders headers, HttpServletRequest request, HttpServletResponse response)
     {
     	String path ="...";
         org.dspace.core.Context context = null;
@@ -196,16 +196,16 @@ public class RestIndex {
         } finally {
             context.abort();
         }
-        return Response.ok("<html><body>" + path + "</body></html>", "text/html").build();
+        return "<html><body>" + path + "</body></html>";
     }
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path("/loginShibboleth2")
-    public Response loginShibboleth2(@Context HttpHeaders headers, HttpServletRequest request)
+    public String loginShibboleth2(@Context HttpHeaders headers, HttpServletRequest request)
     {
     	String path ="...";
-        return Response.ok("<html><body>" + path + "</body></html>", "text/html").build();
+        return "<html><body>" + path + "</body></html>";
     }
     
     
