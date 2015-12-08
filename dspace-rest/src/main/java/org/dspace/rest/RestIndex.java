@@ -173,8 +173,8 @@ public class RestIndex {
      *         code FORBIDDEN(403).
      */
     @GET
+    @Produces(MediaType.TEXT_HTML)
     @Path("/loginShibboleth")
-    @Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public Response loginShibboleth(@Context HttpHeaders headers, HttpServletRequest request, HttpServletResponse response)
     {
     	String path ="...";
@@ -196,15 +196,16 @@ public class RestIndex {
         } finally {
             context.abort();
         }
-        return Response.ok(path, "text/plain").build();
+        return Response.ok("<html><body>" + path + "</body></html>", "text/html").build();
     }
 
     @GET
+    @Produces(MediaType.TEXT_HTML)
     @Path("/loginShibboleth2")
-    public String loginShibboleth2(@Context HttpHeaders headers, HttpServletRequest request)
+    public Response loginShibboleth2(@Context HttpHeaders headers, HttpServletRequest request)
     {
     	String path ="...";
-        return path;
+        return Response.ok("<html><body>" + path + "</body></html>", "text/html").build();
     }
     
     
