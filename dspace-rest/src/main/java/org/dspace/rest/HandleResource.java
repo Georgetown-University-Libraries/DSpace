@@ -48,7 +48,7 @@ public class HandleResource extends Resource {
     public org.dspace.rest.common.DSpaceObject getObject(@PathParam("prefix") String prefix, @PathParam("suffix") String suffix, @QueryParam("expand") String expand, @javax.ws.rs.core.Context HttpHeaders headers) {
         DSpaceObject dSpaceObject = new DSpaceObject();
         try {
-            context = createContext(getUser(headers));
+            context = createContext();
 
             org.dspace.content.DSpaceObject dso = handleService.resolveToObject(context, prefix + "/" + suffix);
 

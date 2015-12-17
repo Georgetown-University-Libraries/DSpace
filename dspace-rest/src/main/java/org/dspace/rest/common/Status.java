@@ -26,36 +26,24 @@ public class Status
     private String email;
     private String fullname;
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    private String token;
-
     public Status() {
         setOkay(true);
         setAuthenticated(false);
     }
 
-    public Status(String email, String fullname, String token) {
+    public Status(String email, String fullname) {
         setOkay(true);
         setAuthenticated(true);
         setEmail(email);
         setFullname(fullname);
-        setToken(token);
     }
 
-    public Status(EPerson eperson, String token) {
+    public Status(EPerson eperson) {
         setOkay(true);
         if(eperson != null) {
             setAuthenticated(true);
             setEmail(eperson.getEmail());
             setFullname(eperson.getFullName());
-            setToken(token);
         } else {
             setAuthenticated(false);
         }
