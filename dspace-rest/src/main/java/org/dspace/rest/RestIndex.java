@@ -10,6 +10,7 @@ package org.dspace.rest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.Iterator;
 
 import javax.servlet.ServletContext;
@@ -157,6 +158,12 @@ public class RestIndex {
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response shibbolethLogin(@Context HttpServletRequest request)
 	{
+	       for(Enumeration eh = request.getHeaderNames(); eh.hasMoreElements();) {
+               String ehh = eh.nextElement().toString();
+               String ehv = request.getHeader(ehh);
+               log.error("TBTB C "+ ehh + " " + ehv);
+       }
+
 		//If you can get here, you are authenticated, the actual login is handled by spring security
 		return Response.ok().build();
 	}
