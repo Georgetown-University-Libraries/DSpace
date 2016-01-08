@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -154,7 +155,7 @@ public class RestIndex {
 	@GET
 	@Path("/shibboleth-login")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response shibbolethLogin()
+	public Response shibbolethLogin(@Context HttpServletRequest request)
 	{
 		//If you can get here, you are authenticated, the actual login is handled by spring security
 		return Response.ok().build();
