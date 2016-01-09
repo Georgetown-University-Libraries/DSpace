@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -171,7 +172,7 @@ public class RestIndex {
 	@GET
 	@Path("/login-shibboleth")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response shibbolethLoginEndPoint()
+	public Response shibbolethLoginEndPoint(@Context HttpServletRequest request, @Context HttpServletResponse response)
 	{
 		org.dspace.core.Context context = null;
 		try {
@@ -184,11 +185,11 @@ public class RestIndex {
 				if(authenticationMethod instanceof ShibAuthentication)
 				{
 					//TODO: Perhaps look for a better way of handling this ?
-					org.dspace.services.model.Request currentRequest = new DSpace().getRequestService().getCurrentRequest();
-					String loginPageURL = authenticationMethod.loginPageURL(context, currentRequest.getHttpServletRequest(), currentRequest.getHttpServletResponse());
+					//org.dspace.services.model.Request currentRequest = new DSpace().getRequestService().getCurrentRequest();
+					String loginPageURL = authenticationMethod.loginPageURL(context, request, response);
 					if(StringUtils.isNotBlank(loginPageURL))
 					{
-						currentRequest.getHttpServletResponse().sendRedirect(loginPageURL);
+						response.sendRedirect(loginPageURL);
 					}
 				}
             }
