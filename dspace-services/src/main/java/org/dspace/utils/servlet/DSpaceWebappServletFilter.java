@@ -20,7 +20,6 @@ import javax.servlet.ServletResponse;
 import org.apache.log4j.Logger;
 import org.dspace.kernel.DSpaceKernel;
 import org.dspace.kernel.DSpaceKernelManager;
-import org.dspace.rest.RestIndex;
 import org.dspace.services.RequestService;
 
 
