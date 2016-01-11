@@ -8,6 +8,7 @@
 package org.dspace.utils.servlet;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -16,8 +17,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.apache.log4j.Logger;
 import org.dspace.kernel.DSpaceKernel;
 import org.dspace.kernel.DSpaceKernelManager;
+import org.dspace.rest.RestIndex;
 import org.dspace.services.RequestService;
 
 
@@ -32,7 +35,7 @@ import org.dspace.services.RequestService;
  * @author Aaron Zeckoski (azeckoski @ gmail.com)
  */
 public final class DSpaceWebappServletFilter implements Filter {
-
+	private static Logger log = Logger.getLogger(DSpaceWebappServletFilter.class);
     /* (non-Javadoc)
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
      */
@@ -72,6 +75,16 @@ public final class DSpaceWebappServletFilter implements Filter {
             }
 
             // establish a request related to the current session
+ 	        for(Enumeration eh = request.getParameterNames(); eh.hasMoreElements();) {
+                String ehh = eh.nextElement().toString();
+                String ehv = request.getParameter(ehh);
+                log.error("TBTB D "+ ehh + " " + ehv);
+            }
+ 	        for(Enumeration eh = request.getAttributeNames(); eh.hasMoreElements();) {
+                String ehh = eh.nextElement().toString();
+                String ehv = request.getAttribute(ehh).toString();
+                log.error("TBTB E "+ ehh + " " + ehv);
+            }
             requestService.startRequest(request, response); // will trigger the various request listeners
             try {
                 // invoke the next filter
