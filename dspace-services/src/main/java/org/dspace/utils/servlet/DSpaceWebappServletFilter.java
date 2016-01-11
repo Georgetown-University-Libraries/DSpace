@@ -80,7 +80,7 @@ public final class DSpaceWebappServletFilter implements Filter {
             
  	        for(Enumeration eh = hreq.getHeaderNames(); eh.hasMoreElements();) {
                 String ehh = eh.nextElement().toString();
-                String ehv = hreq.getParameter(ehh);
+                String ehv = hreq.getHeader(ehh);
                 log.error("TBTB D "+ ehh + " " + ehv);
             }
             requestService.startRequest(request, response); // will trigger the various request listeners
