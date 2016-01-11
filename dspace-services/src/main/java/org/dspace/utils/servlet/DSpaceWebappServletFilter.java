@@ -16,6 +16,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.dspace.kernel.DSpaceKernel;
@@ -74,15 +75,13 @@ public final class DSpaceWebappServletFilter implements Filter {
             }
 
             // establish a request related to the current session
- 	        for(Enumeration eh = request.getParameterNames(); eh.hasMoreElements();) {
+            
+            HttpServletRequest hreq = (HttpServletRequest)request;
+            
+ 	        for(Enumeration eh = hreq.getHeaderNames(); eh.hasMoreElements();) {
                 String ehh = eh.nextElement().toString();
-                String ehv = request.getParameter(ehh);
+                String ehv = hreq.getParameter(ehh);
                 log.error("TBTB D "+ ehh + " " + ehv);
-            }
- 	        for(Enumeration eh = request.getAttributeNames(); eh.hasMoreElements();) {
-                String ehh = eh.nextElement().toString();
-                String ehv = request.getAttribute(ehh).toString();
-                log.error("TBTB E "+ ehh + " " + ehv);
             }
             requestService.startRequest(request, response); // will trigger the various request listeners
             try {

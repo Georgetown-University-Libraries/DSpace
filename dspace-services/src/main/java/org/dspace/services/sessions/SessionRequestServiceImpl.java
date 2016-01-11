@@ -263,6 +263,11 @@ public final class SessionRequestServiceImpl implements SessionService, RequestS
         }
 
         void setCurrent(Request req) {
+ 	        for(Enumeration eh = req.getHttpServletRequest().getHeaderNames(); eh.hasMoreElements();) {
+                String ehh = eh.nextElement().toString();
+                String ehv = req.getHttpServletRequest().getParameter(ehh);
+                log.error("TBTB SET "+ ehh + " " + ehv);
+            }
             requestMap.put(Thread.currentThread().getId(), req);
         }
 
@@ -274,6 +279,11 @@ public final class SessionRequestServiceImpl implements SessionService, RequestS
             if (!StringUtils.isEmpty(requestId)) {
                 for (Request req : requestMap.values()) {
                     if (req != null && requestId.equals(req.getRequestId())) {
+             	        for(Enumeration eh = req.getHttpServletRequest().getHeaderNames(); eh.hasMoreElements();) {
+                            String ehh = eh.nextElement().toString();
+                            String ehv = req.getHttpServletRequest().getParameter(ehh);
+                            log.error("TBTB GET "+ ehh + " " + ehv);
+                        }
                         return req;
                     }
                 }
