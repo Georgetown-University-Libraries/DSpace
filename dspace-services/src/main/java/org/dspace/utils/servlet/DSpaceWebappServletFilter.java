@@ -78,21 +78,14 @@ public final class DSpaceWebappServletFilter implements Filter {
             
             HttpServletRequest hreq = (HttpServletRequest)request;
             
- 	        for(Enumeration eh = hreq.getHeaderNames(); eh.hasMoreElements();) {
-                String ehh = eh.nextElement().toString();
-                String ehv = "";//hreq.getHeader(ehh);
-                log.error("TBTB D "+ ehh + " " + ehv);
-            }
+            log.error("TBTB Before DSpaceWebappServletFilter.doFilter() "+ hreq.getHeader("mail"), new Exception());
+
             requestService.startRequest(request, response); // will trigger the various request listeners
             try {
                 // invoke the next filter
                 chain.doFilter(request, response);
 
-     	        for(Enumeration eh = hreq.getHeaderNames(); eh.hasMoreElements();) {
-                    String ehh = eh.nextElement().toString();
-                    String ehv = hreq.getHeader(ehh);
-                    log.error("TBTB F "+ ehh + " " + ehv);
-                }
+                log.error("TBTB After DSpaceWebappServletFilter.doFilter() "+ hreq.getHeader("mail"), new Exception());
 
                 // ensure we close out the request (happy request)
                 requestService.endRequest(null);
