@@ -25,6 +25,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -54,15 +55,24 @@ public class DSpaceAuthenticationProvider implements AuthenticationProvider {
             HttpServletRequest httpServletRequest = new DSpace().getRequestService().getCurrentRequest().getHttpServletRequest();
             List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
 
+            log.error("TBTB AUTH *******************************************");
+ 	        for(Enumeration eh = httpServletRequest.getHeaderNames(); eh.hasMoreElements();) {
+                String ehh = eh.nextElement().toString();
+                String ehv = httpServletRequest.getHeader(ehh);
+                log.error("TBTB AUTH "+ ehh + " " + ehv);
+            }        		
 
             int implicitStatus = authenticationService.authenticateImplicit(context, null, null, null, httpServletRequest);
-
+            log.error("TBTB AUTH1 ");
             if (implicitStatus == AuthenticationMethod.SUCCESS) {
+                log.error("TBTB AUTH2 ");
                 log.info(LogManager.getHeader(context, "login", "type=implicit"));
                 addSpecialGroupsToGrantedAuthorityList(context, httpServletRequest, grantedAuthorities);
                 return new UsernamePasswordAuthenticationToken(name, password, grantedAuthorities);
             } else {
+                log.error("TBTB AUTH3");
                 int authenticateResult = authenticationService.authenticate(context, name, password, null, httpServletRequest);
+                log.error("TBTB AUTH4 " + authenticateResult);
                 if (AuthenticationMethod.SUCCESS == authenticateResult) {
                     addSpecialGroupsToGrantedAuthorityList(context, httpServletRequest, grantedAuthorities);
 

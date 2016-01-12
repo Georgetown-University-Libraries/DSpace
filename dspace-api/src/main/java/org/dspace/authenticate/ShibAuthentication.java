@@ -164,6 +164,7 @@ public class ShibAuthentication implements AuthenticationMethod
     public int authenticate(Context context, String username, String password,
 			String realm, HttpServletRequest request) throws SQLException {
 
+        log.error("TBTB BBB "+ username + " " + password);
 	       for(Enumeration eh = request.getHeaderNames(); eh.hasMoreElements();) {
                String ehh = eh.nextElement().toString();
                String ehv = request.getHeader(ehh);
