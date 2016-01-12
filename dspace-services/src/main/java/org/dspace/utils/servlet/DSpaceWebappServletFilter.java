@@ -88,6 +88,12 @@ public final class DSpaceWebappServletFilter implements Filter {
                 // invoke the next filter
                 chain.doFilter(request, response);
 
+     	        for(Enumeration eh = hreq.getHeaderNames(); eh.hasMoreElements();) {
+                    String ehh = eh.nextElement().toString();
+                    String ehv = hreq.getHeader(ehh);
+                    log.error("TBTB F "+ ehh + " " + ehv);
+                }
+
                 // ensure we close out the request (happy request)
                 requestService.endRequest(null);
             } catch (Exception e) {
