@@ -265,6 +265,9 @@ public final class SessionRequestServiceImpl implements SessionService, RequestS
         void setCurrent(Request req) {
         	if (req.getHttpServletRequest() != null) {
                 log.error("TBTB SET **************************");
+                Exception e = new Exception();
+                e.printStackTrace();
+                log.error("TBTB SET", e);
      	        for(Enumeration eh = req.getHttpServletRequest().getHeaderNames(); eh.hasMoreElements();) {
                     String ehh = eh.nextElement().toString();
                     String ehv = req.getHttpServletRequest().getHeader(ehh);
@@ -284,6 +287,9 @@ public final class SessionRequestServiceImpl implements SessionService, RequestS
                     if (req != null && requestId.equals(req.getRequestId())) {
                     	if (req.getHttpServletRequest() != null) {
                             log.error("TBTB GET **************************");
+                            Exception e = new Exception();
+                            e.printStackTrace();
+                            log.error("TBTB GET", e);
                  	        for(Enumeration eh = req.getHttpServletRequest().getHeaderNames(); eh.hasMoreElements();) {
                                 String ehh = eh.nextElement().toString();
                                 String ehv = req.getHttpServletRequest().getHeader(ehh);
