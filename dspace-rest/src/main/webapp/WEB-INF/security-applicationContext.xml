@@ -23,7 +23,7 @@
     <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
         <security:filter-chain-map path-type="ant">
             <security:filter-chain pattern="/login" filters="sif,passwordLoginAuthenticationFilter"/>
-            <security:filter-chain pattern="/shibboleth-login" filters="sif"/>
+            <security:filter-chain pattern="/shibboleth-login" filters="sif,noPasswordLoginAuthenticationFilter"/>
             <security:filter-chain pattern="/logout" filters="sif,logoutFilter" />
             <security:filter-chain pattern="/**" filters="sif"/>
         </security:filter-chain-map>
@@ -44,6 +44,17 @@
         <!--Match on any request-->
         <property name="requiresAuthenticationRequestMatcher" ref="org.springframework.security.web.util.matcher.AnyRequestMatcher"/>
     </bean>
+
+    <bean id="noPasswordLoginAuthenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+        <!--Custom DSpace authentication manager, will handle the actual login-->
+        <property name="authenticationManager" ref="dspaceAuthenticationManager"/>
+        <!-- Ensures that after login no redirect is made to the home page, the rest will return a 200 status code -->
+        <property name="authenticationSuccessHandler" ref="org.dspace.rest.authentication.NoRedirectAuthenticationLoginSuccessHandler"/>
+        <property name="postOnly" value="false"/>
+        <!--Match on any request-->
+        <property name="requiresAuthenticationRequestMatcher" ref="org.springframework.security.web.util.matcher.AnyRequestMatcher"/>
+    </bean>
+
 
     <security:authentication-manager alias="dspaceAuthenticationManager">
         <security:authentication-provider ref='dspaceAuthenticationProvider'/>
