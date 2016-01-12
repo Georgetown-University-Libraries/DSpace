@@ -22,6 +22,7 @@ import org.dspace.core.PluginManager;
 import org.dspace.eperson.EPerson;
 import org.dspace.eperson.Group;
 import org.dspace.eperson.service.EPersonService;
+import org.dspace.utils.DSpace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -108,7 +109,10 @@ public class AuthenticationServiceImpl implements AuthenticationService, Initial
             if (!implicitOnly || aMethodStack.isImplicit()) {
                 int ret = 0;
                 try {
+                    log.error("TBTB Before AuthenticationServiceImpl.authenticate() " + methodStack.toString()+ request.getHeader("mail"), new Exception());
                     ret = aMethodStack.authenticate(context, username, password, realm, request);
+                    
+                    log.error("TBTB After AuthenticationServiceImpl.authenticate() "+ methodStack.toString()+ request.getHeader("mail"), new Exception());
                 } catch (SQLException e) {
                     ret = AuthenticationMethod.NO_SUCH_USER;
                 }
