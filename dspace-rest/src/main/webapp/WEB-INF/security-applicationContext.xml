@@ -23,7 +23,7 @@
     <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
         <security:filter-chain-map path-type="ant">
             <security:filter-chain pattern="/login" filters="sif,passwordLoginAuthenticationFilter"/>
-            <security:filter-chain pattern="/shibboleth-login" filters="sif,passwordLoginAuthenticationFilter,passwordLoginAuthenticationFilter"/>
+            <security:filter-chain pattern="/shibboleth-login" filters="sif,passwordLoginAuthenticationFilter"/>
             <security:filter-chain pattern="/logout" filters="sif,logoutFilter" />
             <security:filter-chain pattern="/**" filters="sif"/>
         </security:filter-chain-map>
@@ -50,7 +50,7 @@
     </security:authentication-manager>
 
     <!-- Custom DSpace authentication provider, this bean is responsible to login the user, it is triggered by calling the "passwordLoginAuthenticationFilter"  -->
-    <bean class="org.dspace.rest.authentication.DSpaceAuthenticationProvider" id="dspaceAuthenticationProvider" lazy-init="true" />
+    <bean class="org.dspace.rest.authentication.DSpaceAuthenticationProvider" id="dspaceAuthenticationProvider" lazy-init="false" />
 
 
     <!--Filter for logout, destroys the spring security context-->
