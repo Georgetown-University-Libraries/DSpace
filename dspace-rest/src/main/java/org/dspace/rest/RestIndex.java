@@ -159,7 +159,7 @@ public class RestIndex {
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response shibbolethLogin(@Context HttpServletRequest request)
 	{
-		log.error("TBTB RestIndex.shibbolethLogin() "+request.getPathInfo() + " " + request.getHeader("mail"), new Exception());
+		log.error("TBTB RestIndex.shibbolethLogin() "+request.getPathTranslated() + " " + request.getHeader("mail"), new Exception());
 		//If you can get here, you are authenticated, the actual login is handled by spring security
 		return Response.ok().build();
 	}

@@ -55,7 +55,7 @@ public class DSpaceAuthenticationProvider implements AuthenticationProvider {
             HttpServletRequest httpServletRequest = new DSpace().getRequestService().getCurrentRequest().getHttpServletRequest();
             List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
 
-            log.error("TBTB After DSpaceAuthenticationProvider.authenticate() " + httpServletRequest.getPathInfo() + " "+ httpServletRequest.getHeader("mail"), new Exception());
+            log.error("TBTB After DSpaceAuthenticationProvider.authenticate() " + httpServletRequest.getPathTranslated() + " "+ httpServletRequest.getHeader("mail"), new Exception());
             
             int implicitStatus = authenticationService.authenticateImplicit(context, null, null, null, httpServletRequest);
             log.error("TBTB AUTH implicitStatus=" + implicitStatus);
