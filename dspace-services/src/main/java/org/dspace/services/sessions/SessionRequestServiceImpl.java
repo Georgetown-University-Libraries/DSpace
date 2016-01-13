@@ -27,6 +27,8 @@ import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -263,8 +265,9 @@ public final class SessionRequestServiceImpl implements SessionService, RequestS
         }
 
         void setCurrent(Request req) {
-        	if (req.getHttpServletRequest() != null) {
-                log.error("TBTB SessionRequestServiceImpl setCurrent() " + req.getHttpServletRequest().getHeader("mail"), new Exception());
+           	HttpServletRequest hreq = req.getHttpServletRequest();
+        	if (hreq != null) {
+                log.error("TBTB SessionRequestServiceImpl setCurrent() " + hreq.getPathInfo() + " " + hreq.getHeader("mail"), new Exception());
         	}
             requestMap.put(Thread.currentThread().getId(), req);
         }
@@ -277,8 +280,9 @@ public final class SessionRequestServiceImpl implements SessionService, RequestS
             if (!StringUtils.isEmpty(requestId)) {
                 for (Request req : requestMap.values()) {
                     if (req != null && requestId.equals(req.getRequestId())) {
-                    	if (req.getHttpServletRequest() != null) {
-                            log.error("TBTB SessionRequestServiceImpl getCurrent " + req.getHttpServletRequest().getHeader("mail"), new Exception());
+                    	HttpServletRequest hreq = req.getHttpServletRequest();
+                    	if (hreq != null) {
+                            log.error("TBTB SessionRequestServiceImpl getCurrent " + hreq.getPathInfo() + " " + hreq.getHeader("mail"), new Exception());
                     	}
                         return req;
                     }

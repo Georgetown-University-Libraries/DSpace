@@ -531,10 +531,12 @@ public class ShibAuthentication implements AuthenticationMethod
 			}
 
 			log.debug("Redirecting user to Shibboleth initiator: "+shibURL);
+			log.error("TBTB Lazy Shibb: "+shibURL);
 
 			return response.encodeRedirectURL(shibURL);
 		} else {
 			// If we are not using lazy sessions rely on the protected URL.
+			log.error("TBTB NOT Lazy Shibb: ");
 			return response.encodeRedirectURL(request.getContextPath()
 					+ "/shibboleth-login");
 		}
