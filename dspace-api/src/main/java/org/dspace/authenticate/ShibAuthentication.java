@@ -37,6 +37,7 @@ import org.dspace.eperson.Group;
 import org.dspace.eperson.factory.EPersonServiceFactory;
 import org.dspace.eperson.service.EPersonService;
 import org.dspace.eperson.service.GroupService;
+import org.dspace.utils.DSpace;
 
 /**
  * Shibboleth authentication for DSpace
@@ -522,7 +523,7 @@ public class ShibAuthentication implements AuthenticationMethod
 			returnURL += host;
 			if (!(port == 443 || port == 80))
 				returnURL += ":" + port;
-			returnURL += "/" + contextPath + "/shibboleth-login";
+			returnURL += "/" + contextPath + "/status";
 
 			try {
 				shibURL += "?target="+URLEncoder.encode(returnURL, "UTF-8");
