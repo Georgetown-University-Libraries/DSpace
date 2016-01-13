@@ -55,19 +55,19 @@ public class DSpaceAuthenticationProvider implements AuthenticationProvider {
             HttpServletRequest httpServletRequest = new DSpace().getRequestService().getCurrentRequest().getHttpServletRequest();
             List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
 
-            log.error("TBTB After DSpaceAuthenticationProvider.authenticate() "+ httpServletRequest.getHeader("mail"), new Exception());
+            log.error("TBTB After DSpaceAuthenticationProvider.authenticate() " + httpServletRequest.getPathInfo() + " "+ httpServletRequest.getHeader("mail"), new Exception());
             
             int implicitStatus = authenticationService.authenticateImplicit(context, null, null, null, httpServletRequest);
-            log.error("TBTB AUTH1 ");
+            log.error("TBTB AUTH implicitStatus=" + implicitStatus);
             if (implicitStatus == AuthenticationMethod.SUCCESS) {
-                log.error("TBTB AUTH2 ");
+                log.error("TBTB AUTH implicit success ");
                 log.info(LogManager.getHeader(context, "login", "type=implicit"));
                 addSpecialGroupsToGrantedAuthorityList(context, httpServletRequest, grantedAuthorities);
                 return new UsernamePasswordAuthenticationToken(name, password, grantedAuthorities);
             } else {
-                log.error("TBTB AUTH3");
+                log.error("TBTB AUTH not implicit success");
                 int authenticateResult = authenticationService.authenticate(context, name, password, null, httpServletRequest);
-                log.error("TBTB AUTH4 " + authenticateResult);
+                log.error("TBTB AUTH authenticateResult=" + authenticateResult);
                 if (AuthenticationMethod.SUCCESS == authenticateResult) {
                     addSpecialGroupsToGrantedAuthorityList(context, httpServletRequest, grantedAuthorities);
 

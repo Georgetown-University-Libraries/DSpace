@@ -109,10 +109,10 @@ public class AuthenticationServiceImpl implements AuthenticationService, Initial
             if (!implicitOnly || aMethodStack.isImplicit()) {
                 int ret = 0;
                 try {
-                    log.error("TBTB Before AuthenticationServiceImpl.authenticate() " + methodStack.toString()+ request.getHeader("mail"), new Exception());
+                    log.error("TBTB Before AuthenticationServiceImpl.authenticate() " + request.getPathInfo()+ request.getHeader("mail"), new Exception());
                     ret = aMethodStack.authenticate(context, username, password, realm, request);
                     
-                    log.error("TBTB After AuthenticationServiceImpl.authenticate() "+ methodStack.toString()+ request.getHeader("mail"), new Exception());
+                    log.error("TBTB After AuthenticationServiceImpl.authenticate() "+ request.getPathInfo()+ request.getHeader("mail"), new Exception());
                 } catch (SQLException e) {
                     ret = AuthenticationMethod.NO_SUCH_USER;
                 }
