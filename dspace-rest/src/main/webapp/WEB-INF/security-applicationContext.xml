@@ -25,7 +25,7 @@
             <security:filter-chain pattern="/login" filters="passwordLoginAuthenticationFilter"/>
             <security:filter-chain pattern="/shibboleth-login" filters="passwordLoginAuthenticationFilter"/>
             <security:filter-chain pattern="/logout" filters="logoutFilter" />
-            <security:filter-chain pattern="/**" filters=""/>
+            <security:filter-chain pattern="/**" />
         </security:filter-chain-map>
     </bean>
 
