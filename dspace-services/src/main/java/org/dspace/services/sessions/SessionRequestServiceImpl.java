@@ -261,12 +261,14 @@ public final class SessionRequestServiceImpl implements SessionService, RequestS
         Map<Long, Request> requestMap = new ConcurrentHashMap<Long, Request>();
 
         Request getCurrent() {
+            log.error("TBTB SessionRequestServiceImpl get() " + Thread.currentThread().getId());
             return requestMap.get(Thread.currentThread().getId());
         }
 
         void setCurrent(Request req) {
            	HttpServletRequest hreq = req.getHttpServletRequest();
         	if (hreq != null) {
+                log.error("TBTB SessionRequestServiceImpl setCurrent() " + Thread.currentThread().getId());
                 log.error("TBTB SessionRequestServiceImpl setCurrent() " + hreq.getPathTranslated() + " " + hreq.getHeader("mail"), new Exception());
         	}
             requestMap.put(Thread.currentThread().getId(), req);
@@ -289,6 +291,7 @@ public final class SessionRequestServiceImpl implements SessionService, RequestS
                 }
             }
 
+            log.error("TBTB SessionRequestServiceImpl getCurrent null", new Exception());
             return null;
         }
         void remove(String requestId) {
