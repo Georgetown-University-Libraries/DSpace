@@ -8,7 +8,6 @@
 package org.dspace.services.sessions.model;
 
 import org.apache.log4j.Logger;
-import org.dspace.app.util.DSpaceContextListener;
 import org.dspace.services.model.Request;
 import org.dspace.services.model.Session;
 
