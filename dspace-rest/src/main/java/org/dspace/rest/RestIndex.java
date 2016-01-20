@@ -188,7 +188,7 @@ public class RestIndex {
 					}
 				}
             }
-			context.abort();
+			context.complete();
 		} catch (ContextException | SQLException | IOException e) {
 			Resource.processException("Shibboleth endpoint error:  " + e.getMessage(), context);
 		} finally {
