@@ -37,6 +37,7 @@ import org.dspace.eperson.Group;
 import org.dspace.eperson.factory.EPersonServiceFactory;
 import org.dspace.eperson.service.EPersonService;
 import org.dspace.eperson.service.GroupService;
+import org.dspace.services.RequestService;
 import org.dspace.utils.DSpace;
 
 /**
@@ -533,7 +534,8 @@ public class ShibAuthentication implements AuthenticationMethod
 
 			log.debug("Redirecting user to Shibboleth initiator: "+shibURL);
 			log.error("TBTB Lazy Shibb: "+shibURL);
-
+			
+			new DSpace().getServiceManager().getServiceByName(RequestService.class.getName(), RequestService.class).endRequest(new Exception("TBTB end"));
 			return response.encodeRedirectURL(shibURL);
 		} else {
 			// If we are not using lazy sessions rely on the protected URL.
