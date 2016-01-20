@@ -161,6 +161,8 @@ public class RestIndex {
 	public Response shibbolethLogin(@Context HttpServletRequest request)
 	{
 		log.error("TBTB RestIndex.shibbolethLogin() "+request.getPathTranslated() + " " + request.getHeader("mail"), new Exception());
+		request = new DSpace().getRequestService().getCurrentRequest().getHttpServletRequest();
+		log.error("TBTB RestIndex.shibbolethLogin() 2  "+request.getPathTranslated() + " " + request.getHeader("mail"), new Exception());
 		//If you can get here, you are authenticated, the actual login is handled by spring security
 		return Response.ok().build();
 	}
