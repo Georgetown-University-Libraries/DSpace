@@ -7,6 +7,8 @@
  */
 package org.dspace.services.sessions.model;
 
+import org.apache.log4j.Logger;
+import org.dspace.app.util.DSpaceContextListener;
 import org.dspace.services.model.Request;
 import org.dspace.services.model.Session;
 
@@ -19,6 +21,7 @@ public final class HttpRequestImpl extends AbstractRequestImpl implements Reques
 
     private transient ServletRequest  servletRequest  = null;
     private transient ServletResponse servletResponse = null;
+    private static Logger log = Logger.getLogger(HttpRequestImpl.class);
 
     private Session session = null;
     
@@ -30,8 +33,10 @@ public final class HttpRequestImpl extends AbstractRequestImpl implements Reques
         this.servletRequest = request;
         this.servletResponse = response;
         if (servletRequest instanceof HttpServletRequest) {
+        	log.error("HttpRequestImpl TBTB 1 "+response);
             this.session = new SessionImpl((HttpServletRequest)servletRequest);
         } else {
+        	log.error("HttpRequestImpl TBTB 2 "+response);
             this.session = new SessionImpl();
         }
     }
