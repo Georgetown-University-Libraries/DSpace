@@ -35,6 +35,7 @@ import org.dspace.eperson.factory.EPersonServiceFactory;
 import org.dspace.eperson.service.EPersonService;
 import org.dspace.rest.common.Status;
 import org.dspace.rest.exceptions.ContextException;
+import org.dspace.services.RequestService;
 import org.dspace.utils.DSpace;
 
 /**
@@ -181,7 +182,8 @@ public class RestIndex {
 				{
 					//TODO: Perhaps look for a better way of handling this ?
 					//org.dspace.services.model.Request currentRequest = new DSpace().getRequestService().getCurrentRequest();
-					String loginPageURL = authenticationMethod.loginPageURL(context, request, response);
+					log.error("TBTB login-shib 1");
+					String loginPageURL = authenticationMethod.loginPageURL(context, (HttpServletRequest)new DSpace().getRequestService().getCurrentRequest(), response);
 					if(StringUtils.isNotBlank(loginPageURL))
 					{
 						response.sendRedirect(loginPageURL);
