@@ -184,7 +184,7 @@ public class RestIndex {
 					//org.dspace.services.model.Request currentRequest = new DSpace().getRequestService().getCurrentRequest();
 					new DSpace().getRequestService().startRequest(request, response);
 					log.error("TBTB login-shib 1");
-					String loginPageURL = authenticationMethod.loginPageURL(context, (HttpServletRequest)new DSpace().getRequestService().getCurrentRequest(), response);
+					String loginPageURL = authenticationMethod.loginPageURL(context, request, response);
 					if(StringUtils.isNotBlank(loginPageURL))
 					{
 						response.sendRedirect(loginPageURL);
