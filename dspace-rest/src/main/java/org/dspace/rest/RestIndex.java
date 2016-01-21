@@ -161,8 +161,7 @@ public class RestIndex {
 	public Response shibbolethLogin(@Context HttpServletRequest request)
 	{
 		log.error("TBTB RestIndex.shibbolethLogin() "+request.getPathTranslated() + " " + request.getHeader("mail"), new Exception());
-		request = new DSpace().getRequestService().getCurrentRequest().getHttpServletRequest();
-		log.error("TBTB RestIndex.shibbolethLogin() 2  "+request.getPathTranslated() + " " + request.getHeader("mail"), new Exception());
+		log.error("TBTB shibb-login "+new DSpace().getRequestService().getCurrentRequestId());
 		//If you can get here, you are authenticated, the actual login is handled by spring security
 		return Response.ok().build();
 	}
@@ -185,7 +184,7 @@ public class RestIndex {
 					//TODO: Perhaps look for a better way of handling this ?
 					//org.dspace.services.model.Request currentRequest = new DSpace().getRequestService().getCurrentRequest();
 					new DSpace().getRequestService().startRequest(request, response);
-					log.error("TBTB login-shib 1");
+					log.error("TBTB login-shib 1 "+new DSpace().getRequestService().getCurrentRequestId());
 					String loginPageURL = authenticationMethod.loginPageURL(context, request, response);
 					if(StringUtils.isNotBlank(loginPageURL))
 					{
