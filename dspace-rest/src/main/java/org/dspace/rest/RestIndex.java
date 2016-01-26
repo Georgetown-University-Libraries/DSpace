@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -180,8 +181,10 @@ public class RestIndex {
 	@GET
 	@Path("/shibboleth-login")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response shibbolethLogin()
+	public Response shibbolethLogin(@Context HttpServletRequest request)
 	{
+        log.error("TBTB RestIndex.shibbolethLogin() "+request.getPathTranslated() + " " + request.getHeader("mail"), new Exception());
+        log.error("TBTB shibb-login "+new DSpace().getRequestService().getCurrentRequestId());
 		//If you can get here, you are authenticated, the actual login is handled by spring security
 		return Response.ok().build();
 	}
@@ -189,8 +192,10 @@ public class RestIndex {
 	@GET
 	@Path("/login-shibboleth")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response shibbolethLoginEndPoint()
+	public Response shibbolethLoginEndPoint(@Context HttpServletRequest request)
 	{
+        log.error("TBTB RestIndex.shibbolethLogin() "+request.getPathTranslated() + " " + request.getHeader("mail"), new Exception());
+        log.error("TBTB shibb-login "+new DSpace().getRequestService().getCurrentRequestId());
 		org.dspace.core.Context context = null;
 		try {
 			context = Resource.createContext();
@@ -258,6 +263,8 @@ public class RestIndex {
     public Status status(@Context HttpHeaders headers) throws UnsupportedEncodingException {
         org.dspace.core.Context context = null;
 
+        log.error("TBTB RestIndex.status() "+ headers.getRequestHeader("mail"));
+        
         try {
             context = Resource.createContext();
             EPerson ePerson = context.getCurrentUser();
