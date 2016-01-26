@@ -194,7 +194,7 @@ public class RestIndex {
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response shibbolethLoginEndPoint(@Context HttpServletRequest request)
 	{
-        log.error("TBTB RestIndex.shibbolethLogin() "+request.getPathTranslated() + " " + request.getHeader("mail"), new Exception());
+        log.error("TBTB RestIndex.shibbolethLoginEndPoint() "+request.getPathTranslated() + " " + request.getHeader("mail"), new Exception());
         log.error("TBTB shibb-login "+new DSpace().getRequestService().getCurrentRequestId());
 		org.dspace.core.Context context = null;
 		try {
