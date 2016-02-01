@@ -30,10 +30,12 @@ public class ItemFilterUtil {
 	public enum BundleName{ORIGINAL,TEXT,LICENSE,THUMBNAIL;}
 	
 	static String getDocumentMimeTypes() {
+		log.error("TBTB DOCMimeTypes "+DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("rest.report-mime-document"));
 		return DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("rest.report-mime-document");
 	}
 	
 	static String getSupportedDocumentMimeTypes() {
+		log.error("TBTB DOCMimeTypesSupp "+DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("rest.report-mime-document-supported"));
 		return DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("rest.report-mime-document-supported");
 	}
 
