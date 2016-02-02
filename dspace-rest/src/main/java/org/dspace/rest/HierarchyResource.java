@@ -77,7 +77,7 @@ public class HierarchyResource extends Resource {
             for(String s:configurationService.getPropertyKeys("rest")) {
             	log.error("TBTB* "+s+": "+configurationService.getProperty(s));
             	for(String ss: configurationService.getArrayProperty(s)){
-                	log.error("TBTB+ "+s+": "+configurationService.getProperty(s));            		
+                	log.error("TBTB+ "+ss);            		
             	}
             }
             if (!configurationService.getBooleanProperty("rest.hierarchy-authenticate", true)) {
