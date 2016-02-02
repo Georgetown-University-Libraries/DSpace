@@ -75,7 +75,10 @@ public class HierarchyResource extends Resource {
         try {
             context = createContext(getUser(headers));
             for(String s:configurationService.getPropertyKeys("rest")) {
-            	log.error("TBTB* "+s+configurationService.getProperty(s));
+            	log.error("TBTB* "+s+": "+configurationService.getProperty(s));
+            	for(String ss: configurationService.getArrayProperty(s)){
+                	log.error("TBTB+ "+s+": "+configurationService.getProperty(s));            		
+            	}
             }
             if (!configurationService.getBooleanProperty("rest.hierarchy-authenticate", true)) {
                 context.turnOffAuthorisationSystem();            	
