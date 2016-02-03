@@ -487,13 +487,19 @@ public class ShibAuthentication implements AuthenticationMethod
 	{	
 		// If this server is configured for lazy sessions then use this to
 		// login, otherwise default to the protected shibboleth url.
+		log.error("TBTB loginPageUrl");
 
 		boolean lazySession = ConfigurationManager.getBooleanProperty("authentication-shibboleth","lazysession", false);
+
+		log.error("TBTB loginPageUrl2 "+lazySession);
 
 		if ( lazySession ) {
 			String shibURL = ConfigurationManager.getProperty("authentication-shibboleth","lazysession.loginurl");
 			boolean forceHTTPS = ConfigurationManager.getBooleanProperty("authentication-shibboleth","lazysession.secure",true);
 
+			log.error("TBTB loginPageUrl3 "+shibURL);
+
+			
 			// Shibboleth authentication initiator 
 			if (shibURL == null || shibURL.length() == 0)
 				shibURL = "/Shibboleth.sso/Login";
