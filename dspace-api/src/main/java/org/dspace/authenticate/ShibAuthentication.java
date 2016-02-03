@@ -613,19 +613,21 @@ public class ShibAuthentication implements AuthenticationMethod
 			String email = findSingleAttribute(request,emailHeader);
 
 			if (email != null) {
-				foundEmail = true;
-				email = email.toLowerCase();
-				eperson = ePersonService.findByEmail(context, email);
+				if (!email.isEmpty()) {
+					foundEmail = true;
+					email = email.toLowerCase();
+					eperson = ePersonService.findByEmail(context, email);
 
-				if (eperson == null)
-					log.info("Unable to identify EPerson based upon Shibboleth email header: '"+emailHeader+"'='"+email+"'.");
-				else
-					log.info("Identified EPerson based upon Shibboleth email header: '"+emailHeader+"'='"+email+"'.");
+					if (eperson == null)
+						log.info("Unable to identify EPerson based upon Shibboleth email header: '"+emailHeader+"'='"+email+"'.");
+					else
+						log.info("Identified EPerson based upon Shibboleth email header: '"+emailHeader+"'='"+email+"'.");
 
-				if (eperson != null && eperson.getNetid() != null) {
-					// If the user has a netID it has been locked to that netid, don't let anyone else try and steal the account.
-					log.error("The identified EPerson based upon Shibboleth email header, '"+emailHeader+"'='"+email+"', is locked to another netid: '"+eperson.getNetid()+"'. This might be a possible hacking attempt to steal another users credentials. If the user's netid has changed you will need to manually change it to the correct value or unset it in the database.");
-					eperson = null;
+					if (eperson != null && eperson.getNetid() != null) {
+						// If the user has a netID it has been locked to that netid, don't let anyone else try and steal the account.
+						log.error("The identified EPerson based upon Shibboleth email header, '"+emailHeader+"'='"+email+"', is locked to another netid: '"+eperson.getNetid()+"'. This might be a possible hacking attempt to steal another users credentials. If the user's netid has changed you will need to manually change it to the correct value or unset it in the database.");
+						eperson = null;
+					}					
 				}
 			}
 		}
