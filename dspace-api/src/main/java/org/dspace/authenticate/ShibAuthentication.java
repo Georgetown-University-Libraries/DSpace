@@ -590,12 +590,13 @@ public class ShibAuthentication implements AuthenticationMethod
 		boolean foundEmail = false;
 		boolean foundRemoteUser = false;
 
+		log.error("TBTB find Eperson");
 
 		// 1) First, look for a netid header.
 		if (netidHeader != null) {
 			String netid = findSingleAttribute(request,netidHeader);
 
-			log.error("TBTB [" + netid +"]");
+			log.error("TBTB net [" + netid +"]");
 			if (netid != null) {
 				if (!netid.isEmpty()) {
 					foundNetID = true;
@@ -612,6 +613,8 @@ public class ShibAuthentication implements AuthenticationMethod
 		// 2) Second, look for an email header.
 		if (eperson == null && emailHeader != null) {
 			String email = findSingleAttribute(request,emailHeader);
+
+			log.error("TBTB email [" + email +"]");
 
 			if (email != null) {
 				if (!email.isEmpty()) {
