@@ -523,12 +523,15 @@ public class ShibAuthentication implements AuthenticationMethod
 				returnURL += ":" + port;
 			returnURL += "/" + contextPath + "/shibboleth-login";
 
+			log.error("TBTB loginPageUrl4 "+returnURL);
+
 			try {
 				shibURL += "?target="+URLEncoder.encode(returnURL, "UTF-8");
 			} catch (UnsupportedEncodingException uee) {
 				log.error("Unable to generate lazysession authentication",uee);
 			}
 
+			log.error("TBTB Redirecting user to Shibboleth initiator: "+shibURL);
 			log.debug("Redirecting user to Shibboleth initiator: "+shibURL);
 
 			return response.encodeRedirectURL(shibURL);
