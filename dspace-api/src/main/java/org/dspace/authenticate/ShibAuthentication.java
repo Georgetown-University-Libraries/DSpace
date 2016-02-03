@@ -596,13 +596,15 @@ public class ShibAuthentication implements AuthenticationMethod
 			String netid = findSingleAttribute(request,netidHeader);
 
 			if (netid != null) {
-				foundNetID = true;
-				eperson = ePersonService.findByNetid(context, netid);
+				if (!netid.isEmpty()) {
+					foundNetID = true;
+					eperson = ePersonService.findByNetid(context, netid);
 
-				if (eperson == null)
-					log.info("Unable to identify EPerson based upon Shibboleth netid header: '"+netidHeader+"'='"+netid+"'.");
-				else
-					log.debug("Identified EPerson based upon Shibboleth netid header: '"+netidHeader+"'='"+netid+"'.");					
+					if (eperson == null)
+						log.info("Unable to identify EPerson based upon Shibboleth netid header: '"+netidHeader+"'='"+netid+"'.");
+					else
+						log.debug("Identified EPerson based upon Shibboleth netid header: '"+netidHeader+"'='"+netid+"'.");					
+				}
 			}
 		}
 
