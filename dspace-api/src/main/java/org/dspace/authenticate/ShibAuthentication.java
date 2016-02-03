@@ -595,6 +595,7 @@ public class ShibAuthentication implements AuthenticationMethod
 		if (netidHeader != null) {
 			String netid = findSingleAttribute(request,netidHeader);
 
+			log.error("TBTB [" + netid +"]");
 			if (netid != null) {
 				if (!netid.isEmpty()) {
 					foundNetID = true;
