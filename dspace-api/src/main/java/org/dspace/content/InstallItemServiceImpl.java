@@ -10,8 +10,10 @@ package org.dspace.content;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.dspace.authorize.AuthorizeException;
+import org.dspace.content.crosswalk.METSRightsCrosswalk;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.CollectionService;
 import org.dspace.content.service.InstallItemService;
@@ -90,9 +92,12 @@ public class InstallItemServiceImpl implements InstallItemService
             {
                 identifierService.register(c, item);
             }else{
+            	java.util.logging.Logger.getLogger(InstallItemServiceImpl.class.getName()).log(Level.INFO, "DEBUG --- Attempting to register object with supplied handle.");
                 identifierService.register(c, item, suppliedHandle);
+                java.util.logging.Logger.getLogger(InstallItemServiceImpl.class.getName()).log(Level.INFO, "DEBUG --- Successfully registered object with handle: " + suppliedHandle);
             }
         } catch (IdentifierException e) {
+        	java.util.logging.Logger.getLogger(InstallItemServiceImpl.class.getName()).log(Level.SEVERE, "DEBUG --- Handle registration failed.\nItemName: " + ((item != null && item.getName() != null) ? item.getName() : "NULL") + "\nSuppliedHandle: " + ((suppliedHandle != null) ? suppliedHandle : "NULL"));
             throw new RuntimeException("Can't create an Identifier!");
         }
 
