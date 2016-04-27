@@ -72,6 +72,8 @@ public class VersionedHandleIdentifierProvider extends IdentifierProvider {
     {
         String prefix = handleService.getPrefix();
         String handleResolver = ConfigurationManager.getProperty("handle.canonical.prefix");
+      //mm3941 debug
+        java.util.logging.Logger.getLogger(HandleIdentifierProvider.class.getName()).log(Level.INFO, "VersionedHandleIdentifierProvider.supports(String) called:\nIdentifier: " + ((identifier != null) ? identifier : "NULL") + "\nPrefix: " + ((handleResolver != null) ? handleResolver : "NULL"));
         if (identifier == null)
         {
             return false;
