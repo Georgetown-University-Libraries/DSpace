@@ -10,7 +10,6 @@ package org.dspace.identifier;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.DSpaceObject;
-import org.dspace.content.crosswalk.METSRightsCrosswalk;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.core.Context;
 import org.dspace.handle.service.HandleService;
@@ -21,7 +20,6 @@ import org.springframework.beans.factory.annotation.Required;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.apache.commons.lang.StringUtils;
 import org.dspace.core.Constants;
@@ -113,13 +111,8 @@ public class IdentifierServiceImpl implements IdentifierService {
         //We need to commit our context because one of the providers might require the handle created above
         // Next resolve all other services
         boolean registered = false;
-        //mm3941 debug
-        java.util.logging.Logger.getLogger(IdentifierServiceImpl.class.getName()).log(Level.INFO, "IdentifierServiceImpl.register() called for " + object.getName());
-        String provs = "";
         for (IdentifierProvider service : providers)
         {
-        	provs += "\n\t";
-        	provs += service.toString();
             if (service.supports(identifier))
             {
                 service.register(context, object, identifier);
@@ -128,7 +121,6 @@ public class IdentifierServiceImpl implements IdentifierService {
         }
         if (!registered)
         {
-            java.util.logging.Logger.getLogger(IdentifierServiceImpl.class.getName()).log(Level.SEVERE, ("No providers support this identifier. Providers checked: \n" + provs));
         	throw new IdentifierException("Cannot register identifier: Didn't "
                 + "find a provider that supports this identifier.");
         }

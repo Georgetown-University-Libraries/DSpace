@@ -10,7 +10,6 @@ package org.dspace.identifier;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.*;
-import org.dspace.content.crosswalk.METSRightsCrosswalk;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * The old DSpace handle identifier service, used to create handles or retrieve objects based on their handle
@@ -54,8 +52,6 @@ public class HandleIdentifierProvider extends IdentifierProvider {
     {
         String prefix = handleService.getPrefix();
         String handleResolver = ConfigurationManager.getProperty("handle.canonical.prefix");
-        //mm3941 debug
-        java.util.logging.Logger.getLogger(HandleIdentifierProvider.class.getName()).log(Level.INFO, "HandleIdentifierProvider.supports(String) called:\nIdentifier: " + ((identifier != null) ? identifier : "NULL") + "\nPrefix: " + ((handleResolver != null) ? handleResolver : "NULL"));
         if (identifier == null)
         {
             return false;
