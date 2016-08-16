@@ -71,8 +71,11 @@ public class VersionedHandleIdentifierProvider extends IdentifierProvider {
     @Override
     public boolean supports(String identifier)
     {
-    	String prefix = handleService.getPrefix();
+        log.error("TBTB1 "+identifier);
+        String prefix = handleService.getPrefix();
+        log.error("TBTB1 "+prefix);
         String canonicalPrefix = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("handle.canonical.prefix");
+        log.error("TBTB3 "+canonicalPrefix);
         if (identifier == null)
         {
             return false;

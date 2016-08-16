@@ -67,8 +67,11 @@ public class VersionedHandleIdentifierProviderWithCanonicalHandles extends Ident
     @Override
     public boolean supports(String identifier)
     {
-    	String prefix = handleService.getPrefix();
+        log.error("TBTB1 "+identifier);
+        String prefix = handleService.getPrefix();
+        log.error("TBTB1 "+prefix);
         String canonicalPrefix = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("handle.canonical.prefix");
+        log.error("TBTB3 "+canonicalPrefix);
         if (identifier == null)
         {
             return false;
@@ -83,13 +86,17 @@ public class VersionedHandleIdentifierProviderWithCanonicalHandles extends Ident
         {
             return true;
         }
-        // return true if base prefix matches in case of multi-instance deployment with derived prefixes demarcated by a dot "." 
-        if(prefix.contains(".")) {
-            String[] splitPrefix = prefix.split("\\.");
-            if(splitPrefix.length > 1 && identifier.startsWith(splitPrefix[0])) {
+
+        //Check additional prefixes supported in the config file
+        String[] additionalPrefixes = DSpaceServicesFactory.getInstance().getConfigurationService().getArrayProperty("handle.additional.prefixes");
+        for(String additionalPrefix: additionalPrefixes) {
+            log.error("TBTB4 "+additionalPrefix);
+            if (identifier.startsWith(additionalPrefix)) {
                 return true;
             }
         }
+        log.error("TBTB5 ");
+
         // otherwise, assume invalid handle
         return false;
     }
