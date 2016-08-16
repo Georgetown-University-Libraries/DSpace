@@ -16,6 +16,7 @@ import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
 import org.dspace.handle.service.HandleService;
+import org.dspace.services.factory.DSpaceServicesFactory;
 import org.dspace.versioning.*;
 import org.dspace.versioning.service.VersionHistoryService;
 import org.dspace.versioning.service.VersioningService;
@@ -70,21 +71,30 @@ public class VersionedHandleIdentifierProvider extends IdentifierProvider {
     @Override
     public boolean supports(String identifier)
     {
-        String prefix = handleService.getPrefix();
-        String handleResolver = ConfigurationManager.getProperty("handle.canonical.prefix");
+    	String prefix = handleService.getPrefix();
+        String canonicalPrefix = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("handle.canonical.prefix");
         if (identifier == null)
         {
             return false;
         }
+        // return true if handle has valid starting pattern
         if (identifier.startsWith(prefix)
-                || identifier.startsWith(handleResolver)
-                || identifier.startsWith("http://hdl.handle.net/")
+                || identifier.startsWith(canonicalPrefix)
                 || identifier.startsWith("hdl:")
-                || identifier.startsWith("info:hdl"))
+                || identifier.startsWith("info:hdl")
+                || identifier.matches("^https?://hdl\\.handle\\.net/.*")
+                || identifier.matches("^https?://.+/handle/.*"))
         {
             return true;
         }
-        
+        // return true if base prefix matches in case of multi-instance deployment with derived prefixes demarcated by a dot "." 
+        if(prefix.contains(".")) {
+            String[] splitPrefix = prefix.split("\\.");
+            if(splitPrefix.length > 1 && identifier.startsWith(splitPrefix[0])) {
+                return true;
+            }
+        }
+        // otherwise, assume invalid handle
         return false;
     }
 
