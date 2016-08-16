@@ -75,7 +75,7 @@ public class HandleIdentifierProvider extends IdentifierProvider {
         String[] additionalPrefixes = DSpaceServicesFactory.getInstance().getConfigurationService().getArrayProperty("handle.additional.prefixes");
         for(String additionalPrefix: additionalPrefixes) {
             log.error("TBTB4 "+additionalPrefix);
-            if (identifier.startsWith(additionalPrefix)) {
+            if (identifier.startsWith(additionalPrefix + "/")) {
                 return true;
             }
         }
