@@ -61,7 +61,7 @@ public class HandleIdentifierProvider extends IdentifierProvider {
             return false;
         }
         // return true if handle has valid starting pattern
-        if (identifier.startsWith(prefix)
+        if (identifier.startsWith(prefix + "/")
                 || identifier.startsWith(canonicalPrefix)
                 || identifier.startsWith("hdl:")
                 || identifier.startsWith("info:hdl")

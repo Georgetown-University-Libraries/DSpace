@@ -71,17 +71,17 @@ public class VersionedHandleIdentifierProvider extends IdentifierProvider {
     @Override
     public boolean supports(String identifier)
     {
-        log.error("TBTB1 "+identifier);
+        log.error("TBTB1b "+identifier);
         String prefix = handleService.getPrefix();
-        log.error("TBTB1 "+prefix);
+        log.error("TBTB1b "+prefix);
         String canonicalPrefix = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("handle.canonical.prefix");
-        log.error("TBTB3 "+canonicalPrefix);
+        log.error("TBTB3b "+canonicalPrefix);
         if (identifier == null)
         {
             return false;
         }
         // return true if handle has valid starting pattern
-        if (identifier.startsWith(prefix)
+        if (identifier.startsWith(prefix + "/")
                 || identifier.startsWith(canonicalPrefix)
                 || identifier.startsWith("hdl:")
                 || identifier.startsWith("info:hdl")
@@ -94,12 +94,12 @@ public class VersionedHandleIdentifierProvider extends IdentifierProvider {
         //Check additional prefixes supported in the config file
         String[] additionalPrefixes = DSpaceServicesFactory.getInstance().getConfigurationService().getArrayProperty("handle.additional.prefixes");
         for(String additionalPrefix: additionalPrefixes) {
-            log.error("TBTB4 "+additionalPrefix);
+            log.error("TBTB4b "+additionalPrefix);
             if (identifier.startsWith(additionalPrefix + "/")) {
                 return true;
             }
         }
-        log.error("TBTB5 ");
+        log.error("TBTB5b ");
 
         // otherwise, assume invalid handle
         return false;
