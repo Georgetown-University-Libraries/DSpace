@@ -33,7 +33,7 @@ import java.util.List;
 @Component
 public class HandleIdentifierProvider extends IdentifierProvider {
     /** log4j category */
-    private static Logger log = Logger.getLogger(HandleIdentifierProvider.class);
+    private static jdk.internal.instrumentation.Logger log = Logger.getLogger(HandleIdentifierProvider.class);
 
     /** Prefix registered to no one */
     protected static final String EXAMPLE_PREFIX = "123456789";
@@ -51,8 +51,11 @@ public class HandleIdentifierProvider extends IdentifierProvider {
     @Override
     public boolean supports(String identifier)
     {
+        log.error("TBTB1 "+identifier);
     	String prefix = handleService.getPrefix();
+        log.error("TBTB1 "+prefix);
         String canonicalPrefix = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("handle.canonical.prefix");
+        log.error("TBTB3 "+canonicalPrefix);
         if (identifier == null)
         {
             return false;
@@ -71,10 +74,13 @@ public class HandleIdentifierProvider extends IdentifierProvider {
         //Check additional prefixes supported in the config file
         String[] additionalPrefixes = DSpaceServicesFactory.getInstance().getConfigurationService().getArrayProperty("handle.additional.prefixes");
         for(String additionalPrefix: additionalPrefixes) {
+            log.error("TBTB4 "+additionalPrefix);
             if (identifier.startsWith(additionalPrefix)) {
                 return true;
             }
         }
+        log.error("TBTB5 ");
+
         return false;
     }
 
