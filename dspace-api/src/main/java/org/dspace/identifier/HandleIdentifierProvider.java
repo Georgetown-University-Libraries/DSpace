@@ -33,7 +33,7 @@ import java.util.List;
 @Component
 public class HandleIdentifierProvider extends IdentifierProvider {
     /** log4j category */
-    private static jdk.internal.instrumentation.Logger log = Logger.getLogger(HandleIdentifierProvider.class);
+    private static Logger log = Logger.getLogger(HandleIdentifierProvider.class);
 
     /** Prefix registered to no one */
     protected static final String EXAMPLE_PREFIX = "123456789";
