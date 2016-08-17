@@ -171,14 +171,14 @@ public class IndexClient {
         count++;
         System.out.println("TBTBa "+count+" "+dso.getHandles().size());
         if (dso.getType() == Constants.COMMUNITY) {
-            final Community community = (Community) dso;
-            final String communityHandle = community.getHandle();
-            for (final Community subcommunity : community.getSubcommunities()) {
+            Community community = (Community) dso;
+            //final String communityHandle = community.getHandle();
+            for (Community subcommunity : community.getSubcommunities()) {
                 count += indexAll(indexingService, itemService, context, subcommunity);
                 System.out.println("TBTBb "+count+" "+subcommunity.getHandles().size());
             }
-            final Community reloadedCommunity = (Community) HandleServiceFactory.getInstance().getHandleService().resolveToObject(context, communityHandle);
-            for (final Collection collection : reloadedCommunity.getCollections()) {
+            //final Community reloadedCommunity = (Community) HandleServiceFactory.getInstance().getHandleService().resolveToObject(context, communityHandle);
+            for (Collection collection : community.getCollections()) {
                 count++;
                 System.out.println("TBTBc "+count+" "+collection.getHandles().size());
                 indexingService.indexContent(context, collection, true, true);
