@@ -149,7 +149,7 @@ public class IndexClient {
             // Enable batch mode; we may be indexing a large number of items
             //context.enableBatchMode(true);
             final long startTimeMillis = System.currentTimeMillis();
-            final long count = indexAll(new ArrayList<DSpaceObject>(), indexer,  ContentServiceFactory.getInstance().getItemService(), context, dso);
+            final long count = indexAll(indexer,  ContentServiceFactory.getInstance().getItemService(), context, dso);
             final long seconds = (System.currentTimeMillis() - startTimeMillis ) / 1000;
             log.info("Indexed " + count + " DSpace object" + (count > 1 ? "s" : "") + " in " + seconds + " seconds");
         } else {
@@ -165,13 +165,12 @@ public class IndexClient {
     /**
      * Indexes the given object and all children, if applicable.
      */
-    private static long indexAll(List<DSpaceObject> dsos, final IndexingService indexingService,
+    private static long indexAll(final IndexingService indexingService,
                                  final ItemService itemService,
                                  Context context,
                                  DSpaceObject dso) throws IOException, SearchServiceException, SQLException {
         long count = 0;
 
-        dsos.add(dso);
         indexingService.indexContent(context, dso, true, true);
         count++;
         System.out.println("TBTBa "+count+" "+dso.getHandles().size());
@@ -181,14 +180,16 @@ public class IndexClient {
             
             //final String communityHandle = community.getHandle();
             for (Community subcommunity : community.getSubcommunities()) {
+                subcommunity = ContentServiceFactory.getInstance().getCommunityService().find(context, subcommunity.getID());
                 System.out.println("TBTBb "+count+" "+subcommunity.getID());
-                count += indexAll(dsos, indexingService, itemService, context, subcommunity);
+                count += indexAll(indexingService, itemService, context, subcommunity);
             }
             //final Community reloadedCommunity = (Community) HandleServiceFactory.getInstance().getHandleService().resolveToObject(context, communityHandle);
             for (Collection collection : community.getCollections()) {
+                collection = ContentServiceFactory.getInstance().getCollectionService().find(context, collection.getID());
                 count++;
                 System.out.println("TBTBd "+count+" "+collection.getID());
-                dsos.add(collection);
+                
                 indexingService.indexContent(context, collection, true, true);
                 count += indexItems(indexingService, itemService, context, collection);
             }
