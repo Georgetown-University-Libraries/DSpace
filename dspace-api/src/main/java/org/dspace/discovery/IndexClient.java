@@ -17,6 +17,7 @@ import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
+import org.dspace.curate.Curator;
 import org.dspace.handle.factory.HandleServiceFactory;
 import org.dspace.services.factory.DSpaceServicesFactory;
 
@@ -47,7 +48,7 @@ public class IndexClient {
      */
     public static void main(String[] args) throws SQLException, IOException, SearchServiceException {
 
-        Context context = new Context();
+        Context context = Curator.curationContext();
         context.setIgnoreAuthorization(true);
 
         String usage = "org.dspace.discovery.IndexClient [-cbhf] | [-r <handle>] | [-i <handle>] or nothing to update/clean an existing index.";
