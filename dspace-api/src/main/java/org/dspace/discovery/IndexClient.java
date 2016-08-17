@@ -14,6 +14,7 @@ import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.content.factory.ContentServiceFactory;
+import org.dspace.content.service.CommunityService;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
@@ -175,13 +176,13 @@ public class IndexClient {
             Community community = (Community) dso;
             //final String communityHandle = community.getHandle();
             for (Community subcommunity : community.getSubcommunities()) {
+                System.out.println("TBTBb "+count+" "+subcommunity.getID());
                 count += indexAll(indexingService, itemService, context, subcommunity);
-                System.out.println("TBTBb "+count+" "+subcommunity.getHandles().size());
             }
             //final Community reloadedCommunity = (Community) HandleServiceFactory.getInstance().getHandleService().resolveToObject(context, communityHandle);
             for (Collection collection : community.getCollections()) {
                 count++;
-                System.out.println("TBTBd "+count+" "+collection.getHandles().size());
+                System.out.println("TBTBd "+count+" "+collection.getID());
                 indexingService.indexContent(context, collection, true, true);
                 count += indexItems(indexingService, itemService, context, collection);
             }
