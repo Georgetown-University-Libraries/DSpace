@@ -164,8 +164,8 @@ public class IndexClient {
      */
     private static long indexAll(final IndexingService indexingService,
                                  final ItemService itemService,
-                                 final Context context,
-                                 final DSpaceObject dso) throws IOException, SearchServiceException, SQLException {
+                                 Context context,
+                                 DSpaceObject dso) throws IOException, SearchServiceException, SQLException {
         long count = 0;
 
         indexingService.indexContent(context, dso, true, true);
@@ -181,7 +181,7 @@ public class IndexClient {
             //final Community reloadedCommunity = (Community) HandleServiceFactory.getInstance().getHandleService().resolveToObject(context, communityHandle);
             for (Collection collection : community.getCollections()) {
                 count++;
-                System.out.println("TBTBc "+count+" "+collection.getHandles().size());
+                System.out.println("TBTBd "+count+" "+collection.getHandles().size());
                 indexingService.indexContent(context, collection, true, true);
                 count += indexItems(indexingService, itemService, context, collection);
             }
