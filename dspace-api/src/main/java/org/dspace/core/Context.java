@@ -644,25 +644,12 @@ public class Context
     }
 
     /**
-     * Clear the cache of all object that have been read from the database so far. This will also free up
-     * (heap space) memory. You should use this method when processing a large number of records.
-     *
-     * <b>WARNING: After calling this method all previously fetched entities are "detached" (pending
-     * changes are not tracked anymore). You have to reload all entities you still want to work with
-     * manually after this method call (see {@link Context#reloadEntity(ReloadableEntity)}).</b>
-     *
-     * This method will take care of reloading the current user.
-     *
+     * This method performs no action by default.  
+     * Derived classes may provide controlled mechanisms for cache clearing.
      * @throws SQLException When clearing the entity cache fails
      */
 	public void clearCache() throws SQLException {
-        if(log.isDebugEnabled()) {
-            log.debug("Cache size before clear cache is " + getCacheSize());
-        }
-
-		this.getDBConnection().clearCache();
-
-        reloadContextBoundEntities();
+	    //No action - intentional
     }
 
     /**
@@ -718,7 +705,7 @@ public class Context
      * Reload all entities related to this context.
      * @throws SQLException When reloading one of the entities fails.
      */
-    private void reloadContextBoundEntities() throws SQLException {
+    protected void reloadContextBoundEntities() throws SQLException {
         currentUser = reloadEntity(currentUser);
     }
 }
