@@ -217,10 +217,10 @@ public class IndexClient {
             count++;
             // Every so often, clear the context cache to preserve
             // memory, and commit the changes to the search index.
-            if (context.getCacheSize() > 50) {
-                context.clearCache();
-                indexingService.commit();
-            }
+            //if (context.getCacheSize() > 50) {
+            //    context.clearCache();
+            //    indexingService.commit();
+            //}
         }
         indexingService.commit();
 
