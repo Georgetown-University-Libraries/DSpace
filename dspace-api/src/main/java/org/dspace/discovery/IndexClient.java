@@ -179,7 +179,7 @@ public class IndexClient {
             Community community = (Community) dso;
             
             //final String communityHandle = community.getHandle();
-            List<Community> subcommunities = new ArrayList<>(community.getSubcommunities());
+            List<Community> subcommunities = community.getSubcommunities();
             for (Community subcommunity : subcommunities) {
                 subcommunity = context.reloadEntity(subcommunity);
                 //subcommunity = ContentServiceFactory.getInstance().getCommunityService().find(context, subcommunity.getID());
@@ -187,7 +187,8 @@ public class IndexClient {
                 count += indexAll(indexingService, itemService, context, subcommunity);
             }
             //final Community reloadedCommunity = (Community) HandleServiceFactory.getInstance().getHandleService().resolveToObject(context, communityHandle);
-            List<Collection> collections = new ArrayList<>(community.getCollections());  
+            community = context.reloadEntity(community);
+            List<Collection> collections = community.getCollections();  
             for (Collection collection : collections) {
                 collection = context.reloadEntity(collection);
                 //collection = ContentServiceFactory.getInstance().getCollectionService().find(context, collection.getID());
