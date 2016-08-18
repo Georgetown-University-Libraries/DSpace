@@ -168,8 +168,8 @@ public class IndexClient {
                                  final DSpaceObject dso) throws IOException, SearchServiceException, SQLException {
         long count = 0;
 
-        System.out.println("PUSH "+dso.getID());
-        context.push(dso);
+        //System.out.println("PUSH "+dso.getID());
+        //context.push(dso);
         indexingService.indexContent(context, dso, true, true);
         count++;
         if (dso.getType() == Constants.COMMUNITY) {
@@ -186,8 +186,8 @@ public class IndexClient {
         } else if (dso.getType() == Constants.COLLECTION) {
             count += indexItems(indexingService, itemService, context, (Collection) dso);
         }
-        System.out.println("POP  "+dso.getID());
-        context.pop();
+        //System.out.println("POP  "+dso.getID());
+        //context.pop();
 
         return count;
     }
