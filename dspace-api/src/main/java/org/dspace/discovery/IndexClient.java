@@ -168,15 +168,12 @@ public class IndexClient {
                                  final DSpaceObject dso) throws IOException, SearchServiceException, SQLException {
         long count = 0;
 
+        context.push(dso);
         indexingService.indexContent(context, dso, true, true);
         count++;
         if (dso.getType() == Constants.COMMUNITY) {
-            context.push(dso);
-            Community community = (Community) dso;
             for (final Community subcommunity : ((Community)context.currentEntity()).getSubcommunities()) {
-                context.push(subcommunity);
-                count += indexAll(indexingService, itemService, context, subcommunity);
-                context.pop();
+                count += indexAll(indexingService, itemService, context, (Community)context.currentEntity());
             }
             for (final Collection collection : ((Community)context.currentEntity()).getCollections()) {
                 context.push(collection);
@@ -185,12 +182,10 @@ public class IndexClient {
                 count += indexItems(indexingService, itemService, context, collection);
                 context.pop();
             }
-            context.pop();
         } else if (dso.getType() == Constants.COLLECTION) {
-            context.push(dso);
             count += indexItems(indexingService, itemService, context, (Collection) dso);
-            context.pop();
         }
+        context.pop();
 
         return count;
     }
