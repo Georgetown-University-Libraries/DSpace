@@ -181,6 +181,7 @@ public class IndexClient {
             //final String communityHandle = community.getHandle();
             List<Community> subcommunities = community.getSubcommunities();
             for (Community subcommunity : subcommunities) {
+                context.reloadEntity(subcommunity);
                 //subcommunity = ContentServiceFactory.getInstance().getCommunityService().find(context, subcommunity.getID());
                 System.out.println("TBTBb "+count+" "+subcommunity.getID());
                 count += indexAll(indexingService, itemService, context, subcommunity);
@@ -188,6 +189,7 @@ public class IndexClient {
             //final Community reloadedCommunity = (Community) HandleServiceFactory.getInstance().getHandleService().resolveToObject(context, communityHandle);
             List<Collection> collections = community.getCollections();
             for (Collection collection : collections) {
+                context.reloadEntity(collection);
                 //collection = ContentServiceFactory.getInstance().getCollectionService().find(context, collection.getID());
                 count++;
                 System.out.println("TBTBd "+count+" "+collection.getID());
@@ -217,10 +219,10 @@ public class IndexClient {
             count++;
             // Every so often, clear the context cache to preserve
             // memory, and commit the changes to the search index.
-            //if (context.getCacheSize() > 50) {
-            //    context.clearCache();
-            //    indexingService.commit();
-            //}
+            if (context.getCacheSize() > 50) {
+                context.clearCache();
+                indexingService.commit();
+            }
         }
         indexingService.commit();
 
