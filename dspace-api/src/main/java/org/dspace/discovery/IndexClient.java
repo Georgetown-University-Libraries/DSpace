@@ -168,23 +168,27 @@ public class IndexClient {
                                  final DSpaceObject dso) throws IOException, SearchServiceException, SQLException {
         long count = 0;
 
+        System.out.println("PUSH "+dso.getID());
         context.push(dso);
         indexingService.indexContent(context, dso, true, true);
         count++;
         if (dso.getType() == Constants.COMMUNITY) {
             for (final Community subcommunity : ((Community)context.currentEntity()).getSubcommunities()) {
-                count += indexAll(indexingService, itemService, context, (Community)context.currentEntity());
+                count += indexAll(indexingService, itemService, context, subcommunity);
             }
             for (final Collection collection : ((Community)context.currentEntity()).getCollections()) {
+                System.out.println("PUSH+"+collection.getID());
                 context.push(collection);
                 count++;
                 indexingService.indexContent(context, collection, true, true);
                 count += indexItems(indexingService, itemService, context, collection);
+                System.out.println("POP +"+collection.getID());
                 context.pop();
             }
         } else if (dso.getType() == Constants.COLLECTION) {
             count += indexItems(indexingService, itemService, context, (Collection) dso);
         }
+        System.out.println("POP  "+dso.getID());
         context.pop();
 
         return count;
