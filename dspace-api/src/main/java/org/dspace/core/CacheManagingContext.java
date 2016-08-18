@@ -29,6 +29,17 @@ public class CacheManagingContext extends Context {
     }
 
     /*
+     * Pop and item off of the reloadable entity cache
+     */
+    public ReloadableEntity<?> currentEntity(){
+        if (reloadableEntityStack.isEmpty()) {
+            return null;
+        }
+        return reloadableEntityStack.get(reloadableEntityStack.size() - 1);
+    }
+
+    
+    /*
      * Clear the reloadable entity stack
      */
     public void clearReloadableCache() {
@@ -67,7 +78,11 @@ public class CacheManagingContext extends Context {
     protected void reloadContextBoundEntities() throws SQLException {
         super.reloadContextBoundEntities();
         for(int i=0; i<reloadableEntityStack.size(); i++) {
-            reloadableEntityStack.set(i, this.reloadEntity(reloadableEntityStack.get(i)));
+            ReloadableEntity<?> ent = reloadableEntityStack.get(i);
+            System.out.println("Reloading "+ent.getID());
+            log.debug("Reloading entity: " + ent.getID());
+            reloadEntity(ent);
+            reloadableEntityStack.set(i, this.reloadEntity(ent));
         }
     }
 }
