@@ -180,13 +180,13 @@ public class IndexClient {
             
             //final String communityHandle = community.getHandle();
             for (Community subcommunity : community.getSubcommunities()) {
-                subcommunity = ContentServiceFactory.getInstance().getCommunityService().find(context, subcommunity.getID());
+                //subcommunity = ContentServiceFactory.getInstance().getCommunityService().find(context, subcommunity.getID());
                 System.out.println("TBTBb "+count+" "+subcommunity.getID());
                 count += indexAll(indexingService, itemService, context, subcommunity);
             }
             //final Community reloadedCommunity = (Community) HandleServiceFactory.getInstance().getHandleService().resolveToObject(context, communityHandle);
             for (Collection collection : community.getCollections()) {
-                collection = ContentServiceFactory.getInstance().getCollectionService().find(context, collection.getID());
+                //collection = ContentServiceFactory.getInstance().getCollectionService().find(context, collection.getID());
                 count++;
                 System.out.println("TBTBd "+count+" "+collection.getID());
                 

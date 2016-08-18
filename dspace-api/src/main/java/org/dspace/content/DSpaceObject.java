@@ -43,7 +43,7 @@ public abstract class DSpaceObject implements Serializable, ReloadableEntity<jav
     @OrderBy("metadataField, place")
     private List<MetadataValue> metadata = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dso")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dso")
     // Order by is here to ensure that the oldest handle is retrieved first,
     // multiple handles are assigned to the latest version of an item the original handle will have the lowest identifier
     // This handle is the preferred handle.
