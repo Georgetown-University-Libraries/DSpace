@@ -173,11 +173,11 @@ public class IndexClient {
         indexingService.indexContent(context, dso, true, true);
         count++;
         if (dso.getType() == Constants.COMMUNITY) {
-            for (Community subcommunity : ((Community)context.currentEntity()).getSubcommunities()) {
+            for (Community subcommunity : ((Community)dso).getSubcommunities()) {
                 subcommunity = context.reloadEntity(subcommunity);
                 count += indexAll(indexingService, itemService, context, context.reloadEntity(subcommunity));
             }
-            for (Collection collection : ((Community)context.currentEntity()).getCollections()) {
+            for (Collection collection : ((Community)context.reloadEntity(dso)).getCollections()) {
                 collection = context.reloadEntity(collection);
                 count++;
                 indexingService.indexContent(context, collection, true, true);
