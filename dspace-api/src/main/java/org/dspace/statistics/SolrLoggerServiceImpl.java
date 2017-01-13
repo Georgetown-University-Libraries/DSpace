@@ -1282,6 +1282,8 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
                 statisticsYearServer.request(contentStreamUpdateRequest);
             }
             statisticsYearServer.commit(true, true);
+            log.info("TBTB Invoked logout...");
+            statisticsYearServer.shutdown();
 
 
             //Delete contents of this year from our year query !
