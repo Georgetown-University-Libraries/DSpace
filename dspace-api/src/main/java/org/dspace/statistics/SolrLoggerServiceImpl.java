@@ -1282,9 +1282,6 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
                 statisticsYearServer.request(contentStreamUpdateRequest);
             }
             statisticsYearServer.commit(true, true);
-            log.info("TBTB Invoked logout...");
-            statisticsYearServer.shutdown();
-
 
             //Delete contents of this year from our year query !
             solr.deleteByQuery(filterQuery.toString());
@@ -1293,7 +1290,8 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
             log.info("Moved " + totalRecords + " records into core: " + coreName);
         }
 
-        FileUtils.deleteDirectory(tempDirectory);
+        log.info("TBTB x");
+        //FileUtils.deleteDirectory(tempDirectory);
     }
 
     protected HttpSolrServer createCore(HttpSolrServer solr, String coreName) throws IOException, SolrServerException {
