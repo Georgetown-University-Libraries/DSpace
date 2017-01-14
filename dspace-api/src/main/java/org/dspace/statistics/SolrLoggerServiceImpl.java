@@ -1301,11 +1301,11 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         CoreAdminRequest.Create create = new CoreAdminRequest.Create();
         log.info("TBTB x2");        
         create.setCoreName(coreName);
-        log.info("TBTB x3");        
+        log.info("TBTB x3 "+coreName);        
         create.setInstanceDir(coreName);
         log.info("TBTB x4");        
         create.setDataDir(solrDir + coreName + File.separator + "data");
-        log.info("TBTB x5");        
+        log.info("TBTB x5" + solrDir + coreName + File.separator + "data");        
         HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl);
         log.info("TBTB x6");        
         create.process(solrServer);
