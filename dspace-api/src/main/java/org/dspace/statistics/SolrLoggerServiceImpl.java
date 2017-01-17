@@ -1306,11 +1306,11 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         create.setCoreName(coreName);
         create.setInstanceDir("statistics");
         create.setDataDir(solrDir + coreName + File.separator + "data");
-        HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl);
+        HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl + coreName);
         create.process(solrServer);
         log.info("Created core with name: " + coreName);
         log.info("Created core with url: " + baseSolrUrl + coreName);
-        return new HttpSolrServer(baseSolrUrl + coreName);
+        return solrServer;
     }
 
 
