@@ -1301,8 +1301,8 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         log.info("TBTB base solr url: " + baseSolrUrl);
         log.info("TBTB solr dir: " + solrDir);
         log.info("TBTB data dir: " + solrDir + coreName + File.separator + "data");
-        log.info("TBTB Created core with url: " + baseSolrUrl + coreName);
-        CoreAdminRequest.Create create = new CoreAdminRequest.Create();
+        log.info("TBTB Created core with url: " + baseSolrUrl + coreName); 
+        CoreAdminRequest.Create create = new CoreAdminRequest.Create(); 
         create.setCoreName(coreName);
         create.setInstanceDir("statistics");
         create.setDataDir(solrDir + coreName + File.separator + "data");
