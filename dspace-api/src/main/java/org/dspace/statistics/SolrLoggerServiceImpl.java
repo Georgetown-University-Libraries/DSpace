@@ -1299,7 +1299,7 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         String baseSolrUrl = solr.getBaseURL().replace("statistics", "");
         CoreAdminRequest.Create create = new CoreAdminRequest.Create();
         create.setCoreName(coreName);
-        create.setInstanceDir(coreName);
+        create.setInstanceDir("statistics");
         create.setDataDir(solrDir + coreName + File.separator + "data");
         HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl + "/" + coreName);
         create.process(solrServer);
