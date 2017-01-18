@@ -1306,10 +1306,10 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         create.setDataDir(solrDir + coreName + File.separator + "data");
         log.info("TBTB base solr url: " + baseSolrUrl);
         HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl);
-        log.info("Creating process: ");
+        log.info("TBTB Creating process: ");
         create.process(solrServer);
         log.info("TBTB Returning url: " + baseSolrUrl + "/" + coreName); 
-        log.info("Created core with name: " + coreName);
+        log.info("TBTB Created core with name: " + coreName);
         return new HttpSolrServer(baseSolrUrl + "/" + coreName);
     }
 
