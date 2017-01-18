@@ -1297,20 +1297,20 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
     protected HttpSolrServer createCore(HttpSolrServer solr, String coreName) throws IOException, SolrServerException {
         String solrDir = configurationService.getProperty("dspace.dir") + File.separator + "solr" + File.separator;
         String baseSolrUrl = solr.getBaseURL().replace("statistics", "");
-        log.info("TBTB Created core with name: " + coreName);
-        log.info("TBTB base solr url: " + baseSolrUrl);
-        log.info("TBTB solr dir: " + solrDir);
-        log.info("TBTB data dir: " + solrDir + coreName + File.separator + "data");
-        log.info("TBTB Created core with url: " + baseSolrUrl + coreName); 
-        CoreAdminRequest.Create create = new CoreAdminRequest.Create(); 
+        log.info("TBTB Creating core with name: " + coreName);
+        CoreAdminRequest.Create create = new CoreAdminRequest.Create();
         create.setCoreName(coreName);
         create.setInstanceDir("statistics");
+        log.info("TBTB solr dir: " + solrDir);
+        log.info("TBTB data dir: " + solrDir + coreName + File.separator + "data");
         create.setDataDir(solrDir + coreName + File.separator + "data");
-        HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl + coreName);
+        log.info("TBTB base solr url: " + baseSolrUrl);
+        HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl);
+        log.info("Creating process: ");
         create.process(solrServer);
+        log.info("TBTB Returning url: " + baseSolrUrl + "/" + coreName); 
         log.info("Created core with name: " + coreName);
-        log.info("Created core with url: " + baseSolrUrl + coreName);
-        return solrServer;
+        return new HttpSolrServer(baseSolrUrl + "/" + coreName);
     }
 
 
