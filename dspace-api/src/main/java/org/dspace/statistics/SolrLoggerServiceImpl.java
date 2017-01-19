@@ -1305,10 +1305,10 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         log.info("TBTB data dir: " + solrDir + coreName + File.separator + "data");
         create.setDataDir(solrDir + coreName + File.separator + "data");
         log.info("TBTB base solr url: " + baseSolrUrl);
-        HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl);
+        HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl + "/" + coreName);
         log.info("TBTB Creating process: ");
         try {
-            //create.process(solrServer);
+            create.process(solrServer);
         } catch (Exception e) {
             log.error("TBTB1",e);
         }
