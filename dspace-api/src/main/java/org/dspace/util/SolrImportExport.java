@@ -607,6 +607,11 @@ public class SolrImportExport
                 monthQuery.setStart(i);
                 URL url = new URL(solrUrl + "/select?" + monthQuery.toString());
 
+                log.info("TBTB: " + makeExportFilename(indexName, monthStartDate, docsThisMonth, i));
+                log.info("TBTB:msd" + monthStartDate);
+                log.info("TBTB:dtm " + docsThisMonth);
+                log.info("TBTB:i  : " + i);
+                
                 File file = new File(toDir.getCanonicalPath(), makeExportFilename(indexName, monthStartDate, docsThisMonth, i));
                 if (file.createNewFile())
                 {
@@ -738,6 +743,10 @@ public class SolrImportExport
     {
         HelpFormatter myhelp = new HelpFormatter();
         myhelp.printHelp(SolrImportExport.class.getSimpleName() + "\n", options);
+        System.out.println("\n\nCommand Defaults");
+        System.out.println("\tsolr-export-statistics  [-a export]  [-i statistics]");
+        System.out.println("\tsolr-import-statistics  [-a import]  [-i statistics]");
+        System.out.println("\tsolr-reindex-statistics [-a reindex] [-i statistics]");
         System.exit(exitCode);
     }
 }
