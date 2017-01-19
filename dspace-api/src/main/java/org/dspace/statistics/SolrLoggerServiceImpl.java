@@ -1310,16 +1310,14 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         try {
             create.process(solrServer);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("TBTB1",e);
         }
         log.info("TBTB Returning url: " + baseSolrUrl + "/" + coreName); 
         log.info("TBTB Created core with name: " + coreName);
         try {
             return new HttpSolrServer(baseSolrUrl + "/" + coreName);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("TBTB2",e);
             return solrServer;
         }
     }
