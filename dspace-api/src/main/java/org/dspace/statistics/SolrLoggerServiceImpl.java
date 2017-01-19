@@ -1308,7 +1308,7 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl);
         log.info("TBTB Creating process: ");
         try {
-            create.process(solrServer);
+            //create.process(solrServer);
         } catch (Exception e) {
             log.error("TBTB1",e);
         }
