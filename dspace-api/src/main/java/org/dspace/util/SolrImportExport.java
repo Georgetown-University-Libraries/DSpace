@@ -102,12 +102,15 @@ public class SolrImportExport
                 printHelpAndExit(options, 0);
             }
 
-            if (!line.hasOption(INDEX_NAME_OPTION))
+            String[] indexNames = {"statistics"};
+            if (line.hasOption(INDEX_NAME_OPTION))
             {
-                System.err.println("This command requires the index-name option but none was present.");
-                printHelpAndExit(options, 1);
+                indexNames = line.getOptionValues(INDEX_NAME_OPTION);
+            } 
+            else 
+            {
+                System.err.println("No index name was provided.  Defaulting to 'statistics'.");
             }
-            String[] indexNames = line.getOptionValues(INDEX_NAME_OPTION);
 
             String directoryName = makeDirectoryName(line.getOptionValue(DIRECTORY_OPTION));
 
@@ -607,23 +610,26 @@ public class SolrImportExport
                 monthQuery.setStart(i);
                 URL url = new URL(solrUrl + "/select?" + monthQuery.toString());
 
-                log.info("TBTB: " + makeExportFilename(indexName, monthStartDate, docsThisMonth, i));
-                log.info("TBTB:msd" + monthStartDate);
-                log.info("TBTB:dtm " + docsThisMonth);
-                log.info("TBTB:i  : " + i);
                 
                 File file = new File(toDir.getCanonicalPath(), makeExportFilename(indexName, monthStartDate, docsThisMonth, i));
                 if (file.createNewFile())
                 {
                     FileUtils.copyURLToFile(url, file);
-                    log.info("Exported batch " + i + " to " + file.getCanonicalPath());
+                    String message = String.format("Solr export to file [%s] complete.  Export for Index [%s] Month [%s] Batch [%d] Num Docs [%d]", 
+                            file.getCanonicalPath(), indexName, monthStart, i, docsThisMonth);
+                    log.info(message);
+                }
+                else if (file.exists())
+                {
+                    String message = String.format("Solr export file [%s] already exists.  Export failed for Index [%s] Month [%s] Batch [%d] Num Docs [%d]", 
+                            file.getCanonicalPath(), indexName, monthStart, i, docsThisMonth);
+                    throw new SolrImportExportException(message);
                 }
                 else
                 {
-                    throw new SolrImportExportException("Could not create file " + file.getCanonicalPath()
-                        + " while exporting index " + indexName
-                        + ", month" + monthStart
-                        + ", batch " + i);
+                    String message = String.format("Cannot create solr export file [%s].  Export failed for Index [%s] Month [%s] Batch [%d] Num Docs [%d]", 
+                            file.getCanonicalPath(), indexName, monthStart, i, docsThisMonth);
+                    throw new SolrImportExportException(message);
                 }
             }
         }
