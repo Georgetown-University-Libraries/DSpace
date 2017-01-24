@@ -1299,8 +1299,7 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         create.setCoreName(coreName);
         create.setInstanceDir("statistics");
         create.setDataDir(solrDir + coreName + File.separator + "data");
-        HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl);
-        create.process(solrServer);
+        create.process(returnServer);
         log.info("Created core with name: " + coreName);
         return returnServer;
     }
