@@ -450,6 +450,7 @@ public class SolrImportExport
 				contentStreamUpdateRequest.setParam("skip", "_version_");
 			}
             contentStreamUpdateRequest.setParam("escape", "\\");
+            contentStreamUpdateRequest.setParam("encapsulator", "\"");
 			for (String mvField : multivaluedFields) {
 				contentStreamUpdateRequest.setParam("f." + mvField + ".split", "true");
 				//comma is the documented default
