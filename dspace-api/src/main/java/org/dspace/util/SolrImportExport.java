@@ -452,7 +452,7 @@ public class SolrImportExport
 			for (String mvField : multivaluedFields) {
 				contentStreamUpdateRequest.setParam("f." + mvField + ".split", "true");
 				contentStreamUpdateRequest.setParam("f." + mvField + ".escape", "\\");
-				contentStreamUpdateRequest.setParam("f." + mvField + ".separator", MULTIPLE_VALUES_SPLITTER);
+				//contentStreamUpdateRequest.setParam("f." + mvField + ".separator", MULTIPLE_VALUES_SPLITTER);
 			}
 			contentStreamUpdateRequest.setParam("stream.contentType", "text/csv;charset=utf-8");
 			contentStreamUpdateRequest.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
@@ -540,14 +540,6 @@ public class SolrImportExport
 		HttpSolrServer solr = new HttpSolrServer(solrUrl);
 
 		SolrQuery query = new SolrQuery("*:*");
-
-        List<String> multivaluedFields = getMultiValuedFields(solr);
-
-        for (String mvField : multivaluedFields) {
-            query.setParam("f." + mvField + ".split", "true");
-            query.setParam("f." + mvField + ".escape", "\\");
-            query.setParam("f." + mvField + ".separator", MULTIPLE_VALUES_SPLITTER);
-        }
 
 		if (StringUtils.isNotBlank(fromWhen))
 		{
