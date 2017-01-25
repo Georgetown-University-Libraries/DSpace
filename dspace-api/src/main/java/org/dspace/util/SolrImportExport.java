@@ -449,8 +449,9 @@ public class SolrImportExport
 			{
 				contentStreamUpdateRequest.setParam("skip", "_version_");
 			}
-            contentStreamUpdateRequest.setParam("escape", "\\");
-            contentStreamUpdateRequest.setParam("encapsulator", "\"");
+            contentStreamUpdateRequest.setParam("csv.mv.escape", "\\");
+            contentStreamUpdateRequest.setParam("csv.mv.encapsulator", "\"");
+            contentStreamUpdateRequest.setParam("csv.mv.separator", ",");
 			for (String mvField : multivaluedFields) {
 				contentStreamUpdateRequest.setParam("f." + mvField + ".split", "true");
 				//comma is the documented default
