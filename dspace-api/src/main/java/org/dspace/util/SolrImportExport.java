@@ -449,9 +449,10 @@ public class SolrImportExport
 			{
 				contentStreamUpdateRequest.setParam("skip", "_version_");
 			}
+            contentStreamUpdateRequest.setParam("escape", "\\");
 			for (String mvField : multivaluedFields) {
 				contentStreamUpdateRequest.setParam("f." + mvField + ".split", "true");
-				contentStreamUpdateRequest.setParam("f." + mvField + ".escape", "\\");
+				//comma is the documented default
 				//contentStreamUpdateRequest.setParam("f." + mvField + ".separator", MULTIPLE_VALUES_SPLITTER);
 			}
 			contentStreamUpdateRequest.setParam("stream.contentType", "text/csv;charset=utf-8");
