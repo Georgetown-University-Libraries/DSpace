@@ -65,6 +65,8 @@ public class SolrImportExport
 	public static final int ROWS_PER_FILE = 10_000;
 
 	private static final Logger log = Logger.getLogger(SolrImportExport.class);
+	
+	private static final String MULTIPLE_VALUES_SPLITTER = "|";
 
 	/**
 	 * Entry point for command-line invocation
@@ -448,8 +450,10 @@ public class SolrImportExport
 				contentStreamUpdateRequest.setParam("skip", "_version_");
 			}
 			for (String mvField : multivaluedFields) {
+			    log.info("TBTB " + mvField);
 				contentStreamUpdateRequest.setParam("f." + mvField + ".split", "true");
 				contentStreamUpdateRequest.setParam("f." + mvField + ".escape", "\\");
+				contentStreamUpdateRequest.setParam("f." + mvField + ".separator", MULTIPLE_VALUES_SPLITTER);
 			}
 			contentStreamUpdateRequest.setParam("stream.contentType", "text/csv;charset=utf-8");
 			contentStreamUpdateRequest.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
