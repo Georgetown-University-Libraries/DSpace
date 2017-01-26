@@ -1288,6 +1288,13 @@ public class SolrLogger
             //Create a range query from this !
             //We start with out current year
             DCDate dcStart = new DCDate(count.getValue());
+            
+            log.info("TBTB "+count.getValue());
+            log.info("TBTB "+dcStart);
+            log.info("TBTB "+dcStart.getYear());
+            log.info("TBTB "+dcStart.getYearUTC());
+            
+            
             Calendar endDate = Calendar.getInstance();
             //Advance one year for the start of the next one !
             endDate.setTime(dcStart.toDate());
