@@ -66,7 +66,7 @@ public class SolrImportExport
 
 	private static final Logger log = Logger.getLogger(SolrImportExport.class);
 	
-	private static final String MULTIPLE_VALUES_SPLITTER = "|";
+	private static final String MULTIPLE_VALUES_SPLITTER = ",";
 
 	/**
 	 * Entry point for command-line invocation
