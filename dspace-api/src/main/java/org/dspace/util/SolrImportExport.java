@@ -573,7 +573,6 @@ public class SolrImportExport
 		query.add(FacetParams.FACET_RANGE_END, "NOW/MONTH+1MONTH");
 		query.add(FacetParams.FACET_RANGE_GAP, "+1MONTH");
 		query.setFacetMinCount(1);
-		query.setParam("mv.separator", MULTIPLE_VALUES_SPLITTER);
 
 		List<RangeFacet.Count> monthFacets = solr.query(query).getFacetRanges().get(0).getCounts();
 
@@ -594,6 +593,7 @@ public class SolrImportExport
 			monthQuery.setRows(ROWS_PER_FILE);
 			monthQuery.set("wt", "csv");
 			monthQuery.set("fl", "*");
+	        monthQuery.setParam("mv.separator", MULTIPLE_VALUES_SPLITTER);
 
 			monthQuery.addFilterQuery(timeField + ":[" +monthStart + " TO " + monthStart + "+1MONTH]");
 
