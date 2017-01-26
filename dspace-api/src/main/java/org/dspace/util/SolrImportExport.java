@@ -450,12 +450,9 @@ public class SolrImportExport
 				contentStreamUpdateRequest.setParam("skip", "_version_");
 			}
             contentStreamUpdateRequest.setParam("csv.mv.escape", "\\");
-            contentStreamUpdateRequest.setParam("csv.mv.encapsulator", "\"");
-            contentStreamUpdateRequest.setParam("csv.mv.separator", ",");
 			for (String mvField : multivaluedFields) {
 				contentStreamUpdateRequest.setParam("f." + mvField + ".split", "true");
-				//comma is the documented default
-				//contentStreamUpdateRequest.setParam("f." + mvField + ".separator", MULTIPLE_VALUES_SPLITTER);
+				contentStreamUpdateRequest.setParam("f." + mvField + ".separator", MULTIPLE_VALUES_SPLITTER);
 			}
 			contentStreamUpdateRequest.setParam("stream.contentType", "text/csv;charset=utf-8");
 			contentStreamUpdateRequest.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
@@ -576,7 +573,8 @@ public class SolrImportExport
 		query.add(FacetParams.FACET_RANGE_END, "NOW/MONTH+1MONTH");
 		query.add(FacetParams.FACET_RANGE_GAP, "+1MONTH");
 		query.setFacetMinCount(1);
-
+		query.add("csv.escape", "\\");
+		query.add("csv.mv.separator", MULTIPLE_VALUES_SPLITTER);
 		List<RangeFacet.Count> monthFacets = solr.query(query).getFacetRanges().get(0).getCounts();
 
 		for (RangeFacet.Count monthFacet : monthFacets) {
