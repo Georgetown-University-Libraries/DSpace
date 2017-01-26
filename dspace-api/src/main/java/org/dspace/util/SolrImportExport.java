@@ -578,10 +578,9 @@ public class SolrImportExport
 
         List<String> multivaluedFields = getMultiValuedFields(solr);
         for (String mvField : multivaluedFields) {
-            query.setParam("f." + mvField + ".split", "true");
-            query.setParam("f." + mvField + ".separator", MULTIPLE_VALUES_SPLITTER);
+            query.add("f." + mvField + ".split", "true");
+            query.add("f." + mvField + ".separator", MULTIPLE_VALUES_SPLITTER);
         }
-
 		
 		List<RangeFacet.Count> monthFacets = solr.query(query).getFacetRanges().get(0).getCounts();
 
