@@ -126,6 +126,7 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
             try
             {
                 server = new HttpSolrServer(configurationService.getProperty("solr-statistics.server"));
+                createCore(server, "statistics");
 
                 //Attempt to retrieve all the statistic year cores
                 File solrDir = new File(configurationService.getProperty("dspace.dir") + File.separator + "solr" + File.separator);
