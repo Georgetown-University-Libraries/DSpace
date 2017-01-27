@@ -10,6 +10,10 @@ package org.dspace.app.util;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.apache.log4j.Logger;
+import org.dspace.services.factory.DSpaceServicesFactory;
+import org.dspace.statistics.service.SolrLoggerService;
+
 /**
  * Class that registers the web application upon startup of the application.
  *
@@ -18,6 +22,7 @@ import javax.servlet.ServletContextListener;
 public class DSpaceWebappListener implements ServletContextListener {
 
     private AbstractDSpaceWebapp webApp;
+    private static final Logger log = Logger.getLogger(DSpaceWebappListener.class);
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -25,7 +30,11 @@ public class DSpaceWebappListener implements ServletContextListener {
         * Register that this application is running.
         */
 
-       try {
+        log.info("TBTB dwl services init bef");
+        DSpaceServicesFactory.getInstance().getServiceManager().getServiceByName("solrLoggerService", SolrLoggerService.class).initSolrYearCores();
+        log.info("TBTB dwl services init aft");
+
+        try {
            Class webappClass = Class.forName("org.dspace.utils.DSpaceWebapp");
            webApp = (AbstractDSpaceWebapp) webappClass.newInstance();
            webApp.register();
