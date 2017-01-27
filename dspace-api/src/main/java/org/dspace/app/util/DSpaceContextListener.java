@@ -36,7 +36,6 @@ public class DSpaceContextListener implements ServletContextListener
     @Override
     public void contextInitialized(ServletContextEvent event)
     {
-        DSpaceServicesFactory.getInstance().getServiceManager().getServiceByName("solrLoggerService", SolrLoggerService.class).initSolrYearCores();
         
         // On Windows, URL caches can cause problems, particularly with undeployment
         // So, here we attempt to disable them if we detect that we are running on Windows

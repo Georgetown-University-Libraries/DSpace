@@ -14,9 +14,14 @@ import javax.naming.InitialContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.apache.jena.atlas.logging.Log;
+import org.apache.log4j.Logger;
 import org.dspace.servicemanager.DSpaceKernelImpl;
 import org.dspace.servicemanager.DSpaceKernelInit;
 import org.dspace.servicemanager.config.DSpaceConfigurationService;
+import org.dspace.services.factory.DSpaceServicesFactory;
+import org.dspace.statistics.SolrLoggerServiceImpl;
+import org.dspace.statistics.service.SolrLoggerService;
 
 
 /**
@@ -69,11 +74,18 @@ public final class DSpaceKernelServletContextListener implements ServletContextL
 		return providedHome;
     }
     
+    private static final Logger log = Logger.getLogger(DSpaceKernelServletContextListener.class);
+
     /* (non-Javadoc)
      * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent arg0)
     {
+        log.info("TBTB services init bef");
+        DSpaceServicesFactory.getInstance().getServiceManager().getServiceByName("solrLoggerService", SolrLoggerService.class).initSolrYearCores();
+        log.info("TBTB services init aft");
+
+        
         // start the kernel when the webapp starts
         try {
             this.kernelImpl = DSpaceKernelInit.getKernel(null);
