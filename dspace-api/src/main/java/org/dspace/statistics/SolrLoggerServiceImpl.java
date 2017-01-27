@@ -130,11 +130,13 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         }
         solr = server;
         try {
+            log.info("TBTB sleep before ping ");
+            Thread.sleep(3000);
             log.info("TBTB ping "+solr.ping().toString());
         } catch (Exception e1) {
             log.error("TBTB ping fail", e1);
         }
-        
+      
 
         // Read in the file so we don't have to do it all the time
         //spiderIps = SpiderDetector.getSpiderIpAddresses();
