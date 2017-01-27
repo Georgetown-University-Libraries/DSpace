@@ -131,7 +131,8 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         solr = server;
         try {
             log.info("TBTB sleep before ping ");
-            Thread.sleep(3000);
+            Thread.sleep(12000);
+            log.info("TBTB sleep after ping ");
             log.info("TBTB ping "+solr.ping().toString());
         } catch (Exception e1) {
             log.error("TBTB ping fail", e1);
