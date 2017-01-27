@@ -43,6 +43,7 @@ import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
 import org.dspace.eperson.Group;
 import org.dspace.services.ConfigurationService;
+import org.dspace.statistics.factory.StatisticsServiceFactory;
 import org.dspace.statistics.service.SolrLoggerService;
 import org.dspace.statistics.util.DnsLookup;
 import org.dspace.statistics.util.LocationUtils;
@@ -126,8 +127,9 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
             try
             {
                 server = new HttpSolrServer(configurationService.getProperty("solr-statistics.server"));
-                log.error("TBTB Create statistics", new Exception("Test"));
-                createCore(server, "statistics");
+                solr = server;
+                log.info("TBTB Create statistics");
+                log.info("TBTB Create statistics " + StatisticsServiceFactory.getInstance().getSolrLoggerService().queryTotal("*:*", "").getCount());
 
                 //Attempt to retrieve all the statistic year cores
                 File solrDir = new File(configurationService.getProperty("dspace.dir") + File.separator + "solr" + File.separator);
