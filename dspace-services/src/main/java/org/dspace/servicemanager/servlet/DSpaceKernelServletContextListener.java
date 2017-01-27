@@ -14,13 +14,11 @@ import javax.naming.InitialContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.jena.atlas.logging.Log;
 import org.apache.log4j.Logger;
 import org.dspace.servicemanager.DSpaceKernelImpl;
 import org.dspace.servicemanager.DSpaceKernelInit;
 import org.dspace.servicemanager.config.DSpaceConfigurationService;
 import org.dspace.services.factory.DSpaceServicesFactory;
-import org.dspace.statistics.SolrLoggerServiceImpl;
 import org.dspace.statistics.service.SolrLoggerService;
 
 
