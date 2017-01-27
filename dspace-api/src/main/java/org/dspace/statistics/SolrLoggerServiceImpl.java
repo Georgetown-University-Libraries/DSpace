@@ -126,8 +126,15 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         if (configurationService.getProperty("solr-statistics.server") != null)
         {
             server = new HttpSolrServer(configurationService.getProperty("solr-statistics.server"));
+            log.info("TBTB solr server started");
         }
         solr = server;
+        try {
+            log.info("TBTB ping "+solr.ping().toString());
+        } catch (Exception e1) {
+            log.error("TBTB ping fail", e1);
+        }
+        
 
         // Read in the file so we don't have to do it all the time
         //spiderIps = SpiderDetector.getSpiderIpAddresses();
@@ -1498,10 +1505,11 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         }
     }
     
-    protected void initSolrYearCores() {
+    protected synchronized void initSolrYearCores() {
         if (statisticYearCoresInit) {
             return;
         }
+        statisticYearCoresInit = true;
         try
         {
              log.info("TBTB in SolrLooggerService init");
@@ -1531,6 +1539,5 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
-        statisticYearCoresInit = true;
     }
 }
