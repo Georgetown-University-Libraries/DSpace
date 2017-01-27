@@ -19,10 +19,10 @@ import org.dspace.statistics.service.SolrLoggerService;
  *
  * @author kevinvandevelde at atmire.com
  */
-public class DSpaceWebappListener implements ServletContextListener {
+public class DSpaceWebappListener2 implements ServletContextListener {
 
     private AbstractDSpaceWebapp webApp;
-    private static final Logger log = Logger.getLogger(DSpaceWebappListener.class);
+    private static final Logger log = Logger.getLogger(DSpaceWebappListener2.class);
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -30,17 +30,9 @@ public class DSpaceWebappListener implements ServletContextListener {
         * Register that this application is running.
         */
 
-        try {
-           Class webappClass = Class.forName("org.dspace.utils.DSpaceWebapp");
-           webApp = (AbstractDSpaceWebapp) webappClass.newInstance();
-           webApp.register();
-       } catch (ClassNotFoundException ex) {
-           event.getServletContext().log("Can't create webapp MBean:  " + ex.getMessage());
-       } catch (InstantiationException ex) {
-           event.getServletContext().log("Can't create webapp MBean:  " + ex.getMessage());
-       } catch (IllegalAccessException ex) {
-           event.getServletContext().log("Can't create webapp MBean:  " + ex.getMessage());
-       }
+        log.info("TBTB dwl services init bef");
+        DSpaceServicesFactory.getInstance().getServiceManager().getServiceByName("solrLoggerService", SolrLoggerService.class).initSolrYearCores();
+        log.info("TBTB dwl services init aft");
     }
 
     @Override

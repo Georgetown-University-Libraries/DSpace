@@ -108,6 +108,9 @@
   <listener>
     <listener-class>org.dspace.solr.filters.ConfigureLog4jListener</listener-class>
   </listener>
+    <listener>
+        <listener-class>org.dspace.app.util.DSpaceWebappListener2</listener-class>
+    </listener>
 
  <servlet>
     <servlet-name>Zookeeper</servlet-name>
