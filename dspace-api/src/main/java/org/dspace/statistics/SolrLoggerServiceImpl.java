@@ -85,6 +85,7 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
     protected boolean useProxies;
 
     private static List<String> statisticYearCores = new ArrayList<String>();
+    private static boolean statisticYearCoresInit = false;
 
     @Autowired(required = true)
     protected BitstreamService bitstreamService;
@@ -124,37 +125,7 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         
         if (configurationService.getProperty("solr-statistics.server") != null)
         {
-            try
-            {
-                server = new HttpSolrServer(configurationService.getProperty("solr-statistics.server"));
-                solr = server;
-                log.info("TBTB Create statistics");
-                log.info("TBTB Create statistics " + StatisticsServiceFactory.getInstance().getSolrLoggerService().queryTotal("*:*", "").getCount());
-
-                //Attempt to retrieve all the statistic year cores
-                File solrDir = new File(configurationService.getProperty("dspace.dir") + File.separator + "solr" + File.separator);
-                File[] solrCoreFiles = solrDir.listFiles(new FileFilter() {
-
-                    @Override
-                    public boolean accept(File file) {
-                        //Core name example: statistics-2008
-                        return file.getName().matches("statistics-\\d\\d\\d\\d");
-                    }
-                });
-                //Base url should like : http://localhost:{port.number}/solr
-                String baseSolrUrl = server.getBaseURL().replace("statistics", "");
-                for (File solrCoreFile : solrCoreFiles) {
-                    log.info("Loading core with name: " + solrCoreFile.getName());
-
-                    createCore(server, solrCoreFile.getName());
-                    //Add it to our cores list so we can query it !
-                    statisticYearCores.add(baseSolrUrl.replace("http://", "").replace("https://", "") + solrCoreFile.getName());
-                }
-                //Also add the core containing the current year !
-                statisticYearCores.add(server.getBaseURL().replace("http://", "").replace("https://", ""));
-            } catch (Exception e) {
-            	log.error(e.getMessage(), e);
-            }
+            server = new HttpSolrServer(configurationService.getProperty("solr-statistics.server"));
         }
         solr = server;
 
@@ -1520,10 +1491,46 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
 
     protected void addAdditionalSolrYearCores(SolrQuery solrQuery){
         //Only add if needed
+        initSolrYearCores();
         if(0 < statisticYearCores.size()){
             //The shards are a comma separated list of the urls to the cores
             solrQuery.add(ShardParams.SHARDS, StringUtils.join(statisticYearCores.iterator(), ","));
         }
+    }
+    
+    protected void initSolrYearCores() {
+        if (statisticYearCoresInit) {
+            return;
+        }
+        try
+        {
+             log.info("TBTB in SolrLooggerService init");
 
+            //Attempt to retrieve all the statistic year cores
+            File solrDir = new File(configurationService.getProperty("dspace.dir") + File.separator + "solr" + File.separator);
+            File[] solrCoreFiles = solrDir.listFiles(new FileFilter() {
+
+                @Override
+                public boolean accept(File file) {
+                    //Core name example: statistics-2008
+                    return file.getName().matches("statistics-\\d\\d\\d\\d");
+                }
+            });
+            //Base url should like : http://localhost:{port.number}/solr
+            String baseSolrUrl = solr.getBaseURL().replace("statistics", "");
+            for (File solrCoreFile : solrCoreFiles) {
+                log.info("Loading core with name: " + solrCoreFile.getName());
+
+                createCore(solr, solrCoreFile.getName());
+                //Add it to our cores list so we can query it !
+                statisticYearCores.add(baseSolrUrl.replace("http://", "").replace("https://", "") + solrCoreFile.getName());
+            }
+            //Also add the core containing the current year !
+            statisticYearCores.add(solr.getBaseURL().replace("http://", "").replace("https://", ""));
+            log.info("TBTB in SolrLooggerService end "+statisticYearCores.size());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        statisticYearCoresInit = true;
     }
 }
