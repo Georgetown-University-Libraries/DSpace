@@ -1508,7 +1508,7 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
         }
     }
     
-    protected synchronized void initSolrYearCores() {
+    public void initSolrYearCores() {
         if (statisticYearCoresInit) {
             return;
         }

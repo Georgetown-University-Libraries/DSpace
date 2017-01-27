@@ -203,5 +203,7 @@ public interface SolrLoggerService {
      * @throws Exception if error
      */
     public void exportHits() throws Exception;
+    
+    public void initSolrYearCores();
 
 }
