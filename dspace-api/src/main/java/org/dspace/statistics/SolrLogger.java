@@ -1321,7 +1321,7 @@ public class SolrLogger
             yearQueryParams.put(CommonParams.WT, "csv");
 
             //Start by creating a new core
-            String coreName = "statistics-" + dcStart.getYear();
+            String coreName = "statistics-" + dcStart.getYearUTC();
             HttpSolrServer statisticsYearServer = createCore(solr, coreName);
 
             System.out.println("Moving: " + totalRecords + " into core " + coreName);
@@ -1385,7 +1385,7 @@ public class SolrLogger
         HttpSolrServer solrServer = new HttpSolrServer(baseSolrUrl);
         create.process(solrServer);
         log.info("Created core with name: " + coreName);
-        return returnServer;
+        return new HttpSolrServer(baseSolrUrl + "/" + coreName);
     }
 
 
