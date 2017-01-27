@@ -126,6 +126,7 @@ public class SolrLoggerServiceImpl implements SolrLoggerService, InitializingBea
             try
             {
                 server = new HttpSolrServer(configurationService.getProperty("solr-statistics.server"));
+                log.error("TBTB Create statistics", new Exception("Test"));
                 createCore(server, "statistics");
 
                 //Attempt to retrieve all the statistic year cores
