@@ -130,6 +130,7 @@ public class SolrImportExport
 			{
 				for (String indexName : indexNames)
 				{
+				    if (indexName.equals("statistics-temp")) continue;
 					String lastValue = line.getOptionValue(LAST_OPTION);
 					File exportDir = new File(directoryName);
 					if (exportDir.exists() && !exportDir.canWrite())
