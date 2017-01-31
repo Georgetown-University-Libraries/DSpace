@@ -550,13 +550,14 @@ public class SolrImportExport
 		query.setGetFieldStatistics(timeField);
 		Map<String, FieldStatsInfo> fieldInfo = solr.query(query).getFieldStatsInfo();
 		if (fieldInfo == null || !fieldInfo.containsKey(timeField)) {
-            log.warn(String.format("Queried [%s].  No earliest date found while exporting index [%s] time field [%s] from [%s]",
+            log.warn(String.format("Queried [%s].  No earliest date found while exporting index [%s] time field [%s] from [%s]. Export cancelled.",
                     solrUrl, indexName, timeField, fromWhen));
 			return;
 		}
 		FieldStatsInfo timeFieldInfo = fieldInfo.get(timeField);
 		if (timeFieldInfo == null || timeFieldInfo.getMin() == null) {
-			log.warn("Cannot get earliest date, not exporting index " + indexName + ", time field " + timeField + ", from " + fromWhen);
+            log.warn(String.format("Queried [%s].  No earliest date found while exporting index [%s] time field [%s] from [%s]. Export cancelled.",
+                    solrUrl, indexName, timeField, fromWhen));
 			return;
 		}
 		Date earliestTimestamp = (Date) timeFieldInfo.getMin();
