@@ -130,7 +130,6 @@ public class SolrImportExport
 			{
 				for (String indexName : indexNames)
 				{
-				    if (indexName.equals("statistics-temp")) continue;
 					String lastValue = line.getOptionValue(LAST_OPTION);
 					File exportDir = new File(directoryName);
 					if (exportDir.exists() && !exportDir.canWrite())
@@ -522,7 +521,7 @@ public class SolrImportExport
 	public static void exportIndex(String indexName, File toDir, String solrUrl, String timeField, String fromWhen, boolean overwrite)
 			throws SolrServerException, IOException, SolrImportExportException
 	{
-		log.info(String.format("Export Index [%s] Time Field[%s] FromWhen[%s]", indexName, timeField, fromWhen));
+		log.info(String.format("Export Index [%s] to [%s] using [%s] Time Field[%s] FromWhen[%s]", indexName, toDir, solrUrl, timeField, fromWhen));
 	    if (StringUtils.isBlank(solrUrl))
 		{
 			throw new SolrImportExportException("Could not construct solr URL for index" + indexName + ", aborting export.");
@@ -551,7 +550,8 @@ public class SolrImportExport
 		query.setGetFieldStatistics(timeField);
 		Map<String, FieldStatsInfo> fieldInfo = solr.query(query).getFieldStatsInfo();
 		if (fieldInfo == null || !fieldInfo.containsKey(timeField)) {
-			log.warn("Cannot get earliest date, not exporting index " + indexName + ", time field " + timeField + ", from " + fromWhen);
+            log.warn(String.format("Queried [%s].  No earliest date found while exporting index [%s] time field [%s] from [%s]",
+                    solrUrl, indexName, timeField, fromWhen));
 			return;
 		}
 		FieldStatsInfo timeFieldInfo = fieldInfo.get(timeField);
