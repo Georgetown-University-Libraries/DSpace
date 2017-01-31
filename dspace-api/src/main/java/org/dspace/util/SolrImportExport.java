@@ -521,7 +521,8 @@ public class SolrImportExport
 	public static void exportIndex(String indexName, File toDir, String solrUrl, String timeField, String fromWhen, boolean overwrite)
 			throws SolrServerException, IOException, SolrImportExportException
 	{
-		if (StringUtils.isBlank(solrUrl))
+		log.info(String.format("Export Index [%s] Time Field[%s] FromWhen[%s]", indexName, timeField, fromWhen));
+	    if (StringUtils.isBlank(solrUrl))
 		{
 			throw new SolrImportExportException("Could not construct solr URL for index" + indexName + ", aborting export.");
 		}
