@@ -65,6 +65,7 @@
                             </configuration>
                         </execution>
                         <!-- Make sure that we do not have conflicting dependencies-->
+                        <!-- 
                         <execution>
                             <id>enforce-versions</id>
                             <goals>
@@ -76,6 +77,7 @@
                                 </rules>
                             </configuration>
                         </execution>
+                         -->
                     </executions>
                 </plugin>
                 <!-- Used to compile all Java classes -->
