@@ -18,7 +18,7 @@ import org.dspace.app.rest.utils.Utils;
  *
  */
 @RelNameDSpaceResource(RestInfo.NAME)
-public class InfoResource extends DSpaceResource<ItemRest> {
+public class InfoResource extends DSpaceResource<RestInfo> {
 	public InfoResource(RestInfo info, Utils utils, String... rels) {
 		super(info, utils, rels);
 	}
