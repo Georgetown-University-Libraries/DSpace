@@ -19,6 +19,7 @@ import org.dspace.app.rest.model.BitstreamRest;
 import org.dspace.app.rest.model.RestModel;
 import org.dspace.app.rest.model.RestInfo;
 import org.dspace.app.rest.model.hateoas.DSpaceResource;
+import org.dspace.app.rest.model.hateoas.InfoResource;
 import org.dspace.app.rest.repository.DSpaceRestRepository;
 import org.dspace.app.rest.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +56,9 @@ public class RestResourceController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/")
 	@SuppressWarnings("unchecked")
-	DSpaceResource<RestModel> findOne(@PathVariable String model, @RequestParam(required=false) String projection) {
-		return new RestInfo();
+	InfoResource getInfo(@PathVariable String model, @RequestParam(required=false) String projection) {
+		RestInfo info = new RestInfo();
+		return new InfoResource(info, utils, projection);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{id:\\d+}")
