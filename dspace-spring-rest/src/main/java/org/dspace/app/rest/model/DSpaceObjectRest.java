@@ -30,7 +30,6 @@ public abstract class DSpaceObjectRest extends BaseObjectRest<String> {
 	List<MetadataEntryRest> metadata;
 
 	@Override
-	@JsonIgnore
 	public String getId() {
 		return uuid;
 	}

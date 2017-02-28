@@ -54,7 +54,7 @@ public class RestResourceController {
 	@Autowired
 	Utils utils;
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/")
+	@RequestMapping(method = RequestMethod.GET, value = "/info")
 	@SuppressWarnings("unchecked")
 	InfoResource getInfo(@PathVariable String model, @RequestParam(required=false) String projection) {
 		RestInfo info = new RestInfo();
