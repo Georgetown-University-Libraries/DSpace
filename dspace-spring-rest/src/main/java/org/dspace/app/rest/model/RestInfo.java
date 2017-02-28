@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author Andrea Bollini (andrea.bollini at 4science.it)
  *
  */
-public abstract class RestInfo extends BaseObjectRest<String> {
+public class RestInfo extends BaseObjectRest<String> {
 
 	@Override
 	@JsonIgnore
