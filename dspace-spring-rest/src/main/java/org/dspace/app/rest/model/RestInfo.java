@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author Andrea Bollini (andrea.bollini at 4science.it)
  *
  */
-public class RestInfo extends BaseObjectRest<String> {
+public class RestInfo extends DSpaceObjectRest {
 	public static final String NAME = "info";
 
 	@Override
@@ -27,36 +27,4 @@ public class RestInfo extends BaseObjectRest<String> {
 		return NAME;
 	}
 
-	@Override
-	@JsonIgnore
-	public String getId() {
-		return "";
-	}
-
-	public String getUuid() {
-		return "";
-	}
-
-	public void setUuid(String uuid) {
-	}
-
-	public String getName() {
-		return "DSpace Rest Info";
-	}
-
-	public void setName(String name) {
-	}
-
-	public String getHandle() {
-		return "";
-	}
-
-	public void setHandle(String handle) {
-	}
-
-	@Override
-	@JsonIgnore
-	public Class getController() {
-		return RestResourceController.class;
-	}
 }

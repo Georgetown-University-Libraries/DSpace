@@ -55,7 +55,7 @@ public class RestResourceController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/")
 	@SuppressWarnings("unchecked")
-	BaseObjectRest<RestModel> findOne(@PathVariable String model, @RequestParam(required=false) String projection) {
+	DSpaceResource<RestModel> findOne(@PathVariable String model, @RequestParam(required=false) String projection) {
 		return new RestInfo();
 	}
 
