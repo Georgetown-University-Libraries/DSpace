@@ -20,9 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  */
 public abstract class DSpaceObjectRest extends BaseObjectRest<String> {
-	@JsonIgnore
 	private String uuid;
-
 	private String name;
 	private String handle;
 	private String type;
