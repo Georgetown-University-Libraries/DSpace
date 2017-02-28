@@ -20,6 +20,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  */
 public class RestInfo extends BaseObjectRest<String> {
+	public static final String NAME = "info";
+
+	@Override
+	public String getType() {
+		return NAME;
+	}
 
 	@Override
 	@JsonIgnore
