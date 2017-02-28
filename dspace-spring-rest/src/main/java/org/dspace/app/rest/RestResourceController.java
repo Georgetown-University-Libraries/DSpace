@@ -52,6 +52,12 @@ public class RestResourceController {
 	@Autowired
 	Utils utils;
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/")
+	@SuppressWarnings("unchecked")
+	DSpaceResource<RestModel> findOne(@PathVariable String model, @RequestParam(required=false) String projection) {
+		return new RestInfo();
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/{id:\\d+}")
 	@SuppressWarnings("unchecked")
 	DSpaceResource<RestModel> findOne(@PathVariable String model, @PathVariable Integer id, @RequestParam(required=false) String projection) {
