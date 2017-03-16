@@ -17,6 +17,7 @@ import org.dspace.app.rest.exception.PaginationException;
 import org.dspace.app.rest.exception.RepositoryNotFoundException;
 import org.dspace.app.rest.model.BitstreamRest;
 import org.dspace.app.rest.model.RestModel;
+import org.dspace.app.rest.model.SiteRest;
 import org.dspace.app.rest.model.hateoas.DSpaceResource;
 import org.dspace.app.rest.model.hateoas.InfoResource;
 import org.dspace.app.rest.repository.DSpaceRestRepository;
@@ -130,12 +131,13 @@ public class RestResourceController {
 	@RequestMapping(method = RequestMethod.GET, value = "api")
 	@SuppressWarnings("unchecked")
 	InfoResource getApiInfo() {
-		return new InfoResource();
+		SiteRest site = (SiteRest) utils.getResourceRepository("sites").findAll().iterator().next();
+		return new InfoResource(site);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	@SuppressWarnings("unchecked")
 	InfoResource getInfo() {
-		return new InfoResource();
+		return getApiInfo();
 	}
 }
