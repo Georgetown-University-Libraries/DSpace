@@ -127,7 +127,7 @@ public class RestResourceController {
 		return result;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "api/")
+	@RequestMapping(method = RequestMethod.GET, value = "api")
 	@SuppressWarnings("unchecked")
 	InfoResource getApiInfo() {
 		return new InfoResource();
