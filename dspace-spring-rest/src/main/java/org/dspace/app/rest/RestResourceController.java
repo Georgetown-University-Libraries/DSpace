@@ -47,19 +47,20 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RequestMapping("/api")
 @SuppressWarnings("rawtypes")
 public class RestResourceController {
 	@Autowired
 	Utils utils;
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/core/{model}/{id:\\d+}")
+	private static final String CORE = "/api/core/{model}/";
+	
+	@RequestMapping(method = RequestMethod.GET, value = CORE + "{id:\\d+}")
 	@SuppressWarnings("unchecked")
 	DSpaceResource<RestModel> findOne(@PathVariable String model, @PathVariable Integer id, @RequestParam(required=false) String projection) {
 		return findOneInternal(model, id, projection);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/core/{model}/{uuid:[0-9a-fxA-FX]{8}-[0-9a-fxA-FX]{4}-[0-9a-fxA-FX]{4}-[0-9a-fxA-FX]{4}-[0-9a-fxA-FX]{12}}")
+	@RequestMapping(method = RequestMethod.GET, value = CORE + "{uuid:[0-9a-fxA-FX]{8}-[0-9a-fxA-FX]{4}-[0-9a-fxA-FX]{4}-[0-9a-fxA-FX]{4}-[0-9a-fxA-FX]{12}}")
 	@SuppressWarnings("unchecked")
 	DSpaceResource<RestModel> findOne(@PathVariable String model, @PathVariable UUID uuid, @RequestParam(required=false) String projection) {
 		return findOneInternal(model, uuid, projection);
@@ -79,12 +80,12 @@ public class RestResourceController {
 		return result;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/core/{model}/{id:\\d+}/{rel}")
+	@RequestMapping(method = RequestMethod.GET, value = CORE + "{id:\\d+}/{rel}")
 	ResourceSupport findRel(@PathVariable String model, @PathVariable Integer id, @PathVariable String rel, @RequestParam(required=false) String projection) {
 		return findRelInternal(model, id, rel, projection);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/core/{model}/{uuid:[0-9a-fxA-FX]{8}-[0-9a-fxA-FX]{4}-[0-9a-fxA-FX]{4}-[0-9a-fxA-FX]{4}-[0-9a-fxA-FX]{12}}/{rel}")
+	@RequestMapping(method = RequestMethod.GET, value = CORE + "{uuid:[0-9a-fxA-FX]{8}-[0-9a-fxA-FX]{4}-[0-9a-fxA-FX]{4}-[0-9a-fxA-FX]{4}-[0-9a-fxA-FX]{12}}/{rel}")
 	ResourceSupport findRel(@PathVariable String model, @PathVariable UUID uuid, @PathVariable String rel, @RequestParam(required=false) String projection) {
 		return findRelInternal(model, uuid, rel, projection);
 	}
@@ -104,7 +105,7 @@ public class RestResourceController {
 		return resu;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/core/{model}")
+	@RequestMapping(method = RequestMethod.GET, value = CORE)
 	@SuppressWarnings("unchecked")
 	<T extends RestModel> PagedResources<DSpaceResource<T>> findAll(@PathVariable String model, Pageable page, PagedResourcesAssembler assembler, @RequestParam(required=false) String projection) {
 		DSpaceRestRepository<T, ?> repository = utils.getResourceRepository(model);
@@ -123,6 +124,12 @@ public class RestResourceController {
 		}
 		PagedResources<DSpaceResource<T>> result = assembler.toResource(resources, link);
 		return result;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/api/")
+	@SuppressWarnings("unchecked")
+	InfoResource getApiInfo() {
+		return new InfoResource();
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
