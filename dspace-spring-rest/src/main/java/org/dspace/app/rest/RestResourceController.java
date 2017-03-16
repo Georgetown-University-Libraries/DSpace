@@ -47,12 +47,13 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
+@RequestMapping(method = RequestMethod.GET, value = "/")
 @SuppressWarnings("rawtypes")
 public class RestResourceController {
 	@Autowired
 	Utils utils;
 	
-	private static final String CORE = "/api/core/{model}/";
+	private static final String CORE = "api/core/{model}/";
 	
 	@RequestMapping(method = RequestMethod.GET, value = CORE + "{id:\\d+}")
 	@SuppressWarnings("unchecked")
@@ -126,7 +127,7 @@ public class RestResourceController {
 		return result;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/api/")
+	@RequestMapping(method = RequestMethod.GET, value = "api/")
 	@SuppressWarnings("unchecked")
 	InfoResource getApiInfo() {
 		return new InfoResource();
