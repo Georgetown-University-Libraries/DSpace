@@ -10,6 +10,7 @@ package org.dspace.app.rest.converter;
 import org.apache.log4j.Logger;
 import org.dspace.app.rest.model.CollectionRest;
 import org.dspace.app.rest.model.CommunityRest;
+import org.dspace.app.rest.projection.CollectionProjectionApplier;
 import org.dspace.app.rest.projection.CommunityProjectionApplier;
 import org.dspace.app.rest.projection.DSpaceObjectProjectionApplier;
 import org.dspace.content.Community;
