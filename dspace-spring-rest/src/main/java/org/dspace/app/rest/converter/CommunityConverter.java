@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CommunityConverter
-		extends DSpaceObjectConverter<Community, CommunityRest> {
+		extends DSpaceObjectConverter<org.dspace.content.Community, org.dspace.app.rest.model.CommunityRest> {
 
 	private static final Logger log = Logger.getLogger(CommunityConverter.class);
 	@Autowired(required = true)
@@ -46,8 +46,7 @@ public class CommunityConverter
 			log.error("Error setting parent community for community "+communityRest.getHandle(), e);
 		}
 
-		getProjectionApplier().applyProjection(projection, obj, communityRest);
-		return communityRest;
+		return getProjectionApplier().applyProjection(projection, obj, communityRest);
 	}
 
 	@Override

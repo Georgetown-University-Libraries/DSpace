@@ -24,7 +24,7 @@ public class CommunityProjectionApplier
 	private CommunityConverter communityConverter;
 
 	@Override
-	public void applyProjection(String projection, Community obj, CommunityRest restobj) {
+	public CommunityRest applyProjection(String projection, Community obj, CommunityRest restobj) {
 		if (checkProjection(projection, DSpaceObjectRest.PRJ_CONTEXT)) {
 			try {
 				List<CommunityRest> commrestlist = new ArrayList<>();
@@ -45,7 +45,7 @@ public class CommunityProjectionApplier
 				log.error("Error setting collections for community "+restobj.getHandle(), e);
 			}			
 		}
-
+		return restobj;
 	}
 
 }
