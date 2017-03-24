@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.dspace.app.rest.model.CollectionRest;
 import org.dspace.app.rest.model.CommunityRest;
 import org.dspace.app.rest.model.DSpaceObjectRest;
+import org.dspace.app.rest.projection.CommunityProjectionApplier;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,6 @@ public class CommunityConverter
 		extends DSpaceObjectConverter<org.dspace.content.Community, org.dspace.app.rest.model.CommunityRest> {
 
 	private static final Logger log = Logger.getLogger(CommunityConverter.class);
-	@Autowired(required = true)
-	private CollectionConverter collectionConverter;
 
 	@Override
 	public org.dspace.content.Community toModel(org.dspace.app.rest.model.CommunityRest obj) {
@@ -41,36 +40,17 @@ public class CommunityConverter
 
 	@Override
 	public CommunityRest fromModel(org.dspace.content.Community obj, String projection) {
-		CommunityRest communityRest = super.fromModel(obj, projection);
+		CommunityRest restobj = super.fromModel(obj, projection);
 		try {
 			for (Community c: obj.getParentCommunities()) {
-				communityRest.setParentCommunity(fromModel(c));
+				restobj.setParentCommunity(fromModel(c));
 			}
 		} catch (Exception e) {
-			log.error("Error setting parent community for community "+communityRest.getHandle(), e);
+			log.error("Error setting parent community for community "+restobj.getHandle(), e);
 		}
-
-		if (checkProjection(projection, DSpaceObjectRest.PRJ_CONTEXT)) {
-			try {
-				List<CommunityRest> commrestlist = new ArrayList<>();
-				for (Community c: obj.getSubcommunities()) {
-					commrestlist.add(fromModel(c));
-				}
-				communityRest.setSubcommunities(commrestlist);
-			} catch (Exception e) {
-				log.error("Error setting subcommunities for community "+communityRest.getHandle(), e);
-			}
-			try {
-				List<CollectionRest> collrestlist = new ArrayList<>();
-				for (Collection c: obj.getCollections()) {
-					collrestlist.add(collectionConverter.fromModel(c));
-				}
-				communityRest.setCollections(collrestlist);
-			} catch (Exception e) {
-				log.error("Error setting collections for community "+communityRest.getHandle(), e);
-			}			
-		}
-		return communityRest;
+		
+		new CommunityProjectionApplier().applyProjection(projection, obj, restobj);
+		return restobj;
 	}
 
 	@Override
