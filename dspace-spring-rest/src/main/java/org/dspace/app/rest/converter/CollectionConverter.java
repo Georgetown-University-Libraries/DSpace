@@ -9,6 +9,9 @@ package org.dspace.app.rest.converter;
 
 import org.apache.log4j.Logger;
 import org.dspace.app.rest.model.CollectionRest;
+import org.dspace.app.rest.model.CommunityRest;
+import org.dspace.app.rest.projection.CommunityProjectionApplier;
+import org.dspace.app.rest.projection.DSpaceObjectProjectionApplier;
 import org.dspace.content.Community;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,5 +51,8 @@ public class CollectionConverter
 	@Override
 	protected CollectionRest newInstance() {
 		return new CollectionRest();
+	}
+	protected DSpaceObjectProjectionApplier<org.dspace.content.Collection, org.dspace.app.rest.model.CollectionRest> getProjectionApplier() {
+		return new CollectionProjectionApplier();
 	}
 }
