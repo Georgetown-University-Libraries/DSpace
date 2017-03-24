@@ -7,14 +7,11 @@
  */
 package org.dspace.app.rest.converter;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.dspace.app.rest.model.CollectionRest;
 import org.dspace.app.rest.model.CommunityRest;
-import org.dspace.app.rest.model.DSpaceObjectRest;
-import org.dspace.content.Collection;
+import org.dspace.app.rest.projection.CommunityProjectionApplier;
+import org.dspace.app.rest.projection.DSpaceObjectProjectionApplier;
 import org.dspace.content.Community;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,11 +25,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CommunityConverter
-		extends DSpaceObjectConverter<org.dspace.content.Community, org.dspace.app.rest.model.CommunityRest> {
+		extends DSpaceObjectConverter<Community, CommunityRest> {
 
 	private static final Logger log = Logger.getLogger(CommunityConverter.class);
 	@Autowired(required = true)
-	private CollectionConverter collectionConverter;
 
 	@Override
 	public org.dspace.content.Community toModel(org.dspace.app.rest.model.CommunityRest obj) {
@@ -50,31 +46,15 @@ public class CommunityConverter
 			log.error("Error setting parent community for community "+communityRest.getHandle(), e);
 		}
 
-		if (checkProjection(projection, DSpaceObjectRest.PRJ_CONTEXT)) {
-			try {
-				List<CommunityRest> commrestlist = new ArrayList<>();
-				for (Community c: obj.getSubcommunities()) {
-					commrestlist.add(fromModel(c));
-				}
-				communityRest.setSubcommunities(commrestlist);
-			} catch (Exception e) {
-				log.error("Error setting subcommunities for community "+communityRest.getHandle(), e);
-			}
-			try {
-				List<CollectionRest> collrestlist = new ArrayList<>();
-				for (Collection c: obj.getCollections()) {
-					collrestlist.add(collectionConverter.fromModel(c));
-				}
-				communityRest.setCollections(collrestlist);
-			} catch (Exception e) {
-				log.error("Error setting collections for community "+communityRest.getHandle(), e);
-			}			
-		}
+		getProjectionApplier().applyProjection(projection, obj, communityRest);
 		return communityRest;
 	}
 
 	@Override
 	protected CommunityRest newInstance() {
 		return new CommunityRest();
+	}
+	protected DSpaceObjectProjectionApplier<Community, CommunityRest> getProjectionApplier() {
+		return new CommunityProjectionApplier();
 	}
 }

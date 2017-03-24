@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.dspace.app.rest.model.MetadataEntryRest;
+import org.dspace.app.rest.projection.DSpaceObjectProjectionApplier;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.MetadataValue;
 import org.springframework.core.convert.converter.Converter;
@@ -58,15 +59,7 @@ public abstract class DSpaceObjectConverter<M extends DSpaceObject, R extends or
 
 	protected abstract R newInstance();
 	
-	public boolean checkProjection(String projection, String value) {
-		if (projection == null) {
-			return false;
-		}
-		for (String s: projection.split(",")) {
-			if (s.equals(value)) {
-				return true;
-			}
-		}
-		return false;
+	protected DSpaceObjectProjectionApplier<M,R> getProjectionApplier() {
+		return new DSpaceObjectProjectionApplier<M,R>();
 	}
 }
