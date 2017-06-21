@@ -714,8 +714,12 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             if(communitiesPolicies.size() != 0 || collectionsPolicies.size() != 0){
             	
             	locationQuery.append("location:( ");
+            	int lqSize = locationQuery.length();
             	
             	locationQuery.append(this.getLocationOfEachResourcePolicy(communitiesPolicies, context));
+            	if (locationQuery.length() > lqSize) {
+            	    locationQuery.append(" OR ");
+            	}
             	
             	locationQuery.append(this.getLocationOfEachResourcePolicy(collectionsPolicies, context));
 	            
