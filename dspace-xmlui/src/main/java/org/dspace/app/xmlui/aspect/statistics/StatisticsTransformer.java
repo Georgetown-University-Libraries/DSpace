@@ -272,7 +272,7 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
                 statsList.setId("list-bitcomm");
 
                 DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
-                dsoAxis.addDsoChild(Constants.BITSTREAM, 0, false, 60);
+                dsoAxis.addDsoChild(Constants.BITSTREAM, 10, false, 60);
                 statsList.addDatasetGenerator(dsoAxis);
                 addDisplayListing(division, statsList);
 
@@ -280,7 +280,7 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
                 statsList.setTitle("Item Views for Community");
                 statsList.setId("list-itemcomm");
 
-                dsoAxis.addDsoChild(Constants.ITEM, 0, false, 60);
+                dsoAxis.addDsoChild(Constants.ITEM, 10, false, 60);
                 statsList.addDatasetGenerator(dsoAxis);
 
                 addDisplayListing(division, statsList);
