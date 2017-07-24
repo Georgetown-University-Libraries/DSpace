@@ -241,18 +241,19 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
              try {
                 StatisticsListing statsList = new StatisticsListing(new StatisticsDataVisits(dso));
 
-                statsList.setTitle(T_head_visits_bitstream + "-Item");
+                statsList.setTitle("Item Views for Collection");
                 statsList.setId("list-item");
 
                 DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
-                dsoAxis.addDsoChild(Constants.ITEM, 10, false, 60);
+                dsoAxis.addDsoChild(Constants.ITEM, 0, false, 60);
                 statsList.addDatasetGenerator(dsoAxis);
                 addDisplayListing(division, statsList);
 
-                statsList.setTitle(T_head_visits_bitstream + "-Bit");
+                StatisticsListing statsList = new StatisticsListing(new StatisticsDataVisits(dso));
+                statsList.setTitle("Bitstream Views for Collection");
                 statsList.setId("list-bit");
 
-                dsoAxis.addDsoChild(Constants.BITSTREAM, 10, false, 60);
+                dsoAxis.addDsoChild(Constants.BITSTREAM, 0, false, 60);
                 statsList.addDatasetGenerator(dsoAxis);
 
                 addDisplayListing(division, statsList);
