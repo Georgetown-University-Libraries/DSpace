@@ -221,11 +221,11 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
                 if(itemService.hasUploadedFiles(item)){
                     StatisticsListing statsList = new StatisticsListing(new StatisticsDataVisits(dso));
 
-                    statsList.setTitle(T_head_visits_bitstream);
+                    statsList.setTitle(T_head_visits_bitstream + "-Bit");
                     statsList.setId("list-bit");
 
                     DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
-                    dsoAxis.addDsoChild(Constants.BITSTREAM, 10, false, -1);
+                    dsoAxis.addDsoChild(Constants.BITSTREAM, 10, false, 60);
                     statsList.addDatasetGenerator(dsoAxis);
 
                     addDisplayListing(division, statsList);
@@ -241,13 +241,18 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
              try {
                 StatisticsListing statsList = new StatisticsListing(new StatisticsDataVisits(dso));
 
-                statsList.setTitle(T_head_visits_bitstream);
-                statsList.setId("list-bit");
+                statsList.setTitle(T_head_visits_bitstream + "-Item");
+                statsList.setId("list-item");
 
                 DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
-                dsoAxis.addDsoChild(Constants.ITEM, 10, false, -1);
+                dsoAxis.addDsoChild(Constants.ITEM, 10, false, 60);
                 statsList.addDatasetGenerator(dsoAxis);
-                dsoAxis.addDsoChild(Constants.BITSTREAM, 10, false, -1);
+                addDisplayListing(division, statsList);
+
+                statsList.setTitle(T_head_visits_bitstream + "-Bit");
+                statsList.setId("list-bit");
+
+                dsoAxis.addDsoChild(Constants.BITSTREAM, 10, false, 60);
                 statsList.addDatasetGenerator(dsoAxis);
 
                 addDisplayListing(division, statsList);
