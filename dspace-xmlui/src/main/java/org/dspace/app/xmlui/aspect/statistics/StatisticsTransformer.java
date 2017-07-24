@@ -236,6 +236,27 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
                                 + dso.getID() + " and type " + dso.getType()
                                 + " and handle: " + dso.getHandle(), e);
             }
+         } else if(dso instanceof org.dspace.content.Collection) {
+             //Make sure our item has at least one bitstream
+             try {
+                StatisticsListing statsList = new StatisticsListing(new StatisticsDataVisits(dso));
+
+                statsList.setTitle(T_head_visits_bitstream);
+                statsList.setId("list-bit");
+
+                DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
+                dsoAxis.addDsoChild(Constants.ITEM, 10, false, -1);
+                statsList.addDatasetGenerator(dsoAxis);
+                dsoAxis.addDsoChild(Constants.BITSTREAM, 10, false, -1);
+                statsList.addDatasetGenerator(dsoAxis);
+
+                addDisplayListing(division, statsList);
+             } catch (Exception e) {
+                log.error(
+                    "Error occurred while creating statistics for dso with ID: "
+                            + dso.getID() + " and type " + dso.getType()
+                            + " and handle: " + dso.getHandle(), e);
+             }
         }
 
         try {
