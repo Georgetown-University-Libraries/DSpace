@@ -176,7 +176,7 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
 			statListing.setId("list1");
 
 			DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
-			dsoAxis.addDsoChild(dso.getType(), 10, false, -1);
+			dsoAxis.addDsoChild(dso.getType(), 10, false, 60);
 			statListing.addDatasetGenerator(dsoAxis);
 
 			addDisplayListing(division, statListing);
@@ -202,7 +202,7 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
 			statisticsTable.addDatasetGenerator(timeAxis);
 
 			DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
-			dsoAxis.addDsoChild(dso.getType(), 10, false, -1);
+			dsoAxis.addDsoChild(dso.getType(), 10, false, 60);
 			statisticsTable.addDatasetGenerator(dsoAxis);
 
 			addDisplayTable(division, statisticsTable);
@@ -245,7 +245,7 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
                 statsList.setId("list-bitcoll");
 
                 DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
-                dsoAxis.addDsoChild(Constants.BITSTREAM, 0, false, 60);
+                dsoAxis.addDsoChild(Constants.BITSTREAM, 10, false, 60);
                 statsList.addDatasetGenerator(dsoAxis);
                 addDisplayListing(division, statsList);
 
@@ -253,31 +253,37 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
                 statsList.setTitle("Item Views for Collection");
                 statsList.setId("list-itemcoll");
 
+                dsoAxis.addDsoChild(Constants.ITEM, 10, false, 60);
+                statsList.addDatasetGenerator(dsoAxis);
+
+                addDisplayListing(division, statsList);
+             } catch (Exception e) {
+                 log.error(
+                     "Error occurred while creating statistics for dso with ID: "
+                             + dso.getID() + " and type " + dso.getType()
+                             + " and handle: " + dso.getHandle(), e);
+             }
+         } else if(dso instanceof org.dspace.content.Community) {
+            //Make sure our item has at least one bitstream
+            try {
+                StatisticsListing statsList = new StatisticsListing(new StatisticsDataVisits(dso));
+
+                statsList.setTitle("Bitstream Views for Community");
+                statsList.setId("list-bitcomm");
+
+                DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
+                dsoAxis.addDsoChild(Constants.BITSTREAM, 0, false, 60);
+                statsList.addDatasetGenerator(dsoAxis);
+                addDisplayListing(division, statsList);
+
+                statsList = new StatisticsListing(new StatisticsDataVisits(dso));
+                statsList.setTitle("Item Views for Community");
+                statsList.setId("list-itemcomm");
+
                 dsoAxis.addDsoChild(Constants.ITEM, 0, false, 60);
                 statsList.addDatasetGenerator(dsoAxis);
 
                 addDisplayListing(division, statsList);
-             } else if(dso instanceof org.dspace.content.Community) {
-                //Make sure our item has at least one bitstream
-                try {
-                    StatisticsListing statsList = new StatisticsListing(new StatisticsDataVisits(dso));
-
-                    statsList.setTitle("Bitstream Views for Community");
-                    statsList.setId("list-bitcomm");
-
-                    DatasetDSpaceObjectGenerator dsoAxis = new DatasetDSpaceObjectGenerator();
-                    dsoAxis.addDsoChild(Constants.BITSTREAM, 0, false, 60);
-                    statsList.addDatasetGenerator(dsoAxis);
-                    addDisplayListing(division, statsList);
-
-                    statsList = new StatisticsListing(new StatisticsDataVisits(dso));
-                    statsList.setTitle("Item Views for Community");
-                    statsList.setId("list-itemcomm");
-
-                    dsoAxis.addDsoChild(Constants.ITEM, 0, false, 60);
-                    statsList.addDatasetGenerator(dsoAxis);
-
-                    addDisplayListing(division, statsList);
              } catch (Exception e) {
                 log.error(
                     "Error occurred while creating statistics for dso with ID: "
