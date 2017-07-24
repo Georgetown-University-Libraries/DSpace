@@ -180,6 +180,18 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
 			statListing.addDatasetGenerator(dsoAxis);
 
 			addDisplayListing(division, statListing);
+			
+			//show item
+                        dsoAxis.addDsoChild(2, 10, false, 60);
+                        statListing.addDatasetGenerator(dsoAxis);
+
+                        addDisplayListing(division, statListing);
+
+                        //show bitstream
+                        dsoAxis.addDsoChild(0, 10, false, 60);
+                        statListing.addDatasetGenerator(dsoAxis);
+
+                        addDisplayListing(division, statListing);
 
 		} catch (Exception e) {
 			log.error(
