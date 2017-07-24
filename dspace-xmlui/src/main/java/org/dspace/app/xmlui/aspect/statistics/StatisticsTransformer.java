@@ -249,7 +249,7 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
                 statsList.addDatasetGenerator(dsoAxis);
                 addDisplayListing(division, statsList);
 
-                StatisticsListing statsList = new StatisticsListing(new StatisticsDataVisits(dso));
+                statsList = new StatisticsListing(new StatisticsDataVisits(dso));
                 statsList.setTitle("Bitstream Views for Collection");
                 statsList.setId("list-bit");
 
