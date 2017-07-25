@@ -521,7 +521,7 @@ public class StatisticsDataVisits extends StatisticsData
                         {
                             break;
                         }
-                        return bit.getName();
+                        return dsoId + bit.getName();
                     case Constants.ITEM:
                         Item item = itemService.findByIdOrLegacyId(context, dsoId);
                         if(item == null)
@@ -542,7 +542,7 @@ public class StatisticsDataVisits extends StatisticsData
                             }
                         }
 
-                        return name;
+                        return dsoId + name;
 
                     case Constants.COLLECTION:
                         Collection coll = collectionService.findByIdOrLegacyId(context, dsoId);
@@ -559,7 +559,7 @@ public class StatisticsDataVisits extends StatisticsData
                                 name = name.substring(0, firstSpace) + " ...";
                             }
                         }
-                        return name;
+                        return dsoId + name;
 
                     case Constants.COMMUNITY:
                         Community comm = communityService.findByIdOrLegacyId(context, dsoId);
@@ -576,7 +576,7 @@ public class StatisticsDataVisits extends StatisticsData
                                 name = name.substring(0, firstSpace) + " ...";
                             }
                         }
-                        return name;
+                        return dsoId + name;
                 }
             }
         }
