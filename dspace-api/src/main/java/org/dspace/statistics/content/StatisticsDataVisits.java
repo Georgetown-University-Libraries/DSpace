@@ -495,7 +495,7 @@ public class StatisticsDataVisits extends StatisticsData
                 dsoId = UUID.fromString(value).toString();
             }catch(Exception e){
                 try {
-                    dsoId = convertLegacyIdToUUID(context, query, value);
+                    //dsoId = convertLegacyIdToUUID(context, query, value);
                 } catch (Exception e2) {
                     dsoId = null;
                 }
