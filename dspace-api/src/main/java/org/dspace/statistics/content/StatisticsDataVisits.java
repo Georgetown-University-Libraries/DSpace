@@ -489,20 +489,17 @@ public class StatisticsDataVisits extends StatisticsData
             //TODO: CHANGE & THROW AWAY THIS ENTIRE METHOD
             //Check if int
             String dsoId = null;
+            String legacyNote = "";
             int dsoLength = query.getDsoLength();
             
             try {
                 dsoId = UUID.fromString(value).toString();
             }catch(Exception e){
-                try {
-                    //dsoId = convertLegacyIdToUUID(context, query, value);
-                } catch (Exception e2) {
-                    dsoId = null;
-                }
                 if (dsoId == null) {
                     try {
                         //Legacy identifier support
                         dsoId = String.valueOf(Integer.parseInt(value));
+                        legacyNote = " (legacy stats)";
                     } catch (NumberFormatException e1) {
                         dsoId = null;
                     }
@@ -521,7 +518,7 @@ public class StatisticsDataVisits extends StatisticsData
                         {
                             break;
                         }
-                        return dsoId + bit.getName();
+                        return bit.getName() + legacyNote;
                     case Constants.ITEM:
                         Item item = itemService.findByIdOrLegacyId(context, dsoId);
                         if(item == null)
@@ -542,7 +539,7 @@ public class StatisticsDataVisits extends StatisticsData
                             }
                         }
 
-                        return dsoId + name;
+                        return name + legacyNote;
 
                     case Constants.COLLECTION:
                         Collection coll = collectionService.findByIdOrLegacyId(context, dsoId);
@@ -559,7 +556,7 @@ public class StatisticsDataVisits extends StatisticsData
                                 name = name.substring(0, firstSpace) + " ...";
                             }
                         }
-                        return dsoId + name;
+                        return name + legacyNote;
 
                     case Constants.COMMUNITY:
                         Community comm = communityService.findByIdOrLegacyId(context, dsoId);
@@ -576,48 +573,14 @@ public class StatisticsDataVisits extends StatisticsData
                                 name = name.substring(0, firstSpace) + " ...";
                             }
                         }
-                        return dsoId + name;
+                        return name + legacyNote;
                 }
             }
         }
         return value;
     }
 
-    private String convertLegacyIdToUUID(Context context, Query query, String dsoId) throws SQLException {
-        switch(query.getDsoType()){
-            case Constants.BITSTREAM:
-                Bitstream bit = bitstreamService.findByIdOrLegacyId(context, dsoId);
-                if(bit == null)
-                {
-                    break;
-                }
-                return bit.getID().toString();
-            case Constants.ITEM:
-                Item item = itemService.findByIdOrLegacyId(context, dsoId);
-                if(item == null)
-                {
-                    break;
-                }
-                return item.getID().toString();
-            case Constants.COLLECTION:
-                Collection coll = collectionService.findByIdOrLegacyId(context, dsoId);
-                if(coll == null)
-                {
-                    break;
-                }
-                return coll.getID().toString();
-            case Constants.COMMUNITY:
-                Community comm = communityService.findByIdOrLegacyId(context, dsoId);
-                if(comm == null)
-                {
-                    break;
-                }
-                return comm.getID().toString();
-        }
-        return null;
-}
-
-protected Map<String, String> getAttributes(String value,
+    protected Map<String, String> getAttributes(String value,
             DatasetQuery datasetQuery, Context context) throws SQLException
     {
         HashMap<String, String> attrs = new HashMap<String, String>();
