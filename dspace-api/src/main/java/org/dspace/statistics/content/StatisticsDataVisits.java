@@ -14,6 +14,7 @@ import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.BitstreamService;
 import org.dspace.content.service.CollectionService;
 import org.dspace.content.service.CommunityService;
+import org.dspace.content.service.DSpaceObjectLegacySupportService;
 import org.dspace.content.service.ItemService;
 import org.dspace.handle.factory.HandleServiceFactory;
 import org.dspace.handle.service.HandleService;
@@ -66,6 +67,7 @@ public class StatisticsDataVisits extends StatisticsData
     protected final ItemService itemService = ContentServiceFactory.getInstance().getItemService();
     protected final CollectionService collectionService = ContentServiceFactory.getInstance().getCollectionService();
     protected final CommunityService communityService = ContentServiceFactory.getInstance().getCommunityService();
+    
 
     /** Construct a completely uninitialized query. */
     public StatisticsDataVisits()
@@ -486,16 +488,24 @@ public class StatisticsDataVisits extends StatisticsData
             Query query = datasetQuery.getQueries().get(0);
             //TODO: CHANGE & THROW AWAY THIS ENTIRE METHOD
             //Check if int
-            String dsoId;
+            String dsoId = null;
             int dsoLength = query.getDsoLength();
+            
             try {
                 dsoId = UUID.fromString(value).toString();
             }catch(Exception e){
                 try {
-                    //Legacy identifier support
-                    dsoId = String.valueOf(Integer.parseInt(value));
-                } catch (NumberFormatException e1) {
+                    dsoId = convertLegacyIdToUUID(context, query, value);
+                } catch (Exception e2) {
                     dsoId = null;
+                }
+                if (dsoId == null) {
+                    try {
+                        //Legacy identifier support
+                        dsoId = String.valueOf(Integer.parseInt(value));
+                    } catch (NumberFormatException e1) {
+                        dsoId = null;
+                    }
                 }
             }
             if(dsoId == null && query.getDso() != null && value == null)
@@ -573,7 +583,41 @@ public class StatisticsDataVisits extends StatisticsData
         return value;
     }
 
-    protected Map<String, String> getAttributes(String value,
+    private String convertLegacyIdToUUID(Context context, Query query, String dsoId) throws SQLException {
+        switch(query.getDsoType()){
+            case Constants.BITSTREAM:
+                Bitstream bit = bitstreamService.findByIdOrLegacyId(context, dsoId);
+                if(bit == null)
+                {
+                    break;
+                }
+                return bit.getID().toString();
+            case Constants.ITEM:
+                Item item = itemService.findByIdOrLegacyId(context, dsoId);
+                if(item == null)
+                {
+                    break;
+                }
+                return item.getID().toString();
+            case Constants.COLLECTION:
+                Collection coll = collectionService.findByIdOrLegacyId(context, dsoId);
+                if(coll == null)
+                {
+                    break;
+                }
+                return coll.getID().toString();
+            case Constants.COMMUNITY:
+                Community comm = communityService.findByIdOrLegacyId(context, dsoId);
+                if(comm == null)
+                {
+                    break;
+                }
+                return comm.getID().toString();
+        }
+        return null;
+}
+
+protected Map<String, String> getAttributes(String value,
             DatasetQuery datasetQuery, Context context) throws SQLException
     {
         HashMap<String, String> attrs = new HashMap<String, String>();

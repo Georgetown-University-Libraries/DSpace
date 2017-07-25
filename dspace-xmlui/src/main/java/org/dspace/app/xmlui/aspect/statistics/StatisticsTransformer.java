@@ -186,13 +186,18 @@ public class StatisticsTransformer extends AbstractDSpaceTransformer {
                                         new StatisticsDataVisits(dso));
 
                         statListing.setTitle(T_head_visits_total+" Item");
-                        statListing.setId("list1");
+                        statListing.setId("list1i");
                         dsoAxis.addDsoChild(2, 10, false, 60);
                         statListing.addDatasetGenerator(dsoAxis);
 
                         addDisplayListing(division, statListing);
 
                         //show bitstream
+                        statListing = new StatisticsListing(
+                                        new StatisticsDataVisits(dso));
+
+                        statListing.setTitle(T_head_visits_total+" Bits");
+                        statListing.setId("list1b");
                         dsoAxis.addDsoChild(0, 10, false, 60);
                         statListing.addDatasetGenerator(dsoAxis);
 
