@@ -111,7 +111,7 @@ public class FilteredCollection extends DSpaceObject {
         
         this.setNumberItemsProcessed(0);
         if (itemFilters.size() > 0) {
-        	Iterator<org.dspace.content.Item> childItems = itemService.findByCollection(context, collection, limit, offset);
+        	Iterator<org.dspace.content.Item> childItems = itemService.findAllByCollection(context, collection, limit, offset);
             int numProc = itemFilterSet.processSaveItems(context, servletContext, childItems, items, reportItems, expand);
             this.setNumberItemsProcessed(numProc);
         }       
