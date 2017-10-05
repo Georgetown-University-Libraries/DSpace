@@ -196,7 +196,8 @@ public class ItemDAOImpl extends AbstractHibernateDSODAO<Item> implements ItemDA
         	}
         }
      	log.debug(String.format("Running custom query with %d filters", index));
-
+     	log.info("TBTB "+criteria.list().size());
+     	
         return list(criteria).iterator();
     }
 
