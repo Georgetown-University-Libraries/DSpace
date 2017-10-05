@@ -35,10 +35,14 @@ public class ItemFilterDefsPerm implements ItemFilterList {
 	        public boolean testItem(Context context, Item item) {
 	            try {
 	                for(Bundle bundle: item.getBundles()){
+	                        log.info("TBTBx"+bundle.getName());
 	                	if (!bundle.getName().equals(BundleName.ORIGINAL)) {
 	                		continue;
 	                	}
+                                log.info("TBTBy"+bundle.getName());
 	                    for(Bitstream bit: bundle.getBitstreams()) {
+	                            log.info("TBTBz"+bit.getName());
+
 	                        if (!authorizeService.authorizeActionBoolean(getAnonContext(), bit, org.dspace.core.Constants.READ)) {
 	                            return true;
 	                        }
