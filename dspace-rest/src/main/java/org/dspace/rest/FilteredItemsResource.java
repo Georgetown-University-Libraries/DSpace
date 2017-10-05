@@ -115,7 +115,7 @@ public class FilteredItemsResource extends Resource {
         try {
             context = createContext();
             if (!configurationService.getBooleanProperty("rest.reporting-authenticate", true)) {
-                log.info("TBTB auth off"+count);
+                log.info("TBTB auth off");
                 context.turnOffAuthorisationSystem();            	
             }
             
