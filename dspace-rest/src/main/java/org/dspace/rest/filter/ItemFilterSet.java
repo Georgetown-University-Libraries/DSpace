@@ -138,6 +138,7 @@ public class ItemFilterSet {
                 testItem(context, item, restItem);
             } else {
                 log.debug(item.getHandle() + " not authorized - not included in result set.");
+                log.info("TBTB-B "+item.getHandle() + " not authorized - not included in result set.");
             }
         }
         return count;
