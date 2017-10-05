@@ -119,7 +119,7 @@ public class FilteredCollection extends DSpaceObject {
         if(!expandFields.contains("all")) {
             this.addExpand("all");
         }
-        this.setNumberItems(itemService.countItems(context, collection));
+        this.setNumberItems(itemService.countAllItems(context, collection));
     }
 
     public Integer getNumberItems() {
