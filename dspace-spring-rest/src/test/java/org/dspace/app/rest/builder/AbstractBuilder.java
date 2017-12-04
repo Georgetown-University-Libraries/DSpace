@@ -65,7 +65,6 @@ public abstract class AbstractBuilder<T, S> {
     static AuthorizeService authorizeService;
     static ResourcePolicyService resourcePolicyService;
     static IndexingService indexingService;
-    static BitstreamFormatService bitstreamFormatService;
 
     protected Context context;
 
@@ -92,7 +91,6 @@ public abstract class AbstractBuilder<T, S> {
         authorizeService = AuthorizeServiceFactory.getInstance().getAuthorizeService();
         resourcePolicyService = AuthorizeServiceFactory.getInstance().getResourcePolicyService();
         indexingService = DSpaceServicesFactory.getInstance().getServiceManager().getServiceByName(IndexingService.class.getName(),IndexingService.class);
-        bitstreamFormatService = ContentServiceFactory.getInstance().getBitstreamFormatService();
     }
 
 
