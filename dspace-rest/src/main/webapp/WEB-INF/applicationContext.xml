@@ -29,12 +29,10 @@
         </property>
     </bean>
 
-    <!-- Inject the SolrLoggerUsageEventListener into the EventService  -->
     <bean class="org.dspace.statistics.SolrLoggerUsageEventListener">
-        <property name="eventService" >
-            <ref bean="dspace.eventService"/>
-        </property>
+        <property name="eventService" ref="org.dspace.services.EventService"/>
     </bean>
+
 
     <!-- Elastic Search -->
     <!--<bean class="org.dspace.statistics.ElasticSearchLoggerEventListener">
