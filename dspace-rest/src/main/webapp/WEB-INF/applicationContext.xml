@@ -19,13 +19,11 @@
     <!-- Acquires the DSpace Utility Class with initialized Service Manager -->
     <bean id="dspace" class="org.dspace.utils.DSpace"/>
     
-    <!-- Acquires reference to EventService --> 
-    <bean id="dspace.eventService" factory-bean="dspace" factory-method="getEventService"/>
-
     <bean class="org.dspace.usage.LoggerUsageEventListener">
         <property name="eventService" ref="org.dspace.services.EventService"/>
     </bean>
 
+    <!-- Inject the SolrLoggerUsageEventListener into the EventService  -->
     <bean class="org.dspace.statistics.SolrLoggerUsageEventListener">
         <property name="eventService" ref="org.dspace.services.EventService"/>
     </bean>
