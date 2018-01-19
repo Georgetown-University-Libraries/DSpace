@@ -44,6 +44,11 @@
             margin-bottom: 15px;
             padding: 7px 9px;
         }
+        fieldset {
+            margin: 8px;
+            padding: 8px;
+            border: thin solid gray;
+        }
     </style>
     <script src="browser/vendor/js/jquery-1.10.2.min.js"></script>
     <script src="browser/vendor/js/bootstrap.js"></script>
@@ -61,7 +66,6 @@
         </fieldset>
         <fieldset>
             <label>SSO/Shibboleth Authentication</label>
-            <button type="button" class="btn btn-large btn-primary" id="login2">Sign in</button>
         </fieldset>
     </form>
 </div>
@@ -86,7 +90,7 @@
             "onclick" : function() { toastr.remove(); }
         }
 
-        $("#login").click(function() {
+        $("#login,#login-sso").click(function() {
             $.ajax({
                 //This depends on this file to be called login.html
                 url : window.location.href.replace("login.html", "") + 'api/authn/login',
