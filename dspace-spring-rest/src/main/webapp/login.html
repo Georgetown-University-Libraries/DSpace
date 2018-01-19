@@ -53,9 +53,16 @@
 <div class="container">
     <form class="form-signin">
         <h2 class="form-signin-heading">HAL Browser</h2>
-        <input type="text" class="input-block-level" placeholder="Username" id="username">
-        <input type="password" class="input-block-level" placeholder="Password" id="password">
-        <button type="button" class="btn btn-large btn-primary" id="login">Sign in</button>
+        <fieldset>
+            <label>Password Authentication</label>
+            <input type="text" class="input-block-level" placeholder="Username" id="username">
+            <input type="password" class="input-block-level" placeholder="Password" id="password">
+            <button type="button" class="btn btn-large btn-primary" id="login">Sign in</button>
+        </fieldset>
+        <fieldset>
+            <label>SSO/Shibboleth Authentication</label>
+            <button type="button" class="btn btn-large btn-primary" id="login2">Sign in</button>
+        </fieldset>
     </form>
 </div>
 
