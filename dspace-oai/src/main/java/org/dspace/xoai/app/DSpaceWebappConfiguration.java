@@ -7,7 +7,7 @@
  */
 package org.dspace.xoai.app;
 
-import org.jtwig.spring.JtwigViewResolver;
+import com.lyncode.jtwig.mvc.JtwigViewResolver;
 import org.dspace.xoai.services.api.xoai.ItemRepositoryResolver;
 import org.dspace.xoai.services.impl.xoai.DSpaceItemRepositoryResolver;
 import org.springframework.context.annotation.Bean;
