@@ -27,6 +27,7 @@ public class ConfigurationValueRest extends BaseObjectRest<String> {
     @JsonIgnore
     private String configurationName;
 
+    private String key = "";
     private String value = "";
 
     public String getCategory() {
@@ -53,6 +54,13 @@ public class ConfigurationValueRest extends BaseObjectRest<String> {
     }
     public void setConfigurationName(String configurationName){
         this.configurationName = configurationName;
+    }
+
+    public void setKey(String key){
+        this.key = key;
+    }
+    public String getKey(){
+        return key;
     }
 
     public void setValue(String value){

@@ -14,6 +14,7 @@ import org.dspace.app.rest.model.*;
 import org.dspace.app.rest.model.hateoas.*;
 import org.dspace.app.rest.parameter.SearchFilter;
 import org.dspace.app.rest.repository.DiscoveryRestRepository;
+import org.dspace.app.rest.utils.ConfigurationExtractor;
 import org.dspace.app.rest.utils.ScopeResolver;
 import org.dspace.app.rest.utils.Utils;
 import org.springframework.beans.factory.InitializingBean;
@@ -58,18 +59,19 @@ public class ConfigurationRestController implements InitializingBean {
                                                   @RequestParam(name = "configuration", required = false) String configurationName) throws Exception {
 
         ConfigurationValueRest configurationValueRest = new ConfigurationValueRest();
-        configurationValueRest.setId("name");
+        configurationValueRest.setKey("name");
         configurationValueRest.setValue("value");
         ConfigurationValueResource configurationValueResource = new ConfigurationValueResource(configurationValueRest);
         halLinkService.addLinks(configurationValueResource);
         return configurationValueResource;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/facets/{name}")
+    @RequestMapping(method = RequestMethod.GET, value = "/keys/{name}")
     public ConfigurationValueResource getFacetValues(@PathVariable("name") String configKeyName) throws Exception {
         ConfigurationValueRest configurationValueRest = new ConfigurationValueRest();
-        configurationValueRest.setId(configKeyName);
-        configurationValueRest.setValue(configKeyName);
+        configurationValueRest.setKey(configKeyName);
+        String val = new ConfigurationExtractor().getConfigValue(configKeyName);
+        configurationValueRest.setValue(val);
         ConfigurationValueResource configurationValueResource = new ConfigurationValueResource(configurationValueRest);
         halLinkService.addLinks(configurationValueResource);
         return configurationValueResource;
