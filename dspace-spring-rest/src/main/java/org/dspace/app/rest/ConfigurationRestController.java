@@ -66,8 +66,8 @@ public class ConfigurationRestController implements InitializingBean {
         return configurationValueResource;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/keys/{name}")
-    public ConfigurationValueResource getFacetValues(@PathVariable("name") String configKeyName) throws Exception {
+    @RequestMapping(method = RequestMethod.GET, value = "/keys/{key:.+}")
+    public ConfigurationValueResource getFacetValues(@PathVariable("key") String configKeyName) throws Exception {
         ConfigurationValueRest configurationValueRest = new ConfigurationValueRest();
         configurationValueRest.setKey(configKeyName);
         
