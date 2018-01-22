@@ -44,10 +44,10 @@ public class ConfigurationRestController implements InitializingBean {
     private DiscoverableEndpointsService discoverableEndpointsService;
 
     @Autowired
-    private DiscoveryRestRepository discoveryRestRepository;
+    private HalLinkService halLinkService;
 
     @Autowired
-    private HalLinkService halLinkService;
+    private ConfigurationExtractor configurationExtractor;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -70,7 +70,8 @@ public class ConfigurationRestController implements InitializingBean {
     public ConfigurationValueResource getFacetValues(@PathVariable("name") String configKeyName) throws Exception {
         ConfigurationValueRest configurationValueRest = new ConfigurationValueRest();
         configurationValueRest.setKey(configKeyName);
-        String val = new ConfigurationExtractor().getConfigValue(configKeyName);
+        
+        String val = configurationExtractor.getConfigValue(configKeyName);
         configurationValueRest.setValue(val);
         ConfigurationValueResource configurationValueResource = new ConfigurationValueResource(configurationValueRest);
         halLinkService.addLinks(configurationValueResource);
