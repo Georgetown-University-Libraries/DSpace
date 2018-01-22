@@ -83,6 +83,19 @@ public class AuthenticationRestController implements InitializingBean {
         return authenticationStatusResource;
     }
 
+    @RequestMapping(value = "/sso-link", method = RequestMethod.GET)
+    public AuthenticationStatusResource ssoLink(HttpServletRequest request) throws SQLException {
+        Context context = ContextUtil.obtainContext(request);
+        EPersonRest ePersonRest = null;
+        if (context.getCurrentUser() != null) {
+            ePersonRest = ePersonConverter.fromModel(context.getCurrentUser());
+        }
+        AuthenticationStatusResource authenticationStatusResource = new AuthenticationStatusResource( new AuthenticationStatusRest(ePersonRest), utils);
+        halLinkService.addLinks(authenticationStatusResource);
+        return authenticationStatusResource;
+    }
+
+    
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity login(HttpServletRequest request, @RequestParam(name = "user", required = false) String user,
                                 @RequestParam(name = "password", required = false) String password) {
