@@ -42,9 +42,6 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 
     private RestAuthenticationService restAuthenticationService;
 
-    @Autowired
-    private ConfigurationService configurationService;
-
     @Override
     public void afterPropertiesSet()  {
     }
@@ -71,6 +68,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
                                         new ArrayList<>())
                         );
         } catch(BadCredentialsException e) {
+                ConfigurationService configurationService = new DSpace().getConfigurationService();
                 res.addHeader("tbhi", String.format("zz %s", configurationService));
                 res.addHeader("Location", "/Shibboleth.sso/Login");
                 /*
