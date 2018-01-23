@@ -51,12 +51,6 @@ public class StatelessAuthenticationFilter extends BasicAuthenticationFilter{
 
     private RequestService requestService;
 
-    @Autowired
-    private ConfigurationService configurationService;
-
-    @Autowired
-    private AuthenticationService authenticationService;
-
     public StatelessAuthenticationFilter(AuthenticationManager authenticationManager,
                                          RestAuthenticationService restAuthenticationService,
                                          EPersonRestAuthenticationProvider authenticationProvider,
@@ -72,29 +66,12 @@ public class StatelessAuthenticationFilter extends BasicAuthenticationFilter{
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
 
-        try {
-                res.addHeader("tbhi2","xx");
-                Authentication authentication = getAuthentication(req);
-                if (authentication != null ) {
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-                
-                chain.doFilter(req, res);
-        } catch(BadCredentialsException e) {
-                res.addHeader("tbhi", "zz");
-                for(Iterator<AuthenticationMethod> itmeth = authenticationService.authenticationMethodIterator(); itmeth.hasNext(); ){
-                        AuthenticationMethod meth = itmeth.next();
-                        res.addHeader("tbmethod", meth.getClass().getName());
-                        if (itmeth.next() instanceof ShibAuthentication) {
-                            String shibLoginUrl = configurationService.getProperty("authentication-shibboleth.lazysession.loginurl", "");
-                            if (!shibLoginUrl.isEmpty()) {
-                                res.addHeader("Location", shibLoginUrl);
-                            }
-                            break;
-                        }
-                }
-                throw e;
-        }
+            Authentication authentication = getAuthentication(req);
+            if (authentication != null ) {
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+            
+            chain.doFilter(req, res);
     }
 
     private Authentication getAuthentication(HttpServletRequest request) {

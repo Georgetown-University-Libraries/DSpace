@@ -9,15 +9,23 @@ package org.dspace.app.rest.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.dspace.authenticate.AuthenticationMethod;
+import org.dspace.authenticate.ShibAuthentication;
+import org.dspace.authenticate.service.AuthenticationService;
+import org.dspace.services.ConfigurationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -33,6 +41,13 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
 
     private RestAuthenticationService restAuthenticationService;
 
+    @Autowired
+    private ConfigurationService configurationService;
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
+
     public StatelessLoginFilter(String url, AuthenticationManager authenticationManager, RestAuthenticationService restAuthenticationService) {
         super(new AntPathRequestMatcher(url));
         this.authenticationManager = authenticationManager;
@@ -46,12 +61,29 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
         String user = req.getParameter("user");
         String password = req.getParameter("password");
 
-        return authenticationManager.authenticate(
-                new DSpaceAuthentication(
-                        user,
-                        password,
-                        new ArrayList<>())
-        );
+        try {
+                res.addHeader("tbhi2","xx");
+                return authenticationManager.authenticate(
+                                new DSpaceAuthentication(
+                                        user,
+                                        password,
+                                        new ArrayList<>())
+                        );
+        } catch(BadCredentialsException e) {
+                res.addHeader("tbhi", "zz");
+                for(Iterator<AuthenticationMethod> itmeth = authenticationService.authenticationMethodIterator(); itmeth.hasNext(); ){
+                        AuthenticationMethod meth = itmeth.next();
+                        res.addHeader("tbmethod", meth.getClass().getName());
+                        if (itmeth.next() instanceof ShibAuthentication) {
+                            String shibLoginUrl = configurationService.getProperty("authentication-shibboleth.lazysession.loginurl", "");
+                            if (!shibLoginUrl.isEmpty()) {
+                                res.addHeader("Location", shibLoginUrl);
+                            }
+                            break;
+                        }
+                }
+                throw e;
+        }
     }
 
 
