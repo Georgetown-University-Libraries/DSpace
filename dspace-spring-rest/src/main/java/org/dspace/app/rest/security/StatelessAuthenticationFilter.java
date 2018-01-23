@@ -90,7 +90,6 @@ public class StatelessAuthenticationFilter extends BasicAuthenticationFilter{
                             }
                             break;
                         }
-                    }
                 }
                 throw e;
         }
