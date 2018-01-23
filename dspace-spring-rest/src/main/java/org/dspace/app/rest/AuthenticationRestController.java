@@ -139,21 +139,8 @@ public class AuthenticationRestController implements InitializingBean {
 
 
         if(context == null || context.getCurrentUser() == null) {
-            ResponseEntity resp = ResponseEntity.status(HttpStatus.FORBIDDEN)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(failedMessage);
-            resp.getHeaders().add("tbheader", "hi");
-            for(Iterator<AuthenticationMethod> itmeth = authenticationService.authenticationMethodIterator(); itmeth.hasNext(); ){
-                AuthenticationMethod meth = itmeth.next();
-                resp.getHeaders().add("tbmethod", meth.getClass().getName());
-                if (itmeth.next() instanceof ShibAuthentication) {
-                    String shibLoginUrl = configurationService.getProperty("authentication-shibboleth.lazysession.loginurl", "");
-                    if (!shibLoginUrl.isEmpty()) {
-                        resp.getHeaders().add("Location", shibLoginUrl);
-                    }
-                    break;
-                }
-            }
-            return resp;
         } else {
             //We have a user, so the login was successful.
             return ResponseEntity.ok().build();

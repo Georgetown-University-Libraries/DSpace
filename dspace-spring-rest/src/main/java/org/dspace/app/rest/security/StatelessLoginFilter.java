@@ -28,6 +28,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Component;
 
 /**
  * This class will filter login requests to try and authenticate them
@@ -35,6 +36,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * @author Frederic Van Reet (frederic dot vanreet at atmire dot com)
  * @author Tom Desair (tom dot desair at atmire dot com)
  */
+@Component
 public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private AuthenticationManager authenticationManager;
