@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.auth.AUTH;
 import org.dspace.authenticate.AuthenticationMethod;
 import org.dspace.authenticate.ShibAuthentication;
 import org.dspace.authenticate.service.AuthenticationService;
@@ -69,22 +70,18 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
                                         new ArrayList<>())
                         );
         } catch(BadCredentialsException e) {
-                ConfigurationService configurationService = new DSpace().getConfigurationService();
-                res.addHeader("tbhi", String.format("zz %s", configurationService));
-                res.addHeader("Location", "/Shibboleth.sso/Login");
-                /*
-                for(Iterator<AuthenticationMethod> itmeth = authenticationService.authenticationMethodIterator(); itmeth.hasNext(); ){
-                        AuthenticationMethod meth = itmeth.next();
-                        res.addHeader("tbmethod", meth.getClass().getName());
-                        if (itmeth.next() instanceof ShibAuthentication) {
-                            String shibLoginUrl = configurationService.getProperty("authentication-shibboleth.lazysession.loginurl", "");
-                            if (!shibLoginUrl.isEmpty()) {
-                                res.addHeader("Location", shibLoginUrl);
-                            }
-                            break;
+                DSpace dspace = new DSpace();
+                ConfigurationService configurationService = dspace.getConfigurationService();
+                String[] authMethods = configurationService.getArrayProperty("plugin.sequence.org.dspace.authenticate.AuthenticationMethod", new String[0]);
+                for(String method: authMethods) {
+                    if (method.equals("org.dspace.authenticate.ShibAuthentication")) {
+                        String shibLoginUrl = configurationService.getProperty("authentication-shibboleth.lazysession.loginurl", "");
+                        if (!shibLoginUrl.isEmpty()) {
+                            res.addHeader("Location", shibLoginUrl);
                         }
+                        break;
+                    }
                 }
-                */
                 throw e;
         }
     }
