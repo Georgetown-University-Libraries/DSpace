@@ -63,6 +63,8 @@ public class StatelessAuthenticationFilter extends BasicAuthenticationFilter{
         if (authentication != null ) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+        
+        res.addHeader("tbfoo", "tbxxx");
 
         chain.doFilter(req, res);
     }
