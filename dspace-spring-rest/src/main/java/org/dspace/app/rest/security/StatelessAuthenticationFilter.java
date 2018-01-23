@@ -8,6 +8,7 @@
 package org.dspace.app.rest.security;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.FilterChain;
@@ -16,12 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.dspace.app.rest.utils.ContextUtil;
+import org.dspace.authenticate.AuthenticationMethod;
+import org.dspace.authenticate.ShibAuthentication;
+import org.dspace.authenticate.service.AuthenticationService;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
+import org.dspace.services.ConfigurationService;
 import org.dspace.services.RequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,6 +51,12 @@ public class StatelessAuthenticationFilter extends BasicAuthenticationFilter{
 
     private RequestService requestService;
 
+    @Autowired
+    private ConfigurationService configurationService;
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
     public StatelessAuthenticationFilter(AuthenticationManager authenticationManager,
                                          RestAuthenticationService restAuthenticationService,
                                          EPersonRestAuthenticationProvider authenticationProvider,
@@ -64,9 +77,23 @@ public class StatelessAuthenticationFilter extends BasicAuthenticationFilter{
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         
-        res.addHeader("tbfoo", "tbxxx");
-
-        chain.doFilter(req, res);
+        try {
+                chain.doFilter(req, res);
+        } catch(BadCredentialsException e) {
+                for(Iterator<AuthenticationMethod> itmeth = authenticationService.authenticationMethodIterator(); itmeth.hasNext(); ){
+                        AuthenticationMethod meth = itmeth.next();
+                        res.addHeader("tbmethod", meth.getClass().getName());
+                        if (itmeth.next() instanceof ShibAuthentication) {
+                            String shibLoginUrl = configurationService.getProperty("authentication-shibboleth.lazysession.loginurl", "");
+                            if (!shibLoginUrl.isEmpty()) {
+                                res.addHeader("Location", shibLoginUrl);
+                            }
+                            break;
+                        }
+                    }
+                }
+                throw e;
+        }
     }
 
     private Authentication getAuthentication(HttpServletRequest request) {
