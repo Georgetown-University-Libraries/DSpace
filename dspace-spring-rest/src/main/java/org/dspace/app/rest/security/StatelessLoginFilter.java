@@ -70,7 +70,8 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
                                         new ArrayList<>())
                         );
         } catch(BadCredentialsException e) {
-                res.addHeader("tbhi", "zz");
+                res.addHeader("tbhi", String.format("zz %s -- %s", authenticationService, configurationService));
+                /*
                 for(Iterator<AuthenticationMethod> itmeth = authenticationService.authenticationMethodIterator(); itmeth.hasNext(); ){
                         AuthenticationMethod meth = itmeth.next();
                         res.addHeader("tbmethod", meth.getClass().getName());
@@ -82,6 +83,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
                             break;
                         }
                 }
+                */
                 throw e;
         }
     }
