@@ -77,7 +77,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
                 if (method.equals("org.dspace.authenticate.ShibAuthentication")) {
                     String shibLoginUrl = configurationService.getProperty("authentication-shibboleth.lazysession.loginurl", "");
                     if (!shibLoginUrl.isEmpty()) {
-                        res.addHeader("Location", shibLoginUrl);
+                        res.addHeader("Location", String.format("%s/%s?target=%s", req.getHeader("Origin"), shibLoginUrl, req.getHeader("Referer")));
                     }
                     break;
                 }
