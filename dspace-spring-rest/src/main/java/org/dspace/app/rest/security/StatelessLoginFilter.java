@@ -36,19 +36,11 @@ import org.springframework.stereotype.Component;
  * @author Frederic Van Reet (frederic dot vanreet at atmire dot com)
  * @author Tom Desair (tom dot desair at atmire dot com)
  */
-@Component
 public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private AuthenticationManager authenticationManager;
 
     private RestAuthenticationService restAuthenticationService;
-
-    @Autowired
-    private ConfigurationService configurationService;
-
-    @Autowired
-    private AuthenticationService authenticationService;
-
 
     public StatelessLoginFilter(String url, AuthenticationManager authenticationManager, RestAuthenticationService restAuthenticationService) {
         super(new AntPathRequestMatcher(url));
@@ -72,7 +64,8 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
                                         new ArrayList<>())
                         );
         } catch(BadCredentialsException e) {
-                res.addHeader("tbhi", String.format("zz %s -- %s", authenticationService, configurationService));
+                DSpaceConfigurationService configurationService = new DSpaceConfigurationService();
+                res.addHeader("tbhi", String.format("zz %s", configurationService));
                 /*
                 for(Iterator<AuthenticationMethod> itmeth = authenticationService.authenticationMethodIterator(); itmeth.hasNext(); ){
                         AuthenticationMethod meth = itmeth.next();
