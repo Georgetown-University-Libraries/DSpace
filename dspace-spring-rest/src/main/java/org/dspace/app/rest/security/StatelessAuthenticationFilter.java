@@ -73,7 +73,7 @@ public class StatelessAuthenticationFilter extends BasicAuthenticationFilter{
                                     FilterChain chain) throws IOException, ServletException {
 
         try {
-                res.addHeader("tbhi2", meth.getClass().getName());
+                res.addHeader("tbhi2","xx");
                 Authentication authentication = getAuthentication(req);
                 if (authentication != null ) {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
