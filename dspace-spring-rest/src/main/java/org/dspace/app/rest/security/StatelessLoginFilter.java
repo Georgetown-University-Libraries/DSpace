@@ -20,6 +20,7 @@ import org.dspace.authenticate.AuthenticationMethod;
 import org.dspace.authenticate.ShibAuthentication;
 import org.dspace.authenticate.service.AuthenticationService;
 import org.dspace.services.ConfigurationService;
+import org.dspace.servicemanager.config.DSpaceConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
