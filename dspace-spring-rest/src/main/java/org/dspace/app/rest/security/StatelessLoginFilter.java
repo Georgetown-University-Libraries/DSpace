@@ -20,7 +20,6 @@ import org.dspace.authenticate.AuthenticationMethod;
 import org.dspace.authenticate.ShibAuthentication;
 import org.dspace.authenticate.service.AuthenticationService;
 import org.dspace.services.ConfigurationService;
-import org.dspace.servicemanager.config.DSpaceConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -42,6 +41,13 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
     private AuthenticationManager authenticationManager;
 
     private RestAuthenticationService restAuthenticationService;
+
+    @Autowired
+    private ConfigurationService configurationService;
+
+    @Override
+    public void afterPropertiesSet()  {
+    }
 
     public StatelessLoginFilter(String url, AuthenticationManager authenticationManager, RestAuthenticationService restAuthenticationService) {
         super(new AntPathRequestMatcher(url));
@@ -65,7 +71,6 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
                                         new ArrayList<>())
                         );
         } catch(BadCredentialsException e) {
-                DSpaceConfigurationService configurationService = new DSpaceConfigurationService();
                 res.addHeader("tbhi", String.format("zz %s", configurationService));
                 /*
                 for(Iterator<AuthenticationMethod> itmeth = authenticationService.authenticationMethodIterator(); itmeth.hasNext(); ){
