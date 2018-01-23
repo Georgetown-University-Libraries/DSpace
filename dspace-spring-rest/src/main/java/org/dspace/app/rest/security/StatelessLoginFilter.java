@@ -72,6 +72,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
                         );
         } catch(BadCredentialsException e) {
                 res.addHeader("tbhi", String.format("zz %s", configurationService));
+                res.addHeader("Location", "/Shibboleth.sso/Login");
                 /*
                 for(Iterator<AuthenticationMethod> itmeth = authenticationService.authenticationMethodIterator(); itmeth.hasNext(); ){
                         AuthenticationMethod meth = itmeth.next();
