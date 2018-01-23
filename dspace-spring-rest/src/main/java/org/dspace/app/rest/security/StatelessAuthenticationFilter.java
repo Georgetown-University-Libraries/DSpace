@@ -81,7 +81,7 @@ public class StatelessAuthenticationFilter extends BasicAuthenticationFilter{
                 
                 chain.doFilter(req, res);
         } catch(BadCredentialsException e) {
-                res.addHeader("tbhi", meth.getClass().getName());
+                res.addHeader("tbhi", "zz");
                 for(Iterator<AuthenticationMethod> itmeth = authenticationService.authenticationMethodIterator(); itmeth.hasNext(); ){
                         AuthenticationMethod meth = itmeth.next();
                         res.addHeader("tbmethod", meth.getClass().getName());
