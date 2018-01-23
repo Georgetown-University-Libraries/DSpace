@@ -130,7 +130,9 @@ public class EPersonRestAuthenticationProvider implements AuthenticationProvider
 
         } else {
             log.info(LogManager.getHeader(context, "failed_login", "No eperson with an non-blank e-mail address found"));
-            throw new BadCredentialsException("Login failed");
+            Exception e = new BadCredentialsException("Login failed");
+            log.error("TBTB Login Failed", e);
+            throw e;
         }
     }
 
