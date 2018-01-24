@@ -9,6 +9,7 @@ package org.dspace.app.rest;
 
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,7 +22,11 @@ import org.dspace.app.rest.model.hateoas.AuthenticationStatusResource;
 import org.dspace.app.rest.model.hateoas.AuthnResource;
 import org.dspace.app.rest.utils.ContextUtil;
 import org.dspace.app.rest.utils.Utils;
+import org.dspace.authenticate.AuthenticationMethod;
+import org.dspace.authenticate.ShibAuthentication;
 import org.dspace.core.Context;
+import org.dspace.authenticate.service.AuthenticationService;
+import org.dspace.services.ConfigurationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -55,6 +60,12 @@ public class AuthenticationRestController implements InitializingBean {
 
     @Autowired
     private HalLinkService halLinkService;
+
+    @Autowired
+    private ConfigurationService configurationService;
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @Autowired
     private Utils utils;
@@ -128,8 +139,18 @@ public class AuthenticationRestController implements InitializingBean {
 
 
         if(context == null || context.getCurrentUser() == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            ResponseEntity resp = ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(failedMessage);
+            for(Iterator<AuthenticationMethod> itmeth = authenticationService.authenticationMethodIterator(); itmeth.hasNext(); ){
+                if (itmeth.next() instanceof ShibAuthentication) {
+                    String shibLoginUrl = configurationService.getProperty("authentication-shibboleth.lazysession.loginurl", "");
+                    if (!shibLoginUrl.isEmpty()) {
+                        resp.getHeaders().add("Location", shibLoginUrl);
+                    }
+                    break;
+                }
+            }
+            return resp;
         } else {
             //We have a user, so the login was successful.
             return ResponseEntity.ok().build();
