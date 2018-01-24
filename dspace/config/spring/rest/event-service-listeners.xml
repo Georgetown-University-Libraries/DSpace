@@ -6,6 +6,8 @@
         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
+    <bean id="solrLoggerService" class="org.dspace.statistics.SolrLoggerServiceImpl" lazy-init="true"/>
+
     <!-- Inject the Default LoggerUsageEventListener into the EventService  -->
     <bean class="org.dspace.usage.LoggerUsageEventListener">
         <property name="eventService" ref="org.dspace.services.EventService"/>
