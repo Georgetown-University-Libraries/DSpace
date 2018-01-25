@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.dspace.authorize.AuthorizeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,6 +39,9 @@ public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionH
 
     @ExceptionHandler(AuthorizeException.class)
     protected void handleAuthorizeException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+        if (ex instanceof InsufficientAuthenticationException) {
+            sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SEE_ALSO);
+        }
         sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_UNAUTHORIZED);
     }
 

@@ -90,7 +90,7 @@
           url : window.location.href.replace("login.html", "") + 'api/authn/login',
           success : successHandler,
           error : function(result, status, xhr) {
-              if (xhr == 401) {
+              if (xhr == 303) {
                   var loc = result.getResponseHeader("location");
                   if (loc != null && loc != "") {
                       document.location = loc;
