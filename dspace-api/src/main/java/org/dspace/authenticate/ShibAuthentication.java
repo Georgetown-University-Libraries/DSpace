@@ -510,17 +510,28 @@ public class ShibAuthentication implements AuthenticationMethod
 			int port = request.getServerPort();
 			String contextPath = request.getContextPath();
 
-			String returnURL = request.getHeader("Referer");;
+			StringBuilder returnURL = new StringBuilder();
+                        if (request.isSecure() || forceHTTPS)
+                                returnURL.append("https://");
+                        else 
+                                returnURL.append("http://");
+                        returnURL.append(host);
+                        if (!(port == 443 || port == 80)) {
+                                returnURL.append(":" + port);
+                        }
+                        
+                        returnURL.append(shibURL)
+                            .append("?target=");
 
 			try {
-				shibURL += "?target="+URLEncoder.encode(returnURL, "UTF-8");
+				returnURL.append(URLEncoder.encode(request.getHeader("Referer"), "UTF-8"));
 			} catch (UnsupportedEncodingException uee) {
 				log.error("Unable to generate lazysession authentication",uee);
 			}
 
-			log.debug("Redirecting user to Shibboleth initiator: "+shibURL);
+			log.debug("Redirecting user to Shibboleth initiator: "+returnURL.toString());
 
-			return response.encodeRedirectURL(shibURL);
+			return response.encodeRedirectURL(returnURL.toString());
 		} else {
 			// If we are not using lazy sessions rely on the protected URL.
 			return response.encodeRedirectURL(request.getContextPath()
