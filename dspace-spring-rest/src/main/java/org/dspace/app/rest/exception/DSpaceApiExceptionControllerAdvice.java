@@ -40,7 +40,7 @@ public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionH
     @ExceptionHandler(AuthorizeException.class)
     protected void handleAuthorizeException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
         if (ex instanceof InsufficientAuthenticationException) {
-            sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SEE_ALSO);
+            sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_SEE_OTHER);
         }
         sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_UNAUTHORIZED);
     }
