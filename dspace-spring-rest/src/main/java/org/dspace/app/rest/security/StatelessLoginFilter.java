@@ -81,7 +81,7 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
                 }
             }
             if (redirect) {
-                    res.setStatus(HttpStatus.SEE_OTHER);
+                    res.setStatus(HttpStatus.SEE_OTHER.value());
             } else {
                     throw e;
             }
