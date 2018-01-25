@@ -22,6 +22,7 @@ import org.dspace.authenticate.AuthenticationMethod;
 import org.dspace.authenticate.factory.AuthenticateServiceFactory;
 import org.dspace.authenticate.service.AuthenticationService;
 import org.dspace.core.Context;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -69,15 +70,21 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
         } catch(BadCredentialsException e) {
             AuthenticationService authenticationService = AuthenticateServiceFactory.getInstance().getAuthenticationService();
             Iterator<AuthenticationMethod> authenticationMethodIterator = authenticationService.authenticationMethodIterator();
+            boolean redirect = false;
             while (authenticationMethodIterator.hasNext()) {
                 AuthenticationMethod authenticationMethod = authenticationMethodIterator.next();
                 Context context = ContextUtil.obtainContext(req);
                 String loginPageURL = authenticationMethod.loginPageURL(context, req, res);
                 if (StringUtils.isNotBlank(loginPageURL)) {
+                    redirect = true;
                     res.addHeader("Location", loginPageURL);
                 }
             }
-            throw e;
+            if (redirect) {
+                    res.setStatus(HttpStatus.SEE_OTHER);
+            } else {
+                    throw e;
+            }
         }
     }
 
