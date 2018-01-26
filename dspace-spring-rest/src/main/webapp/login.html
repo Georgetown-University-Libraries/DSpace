@@ -95,6 +95,11 @@
                   if (loc != null && loc != "") {
                       document.location = loc;
                   }
+              } else if (xhr == 401) {
+                  var loc = result.getResponseHeader("location");
+                  if (loc != null && loc != "") {
+                      document.location = loc;
+                  }
               }
           }
         });

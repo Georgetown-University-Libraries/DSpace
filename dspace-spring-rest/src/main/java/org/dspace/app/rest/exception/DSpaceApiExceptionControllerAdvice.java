@@ -38,6 +38,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionHandler{
 
+    @ExceptionHandler(Exception.class)
+    protected void handleException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+        System.err.println("TBTB 3A");
+        if (response.containsHeader("Location")) {
+            sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_SEE_OTHER);
+        }
+        sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_UNAUTHORIZED);
+    }
     @ExceptionHandler(AuthenticationException.class)
     protected void handleAuthenticationException(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException {
         System.err.println("TBTB 3");
