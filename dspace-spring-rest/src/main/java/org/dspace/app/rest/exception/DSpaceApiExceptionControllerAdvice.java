@@ -38,7 +38,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionHandler{
 
     @ExceptionHandler(InsufficientAuthenticationException.class)
-    protected void handleAuthorizeException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+    protected void handleRedirectException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
         ex.printStackTrace();
         sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_SEE_OTHER);
     }
