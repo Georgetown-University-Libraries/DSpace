@@ -102,7 +102,7 @@ public class EPersonRestAuthenticationProvider implements AuthenticationProvider
                         log.info(LogManager.getHeader(newContext, "failed_login", "email="
                                 + name + ", result="
                                 + authenticateResult));
-                        throw new BadCredentialsException("Login failed");
+                        //throw new BadCredentialsException("Login failed");
                     }
                 }
             } finally {
@@ -130,7 +130,7 @@ public class EPersonRestAuthenticationProvider implements AuthenticationProvider
 
         } else {
             log.info(LogManager.getHeader(context, "failed_login", "No eperson with an non-blank e-mail address found"));
-            throw new BadCredentialsException("Login failed");
+            //throw new BadCredentialsException("Login failed");
         }
     }
 
