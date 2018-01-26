@@ -70,15 +70,16 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
         } catch(BadCredentialsException e) {
             AuthenticationService authenticationService = AuthenticateServiceFactory.getInstance().getAuthenticationService();
             Iterator<AuthenticationMethod> authenticationMethodIterator = authenticationService.authenticationMethodIterator();
-            boolean redirect = false;
             while (authenticationMethodIterator.hasNext()) {
                 AuthenticationMethod authenticationMethod = authenticationMethodIterator.next();
                 Context context = ContextUtil.obtainContext(req);
                 String loginPageURL = authenticationMethod.loginPageURL(context, req, res);
                 if (StringUtils.isNotBlank(loginPageURL)) {
                     res.addHeader("Location", loginPageURL);
-                    res.setStatus(HttpServletResponse.SC_SEE_OTHER);
                 }
+            }
+            if (res.containsHeader("Location")) {
+                throw new InsufficientAuthenticationException(e.getMessage());
             }
             throw e;
         }
