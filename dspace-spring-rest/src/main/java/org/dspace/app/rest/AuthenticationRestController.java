@@ -90,6 +90,7 @@ public class AuthenticationRestController implements InitializingBean {
         //see org.dspace.app.rest.security.StatelessLoginFilter
 
         //If we don't have an EPerson here, this means authentication failed and we should return an error message.
+        System.err.println("TBTB 5");
 
         return getLoginResponse(request, "Authentication failed for user " + user + ": The credentials you provided are not valid.");
     }
@@ -103,6 +104,7 @@ public class AuthenticationRestController implements InitializingBean {
     protected ResponseEntity getLoginResponse(HttpServletRequest request, String failedMessage) {
         //Get the context and check if we have an authenticated eperson
         org.dspace.core.Context context = null;
+        System.err.println("TBTB 6");
 
         context = ContextUtil.obtainContext(request);
 
