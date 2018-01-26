@@ -38,7 +38,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionHandler{
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler({Exception.class})
     protected void handleException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
         System.err.println("TBTB 3A");
         if (response.containsHeader("Location")) {
@@ -46,7 +46,7 @@ public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionH
         }
         sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_UNAUTHORIZED);
     }
-    @ExceptionHandler(AuthenticationException.class)
+    @ExceptionHandler({AuthenticationException.class})
     protected void handleAuthenticationException(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException {
         System.err.println("TBTB 3");
         if (response.containsHeader("Location")) {
@@ -55,7 +55,7 @@ public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionH
         sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_UNAUTHORIZED);
     }
 
-    @ExceptionHandler(AuthorizeException.class)
+    @ExceptionHandler({AuthorizeException.class})
     protected void handleAuthorizeException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
         System.err.println("TBTB 4");
         if (response.containsHeader("Location")) {
@@ -64,13 +64,13 @@ public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionH
         sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_UNAUTHORIZED);
     }
 
-    @ExceptionHandler(SQLException.class)
+    @ExceptionHandler({SQLException.class})
     protected void handleSQLException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
         sendErrorResponse(request, response, ex,
                 "An internal database error occurred", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(IOException.class)
+    @ExceptionHandler({IOException.class})
     protected void handleIOException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
         sendErrorResponse(request, response, ex,
                 "An internal read or write operation failed (IO Exception)", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
