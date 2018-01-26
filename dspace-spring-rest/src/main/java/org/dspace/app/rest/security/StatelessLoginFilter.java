@@ -77,11 +77,8 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
                 String loginPageURL = authenticationMethod.loginPageURL(context, req, res);
                 if (StringUtils.isNotBlank(loginPageURL)) {
                     res.addHeader("Location", loginPageURL);
-                    redirect = true;
+                    res.setStatus(HttpServletResponse.SC_SEE_OTHER);
                 }
-            }
-            if (redirect) {
-                throw new InsufficientAuthenticationException(e.getMessage());
             }
             throw e;
         }
