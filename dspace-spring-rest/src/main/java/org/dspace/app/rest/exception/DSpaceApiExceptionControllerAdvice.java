@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import org.apache.log4j.Logger;
+
 /**
  * This Controller advice will handle all exceptions thrown by the DSpace API module
  *
@@ -37,14 +39,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  */
 @ControllerAdvice
 public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionHandler{
+    private static final Logger log = Logger.getLogger(DSpaceApiExceptionControllerAdvice.class);
 
-    @ExceptionHandler({Exception.class})
-    protected void handleException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<String> handleResourceNotFound(Exception ex){
         System.err.println("TBTB 3A");
-        if (response.containsHeader("Location")) {
-            sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_SEE_OTHER);
-        }
-        sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_UNAUTHORIZED);
+
+        ex.printStackTrace();
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("Requested resource does not found");
     }
     @ExceptionHandler({AuthenticationException.class})
     protected void handleAuthenticationException(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException {
