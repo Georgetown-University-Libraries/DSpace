@@ -39,8 +39,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionHandler{
 
     @ExceptionHandler(AuthenticationException.class)
-    protected void handleAuthenticationException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
-        ex.printStackTrace();
+    protected void handleAuthenticationException(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException {
+        System.err.println("TBTB 3");
         if (response.containsHeader("Location")) {
             sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_SEE_OTHER);
         }
@@ -49,6 +49,7 @@ public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionH
 
     @ExceptionHandler(AuthorizeException.class)
     protected void handleAuthorizeException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+        System.err.println("TBTB 4");
         if (response.containsHeader("Location")) {
             sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_SEE_OTHER);
         }
