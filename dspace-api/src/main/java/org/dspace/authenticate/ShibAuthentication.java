@@ -503,14 +503,7 @@ public class ShibAuthentication implements AuthenticationMethod
 				shibURL = "/Shibboleth.sso/Login";
 			shibURL = shibURL.trim();
 
-			// Determine the return URL, where shib will send the user after authenticating. We need it to go back
-			// to DSpace's shibboleth-login url so the we will extract the user's information and locally
-			// authenticate them.
-			String host = request.getServerName();
-			int port = request.getServerPort();
-			String contextPath = request.getContextPath();
-
-			String returnURL = request.getHeader("Referer");;
+			String returnURL = request.getHeader("Referer");
 
 			try {
 				shibURL += "?target="+URLEncoder.encode(returnURL, "UTF-8");
@@ -524,7 +517,7 @@ public class ShibAuthentication implements AuthenticationMethod
 		} else {
 			// If we are not using lazy sessions rely on the protected URL.
 			return response.encodeRedirectURL(request.getContextPath()
-					+ "/shibboleth-login");
+					+ "/api/authn/login");
 		}
 	}
 
