@@ -39,6 +39,9 @@ public class DSpaceApiExceptionControllerAdvice extends ResponseEntityExceptionH
 
     @ExceptionHandler(AuthorizeException.class)
     protected void handleAuthorizeException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+        if (response.containsHeader("Location")) {
+            sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_SEE_OTHER);
+        }
         sendErrorResponse(request, response, ex, ex.getMessage(), HttpServletResponse.SC_UNAUTHORIZED);
     }
 
