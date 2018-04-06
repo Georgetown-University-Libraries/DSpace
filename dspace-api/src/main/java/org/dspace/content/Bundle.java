@@ -44,7 +44,7 @@ public class Bundle extends DSpaceObject implements DSpaceObjectLegacySupport
     @JoinColumn(name = "primary_bitstream_id")
     private Bitstream primaryBitstream;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="bundle2bitstream",
             joinColumns={@JoinColumn(name="bundle_id") },
@@ -53,7 +53,7 @@ public class Bundle extends DSpaceObject implements DSpaceObjectLegacySupport
     @OrderColumn(name="bitstream_order")
     private final List<Bitstream> bitstreams = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "item2bundle",
             joinColumns = {@JoinColumn(name = "bundle_id", referencedColumnName = "uuid") },
