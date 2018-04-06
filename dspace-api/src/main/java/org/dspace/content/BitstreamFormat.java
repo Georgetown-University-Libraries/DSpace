@@ -16,6 +16,8 @@ import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.BitstreamFormatService;
 import org.dspace.core.Context;
 import org.dspace.core.ReloadableEntity;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.Type;
@@ -36,6 +38,8 @@ import java.util.List;
  * @version $Revision$
  */
 @Entity
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Table(name="bitstreamformatregistry")
 public class BitstreamFormat implements Serializable, ReloadableEntity<Integer>
 {
