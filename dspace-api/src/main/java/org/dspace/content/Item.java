@@ -84,7 +84,7 @@ public class Item extends DSpaceObject implements DSpaceObjectLegacySupport
     )
     private final Set<Collection> collections = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "items")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "items")
     private final List<Bundle> bundles = new ArrayList<>();
 
     @Transient
