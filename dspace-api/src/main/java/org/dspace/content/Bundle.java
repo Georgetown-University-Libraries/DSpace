@@ -15,6 +15,7 @@ import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.BundleService;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.proxy.HibernateProxyHelper;
 
 import javax.persistence.*;
@@ -32,6 +33,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="bundle")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, include = "non-lazy")
 public class Bundle extends DSpaceObject implements DSpaceObjectLegacySupport
 {
     @Column(name="bundle_id", insertable = false, updatable = false)
