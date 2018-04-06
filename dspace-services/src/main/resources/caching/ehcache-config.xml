@@ -196,6 +196,82 @@
          memoryStoreEvictionPolicy="LRU">
      </defaultCache>
 
+    <cache name="org.dspace.content.Site"
+           maxElementsInMemory="1" eternal="false" timeToIdleSeconds="86400"
+           timeToLiveSeconds="86400" overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- The number of metadata schemas is limited and not updated frequently, so if we cache them
+         the likelihood of a cache hit is very high -->
+    <cache name="org.dspace.content.MetadataSchema"
+           maxElementsInMemory="100" eternal="false" timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- The number of metadata fields is limited and not updated frequently, so if we cache them
+         the likelihood of a cache hit is very high -->
+    <cache name="org.dspace.content.MetadataField"
+           maxElementsInMemory="2000" eternal="false"  timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- It is not a good idea to cache Item records. Most repositories have a large number of items
+         so the cache would have to be updated frequently. In addition there are many processes that
+         touch a lot of different items (discovery search, filter media, curation tasks...) which also makes
+         the cache less efficient. The probably of having a cache hit is thus very low and that is why Items
+         should not be cached. The same reasoning applies to Metadata values, Bundles, Bitstreams and Handles. -->
+
+    <!-- The number of groups in a repository can be very big, but only a small percentage of them is used
+         very frequently. So it makes sense to cache Group records because the cache hit rate is likely to be high -->
+    <cache name="org.dspace.eperson.Group"
+           maxElementsInMemory="5000" eternal="false" timeToIdleSeconds="1800"
+           timeToLiveSeconds="3600" overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- Like items, there are too many different Resource policy records for the cache to work efficiently.
+         In addition, resource policies are the core security mechanism in DSpace so want need to be 100% we
+         do not receive a stale policy when querying them. -->
+
+    <!-- The total number of epersons in DSpace can be very large, but the number of concurrent authenticated users is mostly
+         limited. Therefor having the authenticated users data cached will increase performance as the cache hit rate will
+         be high. -->
+    <cache name="org.dspace.eperson.EPerson"
+           maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="1800"
+           timeToLiveSeconds="1800" overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- The number of collections is mostly a fixed set in a repository which is not updated frequently. This means that
+         most queries for a collection will be able to use the cached version. So adding caching here makes sense. -->
+    <cache name="org.dspace.content.Collection"
+           maxElementsInMemory="4000" eternal="false" timeToIdleSeconds="1800"
+           timeToLiveSeconds="1800" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <!-- Like collections, the same applies to communities. So we also setup a cache for communities. -->
+    <cache name="org.dspace.content.Community"
+           maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="1800"
+           timeToLiveSeconds="1800" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="org.dspace.content.Item"
+           maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="1800"
+           timeToLiveSeconds="1800" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="org.dspace.content.Bundle"
+           maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="1800"
+           timeToLiveSeconds="1800" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="org.dspace.content.Bitstream"
+           maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="1800"
+           timeToLiveSeconds="1800" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="org.dspace.content.BitstreamFormat"
+           maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="1800"
+           timeToLiveSeconds="1800" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
+           memoryStoreEvictionPolicy="LRU"/>
 
     <!--Predefined caches.  Add your cache configuration settings here.
         If you do not have a configuration for your cache a WARNING will be issued when the
