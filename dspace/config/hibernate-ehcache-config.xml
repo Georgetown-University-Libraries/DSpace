@@ -23,9 +23,9 @@
     The defaultCache has an implicit name "default" which is a reserved cache name.
     -->
     <defaultCache
-         maxElementsInMemory="3000"
+         maxElementsInMemory="20000"
          eternal="false"
-         timeToIdleSeconds="1"
+         timeToIdleSeconds="120"
          timeToLiveSeconds="1200"
          overflowToDisk="true"
          diskSpoolBufferSizeMB="30"
