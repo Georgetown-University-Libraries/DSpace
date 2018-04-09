@@ -18,6 +18,7 @@ import org.dspace.core.Context;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -123,10 +124,11 @@ public class BitstreamDAOImpl extends AbstractHibernateDSODAO<Bitstream> impleme
                             "and :bundleName = bitBundles.name " +
                             "and :bitstremName = b.name");
 
-                    query.setParameter("item", item);
-                    query.setParameter("bundleName", bundleName);
-                    query.setParameter("bitstremName", bitstreamName);
-            return null;
+            query.setParameter("item", item);
+            query.setParameter("bundleName", bundleName);
+            query.setParameter("bitstremName", bitstreamName);
+
+            return uniqueResult(query);
     }
 
     @Override
