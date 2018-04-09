@@ -114,6 +114,22 @@ public class BitstreamDAOImpl extends AbstractHibernateDSODAO<Bitstream> impleme
     }
 
     @Override
+    public Bitstream findByItemAndBitstreamName(Context context, Item item, String bundleName, String bitstreamName)
+                    throws SQLException {
+            Query query = createQuery(context, "select b from Bitstream b " +
+                            "join b.bundles bitBundles " +
+                            "join bitBundles.items item " +
+                            "WHERE :item IN item " +
+                            "and :bundleName = bitBundles.name " +
+                            "and :bitstremName = b.name");
+
+                    query.setParameter("item", item);
+                    query.setParameter("bundleName", bundleName);
+                    query.setParameter("bitstremName", bitstreamName);
+            return null;
+    }
+
+    @Override
     public Iterator<Bitstream> findByStoreNumber(Context context, Integer storeNumber) throws SQLException {
         Query query = createQuery(context, "select b from Bitstream b where b.storeNumber = :storeNumber");
         query.setParameter("storeNumber", storeNumber);
@@ -153,4 +169,5 @@ public class BitstreamDAOImpl extends AbstractHibernateDSODAO<Bitstream> impleme
                 " and bit.id not in (select col.logo.id from Collection col)" +
                 " and bit.id not in (select bun.primaryBitstream.id from Bundle bun)"));
     }
+
 }
