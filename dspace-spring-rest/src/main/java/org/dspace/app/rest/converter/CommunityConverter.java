@@ -64,11 +64,6 @@ public class CommunityConverter
             com.setSubCommunities(communityRest);
         }
 
-        List<Community> parentCommunities = obj.getParentCommunities();
-        if (parentCommunities.size() > 0) {
-            com.setParentCommunity(this.fromModel(parentCommunities.get(0)));
-        }
-
         return com;
     }
 
