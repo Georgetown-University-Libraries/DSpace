@@ -16,9 +16,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  * @author Andrea Bollini (andrea.bollini at 4science.it)
  */
+@LinksRest(links = {
+    @LinkRest(name = CommunityRest.PARENT_COMMUNITY,
+        linkClass = CommunityRest.class, method = "getSingleParentCommunity",
+        optional = true)
+})
 public class CommunityRest extends DSpaceObjectRest {
     public static final String NAME = "community";
     public static final String CATEGORY = RestAddressableModel.CORE;
+    public static final String PARENT_COMMUNITY = "parentCommunity";
 
     @JsonIgnore
     private BitstreamRest logo;
@@ -45,6 +51,16 @@ public class CommunityRest extends DSpaceObjectRest {
 
     public void setSubCommunities(List<CommunityRest> subcommunities) {
         this.subcommunities = subcommunities;
+    }
+
+    private CommunityRest parentCommunity;
+
+    public CommunityRest getParentCommunity() {
+        return parentCommunity;
+    }
+
+    public void setParentCommunity(CommunityRest parentCommunity) {
+        this.parentCommunity = parentCommunity;
     }
 
     public BitstreamRest getLogo() {

@@ -190,6 +190,19 @@ public class Community extends DSpaceObject implements DSpaceObjectLegacySupport
      *
      * @return the immediate parent community, or null if top-level
      */
+    public Community getSingleParentCommunity() {
+        if (parentCommunities.isEmpty()) {
+            return null;
+        }
+        return parentCommunities.toArray(new Community[] {})[0];
+    }
+
+    /**
+     * Return the parent community of this community, or null if the community
+     * is top-level
+     *
+     * @return the immediate parent community, or null if top-level
+     */
     public List<Community> getParentCommunities() {
         // We return a copy because we do not want people to add elements to this collection directly.
         // We return a list to maintain backwards compatibility
