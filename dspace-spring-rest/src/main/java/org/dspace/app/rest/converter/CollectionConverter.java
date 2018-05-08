@@ -58,6 +58,7 @@ public class CollectionConverter
 
     @Override
     public CollectionRest fromModel(org.dspace.content.Collection obj) {
+        System.out.println("TBTB Load Coll " + obj.getHandle() + " " + obj.getName());
         CollectionRest col = (CollectionRest) super.fromModel(obj);
         Bitstream logo = obj.getLogo();
         if (logo != null) {
