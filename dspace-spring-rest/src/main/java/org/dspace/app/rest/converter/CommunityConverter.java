@@ -40,6 +40,7 @@ public class CommunityConverter
 
     @Override
     public CommunityRest fromModel(org.dspace.content.Community obj) {
+        System.out.println("TBTB Load "+obj.getHandle() + " "+obj.getName());
         CommunityRest com = (CommunityRest) super.fromModel(obj);
         Bitstream logo = obj.getLogo();
         if (logo != null) {
