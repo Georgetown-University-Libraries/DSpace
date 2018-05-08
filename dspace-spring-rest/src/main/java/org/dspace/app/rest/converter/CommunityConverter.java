@@ -10,6 +10,8 @@ package org.dspace.app.rest.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Persistence;
+
 import org.dspace.app.rest.model.CollectionRest;
 import org.dspace.app.rest.model.CommunityRest;
 import org.dspace.content.Bitstream;
@@ -40,7 +42,8 @@ public class CommunityConverter
 
     @Override
     public CommunityRest fromModel(org.dspace.content.Community obj) {
-        System.out.println("TBTB Load "+obj.getHandle() + " "+obj.getName());
+        boolean b = Persistence.getPersistenceUtil().isLoaded(obj, "subcommunities");
+        System.out.println("TBTB Load " + obj.getHandle() + " " + obj.getName() + " " + b);
         CommunityRest com = (CommunityRest) super.fromModel(obj);
         Bitstream logo = obj.getLogo();
         if (logo != null) {
