@@ -23,9 +23,9 @@
     The defaultCache has an implicit name "default" which is a reserved cache name.
     -->
     <defaultCache
-         maxElementsInMemory="3000"
+         maxElementsInMemory="20000"
          eternal="false"
-         timeToIdleSeconds="1"
+         timeToIdleSeconds="120"
          timeToLiveSeconds="1200"
          overflowToDisk="true"
          diskSpoolBufferSizeMB="30"
@@ -107,5 +107,25 @@
            maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="1800"
            timeToLiveSeconds="1800" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
            memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="org.dspace.content.Item"
+        maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="1800"
+        timeToLiveSeconds="1800" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
+        memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="org.dspace.content.Bundle"
+        maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="1800"
+        timeToLiveSeconds="1800" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
+        memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="org.dspace.content.Bitstream"
+        maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="1800"
+        timeToLiveSeconds="1800" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
+        memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="org.dspace.content.BitstreamFormat"
+        maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="1800"
+        timeToLiveSeconds="1800" overflowToDisk="true" diskExpiryThreadIntervalSeconds="60"
+        memoryStoreEvictionPolicy="LRU"/>
 
 </ehcache>

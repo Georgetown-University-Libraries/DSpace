@@ -16,6 +16,7 @@ import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.BitstreamService;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.proxy.HibernateProxyHelper;
 
 import javax.persistence.*;
@@ -32,6 +33,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="bitstream")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, include = "non-lazy")
 public class Bitstream extends DSpaceObject implements DSpaceObjectLegacySupport
 {
     @Column(name="bitstream_id", insertable = false, updatable = false)

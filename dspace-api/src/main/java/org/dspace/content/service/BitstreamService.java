@@ -183,7 +183,7 @@ public interface BitstreamService extends DSpaceObjectService<Bitstream>, DSpace
 
     public List<Bitstream> findBitstreamsWithNoRecentChecksum(Context context) throws SQLException;
 
-    public Bitstream getBitstreamByName(Item item, String bundleName, String bitstreamName) throws SQLException;
+    public Bitstream getBitstreamByName(Context context, Item item, String bundleName, String bitstreamName) throws SQLException;
 
     public Bitstream getFirstBitstream(Item item, String bundleName) throws SQLException;
 

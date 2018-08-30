@@ -360,20 +360,8 @@ public class BitstreamServiceImpl extends DSpaceObjectServiceImpl<Bitstream> imp
     }
 
     @Override
-    public Bitstream getBitstreamByName(Item item, String bundleName, String bitstreamName) throws SQLException {
-        List<Bundle> bundles = itemService.getBundles(item, bundleName);
-        for (int i = 0; i < bundles.size(); i++) {
-            Bundle bundle = bundles.get(i);
-            List<Bitstream> bitstreams = bundle.getBitstreams();
-            for (int j = 0; j < bitstreams.size(); j++) {
-                Bitstream bitstream = bitstreams.get(j);
-                if(StringUtils.equals(bitstream.getName(), bitstreamName))
-                {
-                    return bitstream;
-                }
-            }
-        }
-        return null;
+    public Bitstream getBitstreamByName(Context context, Item item, String bundleName, String bitstreamName) throws SQLException {
+        return bitstreamDAO.findByItemAndBitstreamName(context, item, bundleName, bitstreamName);
     }
 
     @Override

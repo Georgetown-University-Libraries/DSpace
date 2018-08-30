@@ -17,6 +17,7 @@
 
         <!--Debug property that can be used to display the sql-->
         <property name="show_sql">false</property>
+        <property name="hibernate.generate_statistics">true</property>
 
         <!--Second level cache configuration-->
         <property name="hibernate.cache.use_query_cache">true</property>

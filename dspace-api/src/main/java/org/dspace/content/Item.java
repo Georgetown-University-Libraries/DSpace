@@ -13,6 +13,7 @@ import org.dspace.content.service.ItemService;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 import org.hibernate.proxy.HibernateProxyHelper;
@@ -36,6 +37,8 @@ import java.util.*;
  */
 @Entity
 @Table(name="item")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, include = "non-lazy")
 public class Item extends DSpaceObject implements DSpaceObjectLegacySupport
 {
     /**
