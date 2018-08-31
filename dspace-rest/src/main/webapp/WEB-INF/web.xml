@@ -15,7 +15,7 @@
          id="WebApp_ID" version="2.5">
     <servlet>
         <servlet-name>DSpace REST API</servlet-name>
-        <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <!--
              The jersey ServletContainer will look for our Root Resource Class
@@ -23,7 +23,7 @@
              There are other ways to register this; see the jersey documentation for
              more details
             -->
-            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>org.dspace.rest</param-value>
         </init-param>
         <init-param>
