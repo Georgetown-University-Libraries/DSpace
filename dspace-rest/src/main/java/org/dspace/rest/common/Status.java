@@ -7,7 +7,7 @@
  */
 package org.dspace.rest.common;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
 
