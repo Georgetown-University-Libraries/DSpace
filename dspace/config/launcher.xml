@@ -76,6 +76,20 @@
         </step>
     </command>
     <command>
+        <name>dsdump</name>
+        <description>Dump DSpace property from dspace.cfg</description>
+        <step>
+            <class>org.dspace.app.util.ConfigurationDump</class>
+        </step>
+    </command>
+    <command>
+        <name>dsdump2</name>
+        <description>Dump DSpace property from dspace.cfg</description>
+        <step>
+            <class>my.test.Test</class>
+        </step>
+    </command>
+    <command>
         <name>dsprop</name>
         <description>View a DSpace property from dspace.cfg</description>
         <step>
@@ -220,8 +234,8 @@
         <description>Export usage statistics data from Solr for back-up purposes</description>
         <step passuserargs="true">
             <class>org.dspace.util.SolrImportExport</class>
-	    <argument>-a</argument>
-	    <argument>export</argument>
+        <argument>-a</argument>
+        <argument>export</argument>
         </step>
     </command>
     <command>
@@ -229,8 +243,8 @@
         <description>Import usage statistics data (as previously exported using solr-export-statistics) into Solr</description>
         <step passuserargs="true">
             <class>org.dspace.util.SolrImportExport</class>
-	    <argument>-a</argument>
-	    <argument>import</argument>
+        <argument>-a</argument>
+        <argument>import</argument>
         </step>
     </command>
     <command>
@@ -238,8 +252,8 @@
         <description>Reindex the Solr-based usage statistics, for example after an upgrade that changes the schema</description>
         <step passuserargs="true">
             <class>org.dspace.util.SolrImportExport</class>
-	    <argument>-a</argument>
-	    <argument>reindex</argument>
+        <argument>-a</argument>
+        <argument>reindex</argument>
         </step>
     </command>
     <command>
